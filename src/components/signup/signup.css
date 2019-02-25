@@ -1,0 +1,20 @@
+.foo {
+    width: 10pc;
+  }
+  .barBaz {
+    color: tomato;
+  }
+  @media all and (min-width: 480px) {
+    .Signup {
+      padding: 60px 0;
+    }
+  
+    .Signup form {
+      margin: 0 auto;
+      max-width: 400px;
+    }
+    .signupForm {
+      padding: 15px;
+      border: 1px solid #d3cccc
+    }
+  }
