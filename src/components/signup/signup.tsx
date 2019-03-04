@@ -14,6 +14,7 @@ export const Signup: React.StatelessComponent<{}> = () => {
         <FormControl
           autoFocus
           type="text"
+          placeholder="Name"
         />
       </FormGroup>
       <FormGroup>
@@ -21,6 +22,7 @@ export const Signup: React.StatelessComponent<{}> = () => {
         <FormControl
           autoFocus
           type="text"
+          placeholder="Surname"
         />
       </FormGroup>
       <FormGroup>

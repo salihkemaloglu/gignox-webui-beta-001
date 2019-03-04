@@ -51,7 +51,7 @@ export const NavMenu: React.StatelessComponent<{}> = () => {
         </IndexLinkContainer>
 
         <Nav className="mr-auto" style={{width: '80%', paddingLeft: '20px'}}>
-          <IndexLinkContainer to="/" style={styles.navItem}>
+          <IndexLinkContainer to="/" style={styles.navItem} activeClassName="active" >
             <Nav.Link ><span style={styles.navLinkIcon}><FontAwesomeIcon icon="home"/></span><span style={styles.navLinkMenu}>Home</span></Nav.Link>
           </IndexLinkContainer>
           <IndexLinkContainer to="openedFiles" style={styles.navItem}>
@@ -66,7 +66,6 @@ export const NavMenu: React.StatelessComponent<{}> = () => {
 
           <Form inline style={{width: '60%'}}>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" style={{marginLeft: 70, width: '85%'}}/>
-              {/* <Button variant="outline-info">Search</Button> */}
           </Form>
 
         </Nav>
