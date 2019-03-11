@@ -7,7 +7,7 @@ import './signup.css';
 export const Signup: React.StatelessComponent<{}> = () => {
   
   return (
-    <div className="Signup">
+    <div className="Signup" style={{display: 'flow-root'}}>
     <form className="signupForm">
       <FormGroup>
         <label>Name</label>

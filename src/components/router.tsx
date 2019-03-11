@@ -12,7 +12,7 @@ export const AppRouter: React.StatelessComponent<{}> = () => {
           <Route exact  path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/help" component={Help} />
-          <Route path="/openedFiles" component={OpenedFiles} />
+          <Route path="/openedfiles" component={OpenedFiles} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
         </Switch>

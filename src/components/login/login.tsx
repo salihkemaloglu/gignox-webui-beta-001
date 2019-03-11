@@ -10,7 +10,7 @@ import './loginpage.css';
 export const Login: React.StatelessComponent<{}> = () => {
   
   return (
-    <div className="Login">
+    <div className="Login" style={{display: 'flow-root'}}>
     <form className="loginForm">
       <FormGroup>
         <label>Email</label>
