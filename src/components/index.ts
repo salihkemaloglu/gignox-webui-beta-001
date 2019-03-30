@@ -1,9 +1,6 @@
-export * from './navMenu';
-export * from './adminnavmenu';
+export * from './navMenu/navMenu';
 export * from './about';
-export * from './openedfiles';
 export * from './home';
-export * from './login';
-export * from './signup';
+export * from './signInUpMenu/signinup';
 export * from './help';
 
