@@ -145,7 +145,7 @@ export const Home: React.StatelessComponent<{}> = () => {
         <Row className="justify-content-md-center">
           <div style={styles.homeLabel}><span>Klasörler</span></div>
           <Row style={{ padding: '8px' }}>
-            <Col style={styles.homeCol}><a href="https://placeholder.com"><img src="https://via.placeholder.com/85x85" /></a> </Col>
+            <Col style={styles.homeCol}><a href="https://placeholder.com"><img src="https://via.placeholder.com/85x85" /></a>hey </Col>
             <Col style={styles.homeCol}><a href="https://placeholder.com"><img src="https://via.placeholder.com/85x85" /></a></Col>
             <Col style={styles.homeCol}><a href="https://placeholder.com"><img src="https://via.placeholder.com/85x85" /></a></Col>
             <Col style={styles.homeCol}><a href="https://placeholder.com"><img src="https://via.placeholder.com/85x85" /></a></Col>
