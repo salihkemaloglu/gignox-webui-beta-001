@@ -1,6 +1,5 @@
-    
 import * as React from "react";
-import { LanguageState } from './nav-menu/index';
+import { LanguageState } from './lang-state';
 
 export interface MultilanguageProps { compiler: string; framework: string; }
 
@@ -10,10 +9,10 @@ export class MultiLanguage extends React.Component<MultilanguageProps, LanguageS
 
     public constructor(props: MultilanguageProps, state: LanguageState) {
         super(props);
-
+    
         this.state = {
             status: '',
-            currentLanguage: 0,
+            currentLanguage: 0
         };
     }
 
@@ -32,4 +31,3 @@ export class MultiLanguage extends React.Component<MultilanguageProps, LanguageS
         }
     }
 }
- 
