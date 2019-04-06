@@ -20,6 +20,7 @@ import AddCircleOutlineOutlined from '@material-ui/icons/AddBoxOutlined';
 // import t from '../multi-language/langs/tr/tr-TR'
 
 var logo = require('../images/logo.png');
+var logotransparent = require('../images/logo_transparent.png');
 library.add(faEnvelope, faKey, faHome, faBookmark, faFileAlt, faInfoCircle, faQuestionCircle, faUserPlus, faSignInAlt, faClock, faShareSquare, faStar, faPlus, faFolder, faFileUpload, faCog, faUser, faUserTie);
 
 export const NavMenu: React.StatelessComponent<{}> = () => {
@@ -42,7 +43,7 @@ export const NavMenu: React.StatelessComponent<{}> = () => {
     
           <Navbar variant="dark" style={{ backgroundColor: 'black', paddingBottom: '6px', paddingTop: '16px', height: '65px' }}>
         <IndexLinkContainer to="/" activeClassName="active">
-          <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" /></a>
+          <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent}  alt="logo" /></a>
         </IndexLinkContainer>
         <Nav className="mr-auto" style={{ width: '80%', paddingLeft: '37px' }}>
           <div className="gigx1">
