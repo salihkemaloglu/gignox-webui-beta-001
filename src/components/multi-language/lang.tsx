@@ -9,24 +9,23 @@ export class MultiLanguage extends React.Component<MultilanguageProps, LanguageS
 
     public constructor(props: MultilanguageProps, state: LanguageState) {
         super(props);
-    
+
         this.state = {
-            status: '',
-            currentLanguage: 0
+            currentLanguage: ''
         };
     }
 
     public async componentWillMount() {
         console.log("componentWillMount!!");
         // get favorite language
-        let favoriteLanguage = 'en'; 
+        let favoriteLanguage = 'en';
         if (favoriteLanguage.search(/en/i) > -1) {
             this.setState({
-                currentLanguage: 0
+                currentLanguage: 'en'
             });
         } else {
             this.setState({
-                currentLanguage: 1
+                currentLanguage: 'tr'
             });
         }
     }
