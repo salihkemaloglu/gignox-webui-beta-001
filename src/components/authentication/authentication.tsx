@@ -6,17 +6,18 @@ import { FormGroup, FormControl, Button, Nav } from 'react-bootstrap';
 // import { grpc } from 'grpc-web-client';
 // import { DemService } from '../../proto/dem_pb_service';
 // import { HelloRequest } from '../../proto/dem_pb';
-
-import './signin-up.css';
+var logo = require('../images/logo.png');
+var logotransparent = require('../images/logo_transparent.png');
+import './authentication.css';
 import { useState } from 'react';
 
 
-export const SignInUp = () => {
+export const Authentication = () => {
 
-  var [fade, setFade] = useState(true);
+  var [fade, setFade] = useState('0');
 
   function set() {
-    localStorage.setItem("set", "true");
+    localStorage.setItem("set", '0');
   }
   return (
 
@@ -25,7 +26,7 @@ export const SignInUp = () => {
         <div className="nav-wrapper">
           <Nav className="mr-auto">
             <IndexLinkContainer to="/" activeClassName="active">
-              <a href="https://placeholder.com"><img src="https://via.placeholder.com/205x50" /></a>
+              <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent}  alt="logo" /></a>
             </IndexLinkContainer>
           </Nav>
         </div>
@@ -35,11 +36,11 @@ export const SignInUp = () => {
 
         <section className="rightSection">
         <div className="sign-in-up-container">
-              <a className="signin-title" onClick={() => setFade(true)} style={{fontSize: fade ? '25px' : '15px'}}>Sign in  </a>|
-              <a className="signup-title" onClick={() => setFade(false)} style={{fontSize: fade === false ? '25px' : '15px'}}> Sign up</a>
+              <a className="signin-title" onClick={() => setFade('1')} style={{fontSize: fade === '0' ? '25px' : '15px'}}>Sign in  </a>|
+              <a className="signup-title" onClick={() => setFade('0')} style={{fontSize: fade === '1' ? '25px' : '15px'}}> Sign up</a>
             </div>
 
-          <div className="Login" style={{display: fade ? 'block' : 'none'}}>
+          <div className="Login" style={{display: fade === '0' ? 'block' : 'none'}}>
             <form className="loginForm">
               <FormGroup>
                 <label>Email</label>
@@ -69,7 +70,7 @@ export const SignInUp = () => {
           </div>
 
 
-          <div className="Signup" style={{display: fade === false ? 'block' : 'none', paddingTop: '60px'}}>
+          <div className="Signup" style={{display: fade === '1' ? 'block' : 'none', paddingTop: '60px'}}>
             <form className="signupForm">
               <FormGroup>
                 <label>Name</label>

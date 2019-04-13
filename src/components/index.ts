@@ -1,4 +1,6 @@
 export * from './nav-menu/nav-menu';
 export * from './home';
-export * from './signin-up-menu/signin-up';
+export * from './authentication/authentication';
 export * from './help';
+export * from './user-admin/user-admin';
+

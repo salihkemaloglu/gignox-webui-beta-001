@@ -6,6 +6,8 @@ import { Home, Help } from '../components';
 
 export const AppRouter: React.StatelessComponent<{}> = () => {
 
+  localStorage.setItem("set", "0");
+
   return (
     <BrowserRouter> 
       <div className="container-fluid" style={{padding: 0, height: '-webkit-fill-available'}}>

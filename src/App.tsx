@@ -1,17 +1,22 @@
 import * as React from 'react';
-import {  SignInUp, NavMenu } from './components';
+import { Authentication, NavMenu, UserAdmin } from './components';
 
 export const App: React.StatelessComponent<{}> = (props) => {
 
-  if (localStorage.getItem("set") === "true"){
+  if (localStorage.getItem("set") === "0"){
     return (
     
       <NavMenu />
     );
   }
-  else{
+  else if (localStorage.getItem("set") === "1"){
     return (
-      <SignInUp />
+      <Authentication />
+    );
+  }
+  else {
+    return (
+       <UserAdmin />
     );
   }
  
