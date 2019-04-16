@@ -1,0 +1,113 @@
+import * as React from 'react';
+import { IndexLinkContainer } from 'react-router-bootstrap'
+import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
+import SearchOutlined from '@material-ui/icons/SearchOutlined';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+
+
+var logo = require('./images/logo.png');
+var logotransparent = require('./images/logo_transparent.png');
+
+export const TopMenu: React.StatelessComponent<{}> = () => {
+
+    function setfalse() {
+        localStorage.setItem("set", "authentication");
+    }
+    function setUserAdmin() {
+        localStorage.setItem("set", "useradmin");
+    }
+    window.onload = () => {
+        var addElement: HTMLElement = document.getElementById('addToggle') as HTMLElement;
+        addElement.onmousedown = function () {
+            addElement.style.display = 'hidden';
+        }
+    }
+    window.onload = () => {
+
+        var userMenu = document.getElementById("user-menu") as HTMLElement;
+        var userMenuBar = document.getElementById("dropdown-bar") as HTMLElement;
+        if (userMenu) {
+            userMenu.addEventListener('mouseover', function () {
+                userMenuBar.style.display = "block";
+            });
+            userMenuBar.addEventListener('mouseover', function () {
+                userMenuBar.style.display = "block";
+            });
+            userMenuBar.addEventListener('mouseleave', function () {
+                userMenuBar.style.display = "none";
+            });
+            userMenu.addEventListener('mouseleave', function () {
+                userMenuBar.style.display = "none";
+            });
+        }
+
+    }
+
+    return (
+        <Navbar variant="dark" style={{ backgroundColor: 'black', padding: '10px', height: '65px', width: '100%' }}>
+            <IndexLinkContainer to="/" activeClassName="active" style={{ width: '256px', padding: '10px' }}>
+                <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" width='60px' /><img src={logotransparent} alt="logo" style={{ width: '150px' }} /></a>
+            </IndexLinkContainer>
+            <div className="mr-auto" style={{ width: '1167px', padding: '16px', margin: '0' }}>
+                <div className="gigx1">
+                    <div className="gigx2">
+                        <div className="gigx3">
+                            <Form className="inputForm" inline style={{ width: '100%', height: '85%' }}>
+                                <FormControl type="text" placeholder="Search.." className="searchBox" />
+                            </Form>
+                        </div>
+                        <div className="gigx4">
+                            <span><SearchOutlined className="gigx5" /></span>
+                        </div>
+                    </div>
+                    <div style={{ width: '30%', height: '100%', float: 'left' }}>
+                        <div style={{ display: '-webkit-box', float: 'right', height: '100%', paddingRight: '60px' }}>
+                            <div id="user-menu">
+                                <button style={{ backgroundColor: 'transparent', border: 'none', paddingTop: '9px' }}>
+                                    <span><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png" alt="logo" width='45px' /></span>
+                                    <span style={{ color: 'white', padding: '7px' }}>omer</span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div id="dropdown-bar" style={{ display: 'none' }}>
+                            <a className="dropdown-item">
+                                <div className="dropdown-icon">
+                                    <span><ExitToApp /></span>
+                                </div>
+                                <div className="dropdown-row">
+                                    <IndexLinkContainer to="/" className="navItem" onClick={setfalse}>
+                                        <Nav.Link ><span className="dropdown-link">deneme</span></Nav.Link>
+                                    </IndexLinkContainer>
+                                </div>
+                            </a>
+                            <a className="dropdown-item">
+                                <div className="dropdown-icon">
+                                    <span><ExitToApp /></span>
+                                </div>
+                                <div className="dropdown-row">
+                                    <IndexLinkContainer to="/" className="navItem" onClick={setUserAdmin}>
+                                        <Nav.Link ><span className="dropdown-link">user</span></Nav.Link>
+                                    </IndexLinkContainer>
+                                </div>
+                            </a>
+                            <a className="dropdown-item">
+                                <div className="dropdown-icon">
+                                    <span><ExitToApp /></span>
+                                </div>
+                                <div className="dropdown-row">
+                                    <IndexLinkContainer to="/" className="navItem" onClick={setfalse}>
+                                        <Nav.Link ><span className="dropdown-link">Logout</span></Nav.Link>
+                                    </IndexLinkContainer>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Navbar>
+    );
+}
+
+

@@ -10,18 +10,54 @@ var logo = require('../images/logo.png');
 var logotransparent = require('../images/logo_transparent.png');
 import './authentication.css';
 import { useState } from 'react';
+import { LoginUserRequest, UserLogin, LoginUserResponse } from '../../proto/gigxRR_pb';
+import { GigxRRService } from '../../proto/gigxRR_pb_service';
+import { grpc } from '@improbable-eng/grpc-web';
 
 
 export const Authentication = () => {
 
-  var [fade, setFade] = useState('0');
+  var [fade, setFade] = useState(false);
 
   function set() {
-    localStorage.setItem("set", '0');
+    localStorage.setItem("set", 'navmenu');
   }
+
+function login() {
+  const req = new LoginUserRequest();
+  // req.setMessage('Is RR service working?');
+  var user = new UserLogin();
+  user.setUsername("somer1");
+  // user.setEmail("somer4500@gmail.com")
+  user.setPassword("pas2s")
+
+  req.setUser(user);
+
+  grpc.invoke(GigxRRService.Login, {
+    request: req,
+    host: "https://dev-rr.gignox.com:8901",
+    metadata: new grpc.Metadata({ "language": "en" }),
+    onHeaders: (headers: grpc.Metadata) => {
+      console.log("onHeaders", headers);
+    },
+    onMessage: (message: LoginUserResponse) => {
+      user = message.getUser() === null ? JSON.parse("null") : message.getUser();
+      console.log(user.getUsername() + ":" + user.getToken());
+    },
+    onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+      if (code === grpc.Code.OK) {
+        console.log('all ok');
+      } else {
+        console.log('hit an error', code, msg, trailers);
+      }
+    }
+  });
+}
+
   return (
 
     <div className="wrap">
+             <button onClick={login}>test</button>
       <section className="navSection">
         <div className="nav-wrapper">
           <Nav className="mr-auto">
@@ -36,17 +72,16 @@ export const Authentication = () => {
 
         <section className="rightSection">
         <div className="sign-in-up-container">
-              <a className="signin-title" onClick={() => setFade('1')} style={{fontSize: fade === '0' ? '25px' : '15px'}}>Sign in  </a>|
-              <a className="signup-title" onClick={() => setFade('0')} style={{fontSize: fade === '1' ? '25px' : '15px'}}> Sign up</a>
+              <a className="signin-title" onClick={() => setFade(false)} style={{fontSize: fade === false ? '25px' : '15px'}}>Sign in  </a>|
+              <a className="signup-title" onClick={() => setFade(true)} style={{fontSize: fade === true ? '25px' : '15px'}}> Sign up</a>
             </div>
 
-          <div className="Login" style={{display: fade === '0' ? 'block' : 'none'}}>
+          <div className="Login" style={{display: fade === false ? 'block' : 'none'}}>
             <form className="loginForm">
               <FormGroup>
-                <label>Email</label>
+                <label>Username or Email</label>
                 <FormControl
                   autoFocus
-                  placeholder="Enter Email"
                   type="email"
                 />
               </FormGroup>
@@ -54,62 +89,37 @@ export const Authentication = () => {
                 <label>Password</label>
                 <FormControl
                   type="password"
-                  placeholder="Password"
                 />
               </FormGroup>
-              <div>
-                <input type="checkbox" name="remember_me" aria-checked="true" value="on" />
-                <label className="checkbox_label"><span>Remember me</span></label>
-              </div>
+          
 
               <Button type="submit" style={{ width: '100%', backgroundColor: '#17a2b8' }} onClick={set}>
                 Login
                </Button>
+      
                <div className="login-need-help"><a className="forgot-password-link" href="/forgot?email_from_login=">Forgot your password?</a></div>
             </form>
           </div>
 
 
-          <div className="Signup" style={{display: fade === '1' ? 'block' : 'none', paddingTop: '60px'}}>
+          <div className="Signup" style={{display: fade === true ? 'block' : 'none', paddingTop: '60px'}}>
             <form className="signupForm">
               <FormGroup>
-                <label>Name</label>
-                <FormControl
-                  autoFocus
-                  type="text"
-                  placeholder="Name"
-                />
+                <label>Username</label>
+                <FormControl autoFocus type="text" />
               </FormGroup>
-              <FormGroup>
-                <label>Surname</label>
-                <FormControl
-                  autoFocus
-                  type="text"
-                  placeholder="Surname"
-                />
-              </FormGroup>
+    
               <FormGroup>
                 <label>Email</label>
-                <FormControl
-                  autoFocus
-                  type="email"
-                  placeholder="Enter Email"
-                />
+                <FormControl autoFocus type="email" />
               </FormGroup>
               <FormGroup>
                 <label>Password</label>
                 <FormControl
                   type="password"
-                  placeholder="Password"
                 />
               </FormGroup>
-              <FormGroup>
-                <label>Confirm</label>
-                <FormControl
-                  type="password"
-                  placeholder="Confirm Password"
-                />
-              </FormGroup>
+             
               <Button style={{ width: '98%', backgroundColor: '#17a2b8' }} type="button" >
                 Signup
       </Button>
