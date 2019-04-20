@@ -1,3 +1,19 @@
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+  body {
+    background-color: #F09A9D; /* Red */
+  }
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+  body {
+    background-color: #F5CF8E; /* Yellow */
+  }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
 .App {
   text-align: center;
 }
@@ -108,89 +124,8 @@
       color: rgb(167, 201, 255);
       line-height: 2; 
     }
-    .searchBox {
-      margin-left: 33 !important;
-      width: 100% !important;
-      height: 120% !important;
-      border: 1px solid rgb(254, 87, 34) !important;
-      background-color: #323131 !important;
-    }
-    .inputForm input::placeholder {
-      color: #f09a64;
-  }
-  .inputForm input:focus {
-    color: #fc5622;
-    border-color: #fc5622;
-}
-.gigx1 {
-  height: 65px;
-}
-.gigx2 {
-  padding-top: 15px;
-  width: 70%;
-  height: 100%;
-  float: left;
-  min-width: 250px;
-}
-.gigx3 {
-  width: 90%;
-  float: left;
-  height: 85%;
-}
-.gigx4 {
-  width: 10%;
-  float: right;
-}
-.gigx5 {
-  top: 5px;
-  right: 30px;
-  width: 18px;
-  color: #fc5622;
-  height: 18px;
-  display: inline-block;
-  position: relative;
-  margin-right: 4px;
-  vertical-align: middle;
-}
+ 
 
 
 
-#dropdown-bar {
-  box-shadow: 0 3px 12px rgba(27,31,35,.15);
-    position: relative;
-    border-radius: 3%;
-    top: 64px;
-    left: 140px;
-    width: 170px;
-    overflow-x: hidden;
-    min-height: 16px;
-    transform-origin: 75px 0px 0px;
-    background-color: white;
-    border: 1px solid #d4d4d4;
-}
-.dropdown-item {
-    line-height: 1.4;
-    display: -webkit-box !important;
-    padding: 5px;
-}
-.dropdown-item :hover {
-  background-color: rgba(0, 0, 0, 0.08);
-}
-.dropdown-row {
-  flex: 1 1 auto;
-    padding: 0 16px;
-    min-width: 0;
-}
-.dropdown-link {
-  color: rgb(138, 138, 138);
-  font-family: Muli,Roboto,"Helvetica",Arial,sans-serif;
-  font-weight: 400;
-  line-height: 2;
-  font-size: 19px;
-}
-.dropdown-icon {
-  line-height: 2.5;
-}
-.dropdown-icon span {
-  color: rgb(138, 138, 138);
 }
