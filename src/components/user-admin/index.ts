@@ -1,1 +1,1 @@
-export * from './user-admin'
+export * from './admin'

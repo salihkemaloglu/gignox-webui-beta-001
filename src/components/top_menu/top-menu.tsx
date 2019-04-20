@@ -3,10 +3,10 @@ import { IndexLinkContainer } from 'react-router-bootstrap'
 import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import './top_menu.css';
 
-
-var logo = require('./images/logo.png');
-var logotransparent = require('./images/logo_transparent.png');
+var logo = require('../images/logo.png');
+var logotransparent = require('../images/logo_transparent.png');
 
 export const TopMenu: React.StatelessComponent<{}> = () => {
 
@@ -16,36 +16,12 @@ export const TopMenu: React.StatelessComponent<{}> = () => {
     function setUserAdmin() {
         localStorage.setItem("set", "useradmin");
     }
-    window.onload = () => {
-        var addElement: HTMLElement = document.getElementById('addToggle') as HTMLElement;
-        addElement.onmousedown = function () {
-            addElement.style.display = 'hidden';
-        }
-    }
-    window.onload = () => {
 
-        var userMenu = document.getElementById("user-menu") as HTMLElement;
-        var userMenuBar = document.getElementById("dropdown-bar") as HTMLElement;
-        if (userMenu) {
-            userMenu.addEventListener('mouseover', function () {
-                userMenuBar.style.display = "block";
-            });
-            userMenuBar.addEventListener('mouseover', function () {
-                userMenuBar.style.display = "block";
-            });
-            userMenuBar.addEventListener('mouseleave', function () {
-                userMenuBar.style.display = "none";
-            });
-            userMenu.addEventListener('mouseleave', function () {
-                userMenuBar.style.display = "none";
-            });
-        }
-
-    }
+  
 
     return (
         <Navbar variant="dark" style={{ backgroundColor: 'black', padding: '10px', height: '65px', width: '100%' }}>
-            <IndexLinkContainer to="/" activeClassName="active" style={{ width: '256px', padding: '10px' }}>
+            <IndexLinkContainer to="/home" activeClassName="active" style={{ width: '256px', padding: '10px' }}>
                 <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" width='60px' /><img src={logotransparent} alt="logo" style={{ width: '150px' }} /></a>
             </IndexLinkContainer>
             <div className="mr-auto" style={{ width: '1167px', padding: '16px', margin: '0' }}>
@@ -72,14 +48,12 @@ export const TopMenu: React.StatelessComponent<{}> = () => {
                         </div>
 
                         <div id="dropdown-bar" style={{ display: 'none' }}>
-                            <a className="dropdown-item">
+                            <a href="/login" className="dropdown-item" onClick={setfalse}>
                                 <div className="dropdown-icon">
                                     <span><ExitToApp /></span>
                                 </div>
                                 <div className="dropdown-row">
-                                    <IndexLinkContainer to="/" className="navItem" onClick={setfalse}>
-                                        <Nav.Link ><span className="dropdown-link">deneme</span></Nav.Link>
-                                    </IndexLinkContainer>
+                                    <span>deneme</span>
                                 </div>
                             </a>
                             <a className="dropdown-item">
@@ -87,9 +61,7 @@ export const TopMenu: React.StatelessComponent<{}> = () => {
                                     <span><ExitToApp /></span>
                                 </div>
                                 <div className="dropdown-row">
-                                    <IndexLinkContainer to="/" className="navItem" onClick={setUserAdmin}>
-                                        <Nav.Link ><span className="dropdown-link">user</span></Nav.Link>
-                                    </IndexLinkContainer>
+                                <a className="navItem" onClick={setUserAdmin}>User Admin</a>
                                 </div>
                             </a>
                             <a className="dropdown-item">
