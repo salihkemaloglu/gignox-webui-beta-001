@@ -8,7 +8,7 @@ import StarOutlined from '@material-ui/icons/StarBorderOutlined';
 import AddCircleOutlineOutlined from '@material-ui/icons/AddBoxOutlined';
 import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import FolderOpenOutlined from '@material-ui/icons/FolderOpenOutlined';
-import translate from '../localization'
+import { i18next } from '../../services/localization'
 
 export const NavMenu: React.StatelessComponent<{}> = () => {
 
@@ -47,27 +47,27 @@ export const NavMenu: React.StatelessComponent<{}> = () => {
           <div className="lefSideBar">
 
             <IndexLinkContainer to="/help" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
-              <a id="addToggle"><span className="leftNavLinkIcon"> <AddCircleOutlineOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">{translate.t("add")}</span></a>
+              <a id="addToggle"><span className="leftNavLinkIcon"> <AddCircleOutlineOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">{i18next.t("add")}</span></a>
             </IndexLinkContainer>
             <div id="addToggleMenu" style={{ width: '85%', float: 'right', display: 'none' }}>
               <IndexLinkContainer to="/help" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
-                <a><span className="leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu" id="addToggle">{translate.t("add_file")}</span></a>
+                <a><span className="leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu" id="addToggle">{i18next.t("add_file")}</span></a>
               </IndexLinkContainer>
               <IndexLinkContainer to="/help" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
-                <a><span className="leftNavLinkIcon"> <FolderOpenOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu" id="addToggle">{translate.t("add_folder")}</span></a>
+                <a><span className="leftNavLinkIcon"> <FolderOpenOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu" id="addToggle">{i18next.t("add_folder")}</span></a>
               </IndexLinkContainer>
             </div>
             <IndexLinkContainer to="/help" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
-              <a ><span className="leftNavLinkIcon"> <ScreenShare className="iconsSvg" /></span><span className="leftNavLinkMenu">{translate.t("shared_with_me")}</span></a>
+              <a ><span className="leftNavLinkIcon"> <ScreenShare className="iconsSvg" /></span><span className="leftNavLinkMenu">{i18next.t("shared_with_me")}</span></a>
             </IndexLinkContainer>
             <IndexLinkContainer to="openedfiles" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
-              <a ><span className="leftNavLinkIcon"><AccessTime className="iconsSvg" /></span><span className="leftNavLinkMenu">{translate.t("latest")}</span></a>
+              <a ><span className="leftNavLinkIcon"><AccessTime className="iconsSvg" /></span><span className="leftNavLinkMenu">{i18next.t("latest")}</span></a>
             </IndexLinkContainer>
             <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
-              <a ><span className="leftNavLinkIcon"><StarOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">{translate.t("starred")}</span></a>
+              <a ><span className="leftNavLinkIcon"><StarOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">{i18next.t("starred")}</span></a>
             </IndexLinkContainer>
             <div className="leftNavItemStorage">
-              <span className="leftNavLinkMenu">{translate.t("storage")}</span>
+              <span className="leftNavLinkMenu">{i18next.t("storage")}</span>
               <ProgressBar now={now} label={`${now}%`} style={{ height: '17px', border: '1px solid #add4ff', backgroundColor: 'white' }} />
             </div>
           </div>

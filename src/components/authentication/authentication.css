@@ -6,14 +6,22 @@
   animation: App-logo-spin infinite 40s linear;
   height: 60px;
 }
-
+.App-image {
+  animation: App-logo-spin infinite 1000s linear;
+  height: 600px;
+}
 .App-header {
   background-color: #222;
   height: 150px;
   padding: 20px;
   color: white;
 }
-
+.Logos {
+  background-image: url(../../app_root/images/authentication_page_backgroung_image.png);
+  width:65%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
 .App-title {
   font-size: 1.5em;
 }
@@ -85,4 +93,7 @@
 }
 .navSection {
   position: absolute;
+}
+.codeColor {
+color: black !important;
 }

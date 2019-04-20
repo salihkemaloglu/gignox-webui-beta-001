@@ -5,8 +5,8 @@ import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 
 
-var logo = require('./images/logo.png');
-var logotransparent = require('./images/logo_transparent.png');
+var logo = require('../app_root/images/logo.png');
+var logotransparent = require('../app_root/images/logo_gignox.png');
 
 export const TopMenu: React.StatelessComponent<{}> = () => {
 

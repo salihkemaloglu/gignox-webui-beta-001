@@ -1,8 +1,8 @@
 import i18next from 'i18next';
 
 let lang = sessionStorage.getItem("language") === null ? JSON.parse(JSON.stringify("en")) : sessionStorage.getItem("language")
-var en_data = require('./multi-language/langs/en.json');
-var tr_data = require('./multi-language/langs/tr.json');
+var en_data = require('../app_root/languages/en.json');
+var tr_data = require('../app_root/languages/tr.json');
 i18next.init({
   lng: lang,
   debug: true,
@@ -16,4 +16,5 @@ i18next.init({
   }
 })
 
-export default i18next
+export { i18next, lang }
+

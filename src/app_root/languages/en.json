@@ -1,0 +1,26 @@
+{
+    "add": "Add",
+    "add_file": "Add File",
+    "add_folder": "Add Folder",
+    "shared_with_me": "Shared With Me",
+    "latest": "Latest",
+    "starred": "Starred",
+    "storage": "Storage",
+    "authentication_page_sign_in":"Sign in",
+    "authentication_page_sign_up":"Sign up",
+    "authentication_page_or":"or",
+    "authentication_page_and":"and",
+    "authentication_page_goto_sign_in":"sign in to your account",
+    "authentication_page_username":"Username",
+    "authentication_page_username_or_email":"Username or Email address",
+    "authentication_page_password":"Password",
+    "authentication_page_password_reset_title":"Reset your password",
+    "authentication_page_password_reset_info":"Enter your email address and we will send you a reset code to reset your password.",
+    "authentication_page_password_reset_button":"Send password reset email",
+    "authentication_page_forgot_password":"Forgot your password?",
+    "authentication_page_terms_start":"By clicking Sign Up,",
+    "authentication_page_terms":"Terms of Service,",
+    "authentication_page_privacy_policy":"Privacy Statement.",
+    "authentication_page_accept_terms":"you agree to our"
+}
+
