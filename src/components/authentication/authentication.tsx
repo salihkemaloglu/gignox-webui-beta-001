@@ -20,14 +20,14 @@ export const Authentication = () => {
 
   var [fade, setFade] = useState("signup");
 
-  
+
   function login() {
 
     const req = new LoginUserRequest();
     var user = new UserLogin();
 
     user.setUsername("somer1");
-    user.setPassword("pas2s")
+    user.setPassword("pass")
     req.setUser(user);
 
     grpc.invoke(GigxRRService.Login, {
@@ -39,7 +39,10 @@ export const Authentication = () => {
       },
       onMessage: (message: LoginUserResponse) => {
         user = message.getUser() === null ? JSON.parse("null") : message.getUser();
-        console.log(user.getUsername() + ":" + user.getToken());
+        sessionStorage.setItem("token", user.getToken());
+        sessionStorage.setItem("userName", user.getUsername());
+        sessionStorage.setItem("routingPage", "nav_menu");  
+        location.reload();
       },
       onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
         if (code === grpc.Code.OK) {
@@ -70,15 +73,15 @@ export const Authentication = () => {
           </DropdownButton>
 
           <div className="sign-in-up-container">
-            <a className="signup-title" onClick={() => setFade("signup")} href="#" style={{ fontSize: fade === "signup" ? '25px' : '15px' }}> {i18next.t("authentication_page_sign_up")}</a>|
-          <a className="signin-title" onClick={() => setFade("signin")} href="#" style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_sign_in")}</a>
+            <a className="signup-title" onClick={() => setFade("signup")} style={{ fontSize: fade === "signup" ? '25px' : '15px' }}> {i18next.t("authentication_page_sign_up")}</a>|
+          <a className="signin-title" onClick={() => setFade("signin")} style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_sign_in")}</a>
           </div>
           <div className="Signup" style={{ display: fade === "signup" ? 'block' : 'none', paddingTop: '60px' }}>
             <form className="signupForm">
               <label>{i18next.t("authentication_page_or")} <a className="signin-title" href="#" onClick={() => setFade("signin")} style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_goto_sign_in")}</a></label>
               <FormGroup>
                 <label>{i18next.t("authentication_page_username")}</label>
-                <FormControl autoFocus type="text"  />
+                <FormControl autoFocus type="text" />
               </FormGroup>
               <FormGroup>
                 <label>Email</label>
@@ -90,17 +93,17 @@ export const Authentication = () => {
                   type="password"
                 />
               </FormGroup>
-                {(() => {
-                  switch (lang) {
-                    case 'en':
-                      return <label>{i18next.t('authentication_page_terms_start')} {i18next.t('authentication_page_accept_terms')} <a href='#'>{i18next.t('authentication_page_terms')}</a> {i18next.t('authentication_page_and')} <a href='#'>{i18next.t('authentication_page_privacy_policy')}</a></label> ;
-                    case 'tr':
-                      return <label>{i18next.t('authentication_page_terms_start')} <a className='signup-title' href='#'>{i18next.t('authentication_page_terms')}</a> {i18next.t('authentication_page_and')} <a className='signup-title' href='#'>{i18next.t('authentication_page_privacy_policy')} </a> {i18next.t('authentication_page_accept_terms')}</label>;
-                    default:
-                      return "null";
-                  }
-                })()}
-            
+              {(() => {
+                switch (lang) {
+                  case 'en':
+                    return <label>{i18next.t('authentication_page_terms_start')} {i18next.t('authentication_page_accept_terms')} <a href='#'>{i18next.t('authentication_page_terms')}</a> {i18next.t('authentication_page_and')} <a href='#'>{i18next.t('authentication_page_privacy_policy')}</a></label>;
+                  case 'tr':
+                    return <label>{i18next.t('authentication_page_terms_start')} <a className='signup-title' href='#'>{i18next.t('authentication_page_terms')}</a> {i18next.t('authentication_page_and')} <a className='signup-title' href='#'>{i18next.t('authentication_page_privacy_policy')} </a> {i18next.t('authentication_page_accept_terms')}</label>;
+                  default:
+                    return "null";
+                }
+              })()}
+
               <Button style={{ width: '98%', backgroundColor: '#17a2b8' }} type="button" >
                 {i18next.t("authentication_page_sign_up")}
               </Button>
@@ -123,7 +126,7 @@ export const Authentication = () => {
                   type="password"
                 />
               </FormGroup>
-              <Button onClick={login} type="submit" style={{ width: '100%', backgroundColor: '#17a2b8' }} >
+              <Button onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} >
                 {i18next.t("authentication_page_sign_in")}
               </Button>
               <div className="login-need-help"><a className="forgot-password-link" onClick={() => setFade("reset")} href="#">

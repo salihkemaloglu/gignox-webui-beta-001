@@ -17,7 +17,6 @@
     .leftsection {
         width: 30%;
         float: left;
-          height: -webkit-fill-available;
       }
       .rightsection {
           width: 70%;
@@ -40,9 +39,6 @@
           box-sizing: border-box;
           flex-shrink: 0;
           flex-direction: column;
-      }
-      .tabcontainer {
-          height: -webkit-fill-available;
       }
       
       

@@ -2,13 +2,9 @@ import * as React from 'react';
 import { Authentication, NavMenu, Admin, TopMenu } from './components';
 
 export const App: React.StatelessComponent<{}> = (props) => {
-  window.onload = () => {
-  if (localStorage.getItem("hasCodeRunBefore") === "true") {
-    localStorage.setItem("set", "navmenu");
-        localStorage.setItem("hasCodeRunBefore", "false");
-    }
-  }
-  if (localStorage.getItem("set") === "useradmin") {
+
+  
+  if (sessionStorage.getItem("routingPage") === "nav_menu") {
     return (
       <div className='main-nav'>
         <TopMenu />
@@ -16,17 +12,18 @@ export const App: React.StatelessComponent<{}> = (props) => {
       </div>
     );
   }
-  else if (localStorage.getItem("set") === "authentication") {
-    return (
-      <Authentication />
-    );
-  }
-  else {
+  else if (sessionStorage.getItem("routingPage") === "user_admin") {
     return (
       <div className='main-nav'>
         <TopMenu />
         <Admin />
       </div>
     );
+  }
+  else {
+    return (
+      <Authentication />
+    );
+
   }
 };

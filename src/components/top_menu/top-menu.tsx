@@ -5,23 +5,24 @@ import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import './top_menu.css';
 
-var logo = require('../images/logo.png');
-var logotransparent = require('../images/logo_transparent.png');
+var logo = require('../../app_root/images/logo.png');
+var logotransparent = require('../../app_root/images/logo_gignox.png');
 
 export const TopMenu: React.StatelessComponent<{}> = () => {
 
     function setfalse() {
-        localStorage.setItem("set", "authentication");
+        sessionStorage.setItem("routingPage", "authentication");
     }
     function setUserAdmin() {
-        localStorage.setItem("set", "useradmin");
+        sessionStorage.setItem("routingPage", "user_admin");
+        location.reload();
     }
 
   
 
     return (
         <Navbar variant="dark" style={{ backgroundColor: 'black', padding: '10px', height: '65px', width: '100%' }}>
-            <IndexLinkContainer to="/home" activeClassName="active" style={{ width: '256px', padding: '10px' }}>
+            <IndexLinkContainer to="/home" onClick={() => sessionStorage.setItem("routingPage", "nav_menu")} activeClassName="active" style={{ width: '256px', padding: '10px' }}>
                 <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" width='60px' /><img src={logotransparent} alt="logo" style={{ width: '150px' }} /></a>
             </IndexLinkContainer>
             <div className="mr-auto" style={{ width: '1167px', padding: '16px', margin: '0' }}>
@@ -53,7 +54,7 @@ export const TopMenu: React.StatelessComponent<{}> = () => {
                                     <span><ExitToApp /></span>
                                 </div>
                                 <div className="dropdown-row">
-                                    <span>deneme</span>
+                                <a className="navItem" onClick={setfalse}>nav menu</a>
                                 </div>
                             </a>
                             <a className="dropdown-item">
@@ -62,6 +63,7 @@ export const TopMenu: React.StatelessComponent<{}> = () => {
                                 </div>
                                 <div className="dropdown-row">
                                 <a className="navItem" onClick={setUserAdmin}>User Admin</a>
+                                
                                 </div>
                             </a>
                             <a className="dropdown-item">
