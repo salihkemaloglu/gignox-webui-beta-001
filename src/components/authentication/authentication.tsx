@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Button, Nav, Dropdown, DropdownButton } from 'r
 
 var logo = require('../../app_root/images/logo.png');
 var logoGignox = require('../../app_root/images/logo_gignox.png');
+var logos = require('../../app_root/images/authentication_page_background_image.png');
 import './authentication.css';
 import { useState } from 'react';
 import { UserLogin, User } from '../../proto/gigxRR_pb';
@@ -70,7 +71,9 @@ export const Authentication = () => {
         </div>
       </section>
       <section className="mainSection">
-        <section className="leftSection" />
+      <section className="leftSection">
+        <img src={logos} style={{width: "100%"}}/>
+        </section>
         <section className="rightSection">
           <DropdownButton alignRight title="Language" id="dropdown-menu-align-right" variant="warning" style={{ marginRight: "2%", float: "right", marginTop: "1%" }}>
             <Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "en")}>En</Dropdown.Item>
