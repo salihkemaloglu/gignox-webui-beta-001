@@ -22,7 +22,7 @@ const styles = {
 };
 
 
-export const Home: React.StatelessComponent<{}> = () => {
+export const Home = () => {
 
   // var state = {
   //   files: [],

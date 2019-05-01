@@ -11,7 +11,7 @@ import FolderOpenOutlined from '@material-ui/icons/FolderOpenOutlined';
 import SignOut from '@material-ui/icons/ExitToApp';
 
 
-export const NavMenu: React.StatelessComponent<{}> = () => {
+export const NavMenu = () => {
 
   const now = 60
 

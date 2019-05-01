@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 
-export const Help: React.StatelessComponent<{}> = () => {
+export const Help = () => {
   
   return (
     <span>Help Page</span>

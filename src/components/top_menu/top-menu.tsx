@@ -9,7 +9,7 @@ import './top_menu.css';
 var logo = require('../../app_root/images/logo.png');
 var logotransparent = require('../../app_root/images/logo_gignox.png');
 
-export const TopMenu: React.StatelessComponent<{}> = () => {
+export const TopMenu = () => {
 
     function setfalse() {
         sessionStorage.setItem("routingPage", "nav_menu");

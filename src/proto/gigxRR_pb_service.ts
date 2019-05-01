@@ -46,6 +46,30 @@ export namespace GigxRRService {
     static readonly requestType = proto_gigxRR_pb.DeleteUserRequest;
     static readonly responseType = proto_gigxRR_pb.DeleteUserResponse;
   }
+  export class SendEmail {
+    static readonly methodName = "SendEmail";
+    static readonly service = GigxRRService;
+    static readonly requestStream = false;
+    static readonly responseStream = false;
+    static readonly requestType = proto_gigxRR_pb.SendEmailRequest;
+    static readonly responseType = proto_gigxRR_pb.SendEmailResponse;
+  }
+  export class GetIpInformation {
+    static readonly methodName = "GetIpInformation";
+    static readonly service = GigxRRService;
+    static readonly requestStream = false;
+    static readonly responseStream = false;
+    static readonly requestType = proto_gigxRR_pb.GetIpInformationRequest;
+    static readonly responseType = proto_gigxRR_pb.GetIpInformationResponse;
+  }
+  export class CheckVerificationCode {
+    static readonly methodName = "CheckVerificationCode";
+    static readonly service = GigxRRService;
+    static readonly requestStream = false;
+    static readonly responseStream = false;
+    static readonly requestType = proto_gigxRR_pb.CheckVerificationCodeRequest;
+    static readonly responseType = proto_gigxRR_pb.CheckVerificationCodeResponse;
+  }
   export class GetFile {
     static readonly methodName = "GetFile";
     static readonly service = GigxRRService;
