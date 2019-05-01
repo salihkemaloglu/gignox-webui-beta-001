@@ -1,3 +1,67 @@
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+ .leftSection{
+   display: none;
+ }
+ .navSection {
+  background-color: black !important;
+ }
+  .rightSection {
+    padding: 2%;
+  }
+  .sign-in-up-container {
+    padding: 10px !important;
+  }
+  .signin-title {
+    color: blue !important;
+    padding: 6px !important;
+  }
+  .signup-title {
+    color: blue !important;
+    padding: 6px !important;
+  }
+  .Login {
+    padding-top: 60px;
+  }
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+  .leftSection{
+    display: none;
+  }
+  .navSection {
+   background-color: black !important;
+  }
+   .rightSection {
+     padding: 2%;
+   }
+   .sign-in-up-container {
+     padding: 10px !important;
+   }
+   .signin-title {
+    padding: 3px;
+    text-decoration: none;
+    color: blue !important;
+    cursor: pointer;
+    transition: font-size 0.5s ease 0s;
+   }
+   .signup-title {
+    padding: 3px;
+  text-decoration: none;
+  color: blue !important;
+  cursor: pointer;
+  transition: font-size 0.5s ease 0s;
+   }
+   .Login {
+     padding-top: 60px;
+   }
+  
+}
+
+
+@media only screen and (min-width: 961px) {
+
 .App {
   text-align: center;
 }
@@ -15,12 +79,6 @@
   height: 150px;
   padding: 20px;
   color: white;
-}
-.Logos {
-  background-image: url(../../app_root/images/authentication_page_backgroung_image.png);
-  width:65%;
-  height: 100%;
-  background-repeat: no-repeat;
 }
 .App-title {
   font-size: 1.5em;
@@ -64,13 +122,19 @@
 }
 .mainSection {
   display: -webkit-box;
+  height: -webkit-fill-available;
 }
 .leftSection {
   width: 65%;
   background-color: black;
 }
+.leftSection img {
+  width: 100%;
+  height: -webkit-fill-available;
+}
 .rightSection {
   width: 35%;
+
 }
 .sign-in-up-container {
   text-align-last: center;
@@ -102,7 +166,13 @@
 }
 .navSection {
   position: absolute;
+  background-color: transparent;
 }
 .codeColor {
 color: black !important;
+}
+.wrap {
+  height: -webkit-fill-available;
+}
+
 }

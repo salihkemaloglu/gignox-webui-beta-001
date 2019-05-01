@@ -2,7 +2,11 @@ import * as React from 'react';
 import './admin.css';
 
 export const Admin = () => {
+
+    var sidebarToggle = "closed";
+
     window.onload = () => {
+       
         var userMenu = document.getElementById("user-menu") as HTMLElement;
         var userMenuBar = document.getElementById("dropdown-bar") as HTMLElement;
 
@@ -17,7 +21,7 @@ export const Admin = () => {
 
 
         if (userMenu) {
-            userMenu.addEventListener('mouseover', function () {
+            userMenu.addEventListener('click', function () {
                 userMenuBar.style.display = "block";
             });
             userMenuBar.addEventListener('mouseover', function () {
@@ -74,6 +78,22 @@ export const Admin = () => {
         }
     }
 
+    // ----Left side bar menu open and close action in mobile and tablet size------
+    var leftSidebarToggle = document.getElementById("toggle_id") as HTMLElement;
+    var leftSidebar = document.getElementById("left_sidebar") as HTMLElement;
+    if (leftSidebarToggle) {
+      leftSidebarToggle.addEventListener('click', function () {
+        if (sidebarToggle == "closed") {
+          leftSidebar.style.display = "block";
+          sidebarToggle = "opened";
+        }
+        else {
+          leftSidebar.style.display = "none";
+          sidebarToggle = "closed";
+        }
+      });
+
+    }
 }
 
 
@@ -82,7 +102,7 @@ return (
         <div className="wrapper">
             <div className="leftsection">
                 <div className="leftcontainer">
-                    <a href="https://placeholder.com"><img src="https://avatars0.githubusercontent.com/u/24634440?s=460&v=4" width="230px" height="250px"/></a>
+                    <a href="https://placeholder.com"><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png" className="user_image" width="50%"/></a>
                     <div style={{ padding: "15px" }}>
                         <span style={{ fontSize: "20px" }}>Omer Sahin</span>
                         <span style={{ fontSize: "15px" }}> @somer</span>

@@ -6,6 +6,7 @@ export const App: React.StatelessComponent<{}> = (props) => {
   
   if (sessionStorage.getItem("routingPage") === "nav_menu") {
     return (
+      
       <div className='main-nav'>
         <TopMenu />
         <NavMenu />

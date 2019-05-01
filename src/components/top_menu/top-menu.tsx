@@ -3,6 +3,7 @@ import { IndexLinkContainer } from 'react-router-bootstrap'
 import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import Menu from '@material-ui/icons/Menu';
 import './top_menu.css';
 
 var logo = require('../../app_root/images/logo.png');
@@ -11,21 +12,21 @@ var logotransparent = require('../../app_root/images/logo_gignox.png');
 export const TopMenu: React.StatelessComponent<{}> = () => {
 
     function setfalse() {
-        sessionStorage.setItem("routingPage", "authentication");
+        sessionStorage.setItem("routingPage", "nav_menu");
     }
     function setUserAdmin() {
         sessionStorage.setItem("routingPage", "user_admin");
         location.reload();
     }
 
-  
+
 
     return (
         <Navbar variant="dark" style={{ backgroundColor: 'black', padding: '10px', height: '65px', width: '100%' }}>
-            <IndexLinkContainer to="/home" onClick={() => sessionStorage.setItem("routingPage", "nav_menu")} activeClassName="active" style={{ width: '256px', padding: '10px' }}>
-                <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" width='60px' /><img src={logotransparent} alt="logo" style={{ width: '150px' }} /></a>
+            <IndexLinkContainer className="logo_link" to="/home" onClick={() => sessionStorage.setItem("routingPage", "nav_menu")}>
+                <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent} className="logo_word" alt="logo"/></a>
             </IndexLinkContainer>
-            <div className="mr-auto" style={{ width: '1167px', padding: '16px', margin: '0' }}>
+            <div className="mr-auto-topmenu">
                 <div className="gigx1">
                     <div className="gigx2">
                         <div className="gigx3">
@@ -37,10 +38,10 @@ export const TopMenu: React.StatelessComponent<{}> = () => {
                             <span><SearchOutlined className="gigx5" /></span>
                         </div>
                     </div>
-                    <div style={{ width: '30%', height: '100%', float: 'left' }}>
-                        <div style={{ display: '-webkit-box', float: 'right', height: '100%', paddingRight: '60px' }}>
+                    <div className="profil_bar">
+                        <div className="profil_content">
                             <div id="user-menu">
-                                <button style={{ backgroundColor: 'transparent', border: 'none', paddingTop: '9px' }}>
+                                <button style={{ backgroundColor: 'transparent', border: 'none', paddingTop: '9px', outline: 'none', cursor: 'pointer' }}>
                                     <span><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png" alt="logo" width='45px' /></span>
                                     <span style={{ color: 'white', padding: '7px' }}>omer</span>
                                 </button>
@@ -79,6 +80,9 @@ export const TopMenu: React.StatelessComponent<{}> = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="toggle_menu" id="toggle_id">
+            <Menu/>
             </div>
         </Navbar>
     );

@@ -1,16 +1,208 @@
+
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+  /* .profil_content {
+    position: absolute;
+    left: 38%;
+  }
+  .profil_bar {
+    position:fixed;
+    left:0px; 
+    bottom:0px;
+    height:50px;  
+    width:100%;
+    background:black;
+  }
+  .profil_content {
+    display: -webkit-box;
+    height: 100%;
+  } */
+  .profil_bar{
+    display: none;
+  }
+  .App-logo {
+   width: 35px;
+   height: 35px;
+  }
+  .logo_word{
+    width: 90px;
+  }
+  .logo_link {
+    width: 200px !important;
+    padding: 5px;
+  }
+  .toggle_menu {
+    color: white;
+    display: block;
+    cursor: pointer;
+    display: 15px;
+  }
+  .gigx4 {
+    display: none;
+  }
+  .mr-auto-topmenu{
+    width: 65%;
+  }
+  .searchBox {
+    width: 100% !important;
+  }
+  .gigx1{
+    padding: 10px;
+  }
+  
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+  /* .profil_content {
+    position: absolute;
+    left: 38%;
+  }   
+  .profil_bar {
+    position:fixed;
+    left:0px; 
+    bottom:0px;
+    height:50px;
+    width:100%;
+    background:black;
+  }
+  .profil_content {
+    display: -webkit-box;
+    height: 100%;
+  } */
+  .profil_bar{
+    display: none;
+  }
+  .App-logo {
+   width: 35px;
+   height: 35px;
+  }
+  .logo_word{
+    width: 90px;
+  }
+  .logo_link {
+    width: 200px !important;
+    padding: 5px;
+  }
+  .toggle_menu {
+    color: white;
+    padding: 15px;
+    display: block;
+    cursor: pointer;
+  }
+  .gigx4 {
+    display: none;
+  }
+  .mr-auto-topmenu{
+    width: 65%;
+  }
+  .searchBox {
+    width: 100% !important;
+  }
+  .gigx1{
+    padding: 10px;
+  }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
+  
+  .navItem {
+    color: white;
+    align-items: center;
+    display: flex;
+    line-height: 1;
+    padding-right: 1.5rem;
+    text-align: center;
+    padding: 0 !important;
+    height: 100%;
+    flex-direction: column;
+}
+  .navLinkIcon {
+    font-size: 20px;
+    color: rgb(167, 201, 255);
+    line-height: 2; 
+    padding-bottom: 4px;
+  } 
+  .navLinkMenu {
+      display: block;
+      padding: 6px;
+      color: white;
+      font-size: 13px;
+      font-weight: 400;
+      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+      line-height: 1.3;
+  }
+  .profil_content {
+    display: -webkit-box;
+    float: right;
+    height: 100%;
+    padding-right: 60px;
+  }
+  .toggle_menu {  
+    color: white;
+    display: none;
+  }
+  .mr-auto-topmenu{
+    width: 1167px;
+    padding-left: 67px;
+    margin: 0;
+  }
+  .logo_link{
+    width: 18%;
+     padding: 10px;
+     display: contents;
+  }
+  .logo_word {
+    width: 150px;
+  }
+.profil_bar{
+   width: 30%;
+   height: 100%;
+   float: left; 
+}
+.App {
+  text-align: center;
+}
+.App-logo {
+  animation: App-logo-spin infinite 40s linear;
+  height: 55px;
+  width: 55px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .searchBox {
     margin-left: 33 !important;
     width: 100% !important;
     height: 120% !important;
     border: 1px solid white !important;
-    background-color: #323131 !important;
+    background-color: white !important;
   }
   .inputForm input::placeholder {
-    color: white;
+    color: black;
 }
 .inputForm input:focus {
-  color: white;
-  border-color: white;
+  color: black;
+  border-color: black;
 }
 .gigx1 {
     height: 65px;
@@ -23,19 +215,19 @@
     min-width: 250px;
   }
   .gigx3 {
-    width: 90%;
+    width: 100%;
     float: left;
     height: 85%;
   }
   .gigx4 {
-    width: 10%;
+    width: 0%;
     float: right;
   }
   .gigx5 {
     top: 5px;
     right: 30px;
     width: 18px;
-    color: white;
+    color: #005ec2;
     height: 18px;
     display: inline-block;
     position: relative;
@@ -46,8 +238,9 @@
     box-shadow: 0 3px 12px rgba(27,31,35,.15);
       position: relative;
       border-radius: 3%;
-      top: 64px;
+      top: 0;
       left: 140px;
+      z-index: 1000;
       width: 170px;
       overflow-x: hidden;
       min-height: 16px;
@@ -81,3 +274,5 @@
   .dropdown-icon span {
     color: rgb(138, 138, 138);
   }
+
+}
