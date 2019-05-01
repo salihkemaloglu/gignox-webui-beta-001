@@ -17,12 +17,7 @@ message User {
     int32  total_space=9;
     string created_date=10;
     string updated_date=11;
-    string language_type=12;
-    string is_mail_success=13;
-    int32  login_attempt=14;
-    string register_verification_code=15;
-    string forgot_password_verification_code=16;
-    bool is_recaptcha_on=17;
+    string language_code=12;
 }
 
 message Follow {
@@ -67,7 +62,36 @@ message Buried {
     string buried_date=7;
     string digging_date=8;   
 }
+//Only for use login 
+message UserLogin {
+    string username=1;
+    string password=2;
+    string language_code=3;
+    string country_flag=4;
+    int32  gmt_off_set=5;
+    string token=6;
+}
 
+message Email {
+    string email_address=1;
+    string email_type=2;
+    string register_verification_code=3;
+    string forgot_password_verification_code=4;
+}
+
+message GeneralResponse {
+    string message=1;
+    bool is_email_success=3;
+    bool is_operation_success=4;
+}
+
+message IpInformation {
+    string ip_address=1;
+    string language_code=2;
+    string country_flag=3;
+    int32  gmt_off_set=4;
+
+}
 
 //Check is service working ?
 message HelloRequest {
@@ -77,18 +101,13 @@ message HelloRequest {
 message HelloResponse {
     string message = 1;
 }
-//Only for use login 
-message UserLogin {
-    string username=1;
-    string password=2;
-    string token=3;
-}
+
 //User methods start
 message RegisterUserRequest {
     User user=1;
 }
 message RegisterUserResponse {
-    User user=1;
+    GeneralResponse general_response =1;
 }
 
 message LoginUserRequest {
@@ -107,7 +126,7 @@ message DeleteUserRequest {
     string user_id=1;
 }
 message DeleteUserResponse {
-    string user_id=1;
+    GeneralResponse general_response =1;
 }
 //User methods finish
 message UpdateFileRequest {
@@ -134,20 +153,41 @@ message DeleteFileRequest {
     string file_hash=2;
 }
 message DeleteFileResponse {
-    string file_id=1;
-    string file_hash=2;
+    GeneralResponse general_response =1;
+}
+message SendEmailRequest {
+    Email email=1;
+}
+message SendEmailResponse {
+    GeneralResponse general_response =1;
+}
+message CheckVerificationCodeRequest {
+    Email email=1;
+}
+message CheckVerificationCodeResponse {
+    GeneralResponse general_response=1;
+}
+message GetIpInformationRequest {
+    string message=1;
+}
+message GetIpInformationResponse {
+    IpInformation ip_information=1;
 }
 service GigxRRService{
-    //Check service
+    //Say Hello 
     rpc SayHello (HelloRequest) returns (HelloResponse);
     //User methods
-    rpc Login (LoginUserRequest) returns (LoginUserResponse);
-    rpc Register (RegisterUserRequest) returns (RegisterUserResponse);
-    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
-    rpc DeleteUser  (DeleteUserRequest) returns (DeleteUserResponse);
+    rpc Login                       (LoginUserRequest) returns (LoginUserResponse);
+    rpc Register                    (RegisterUserRequest) returns (RegisterUserResponse);
+    rpc UpdateUser                  (UpdateUserRequest) returns (UpdateUserResponse);
+    rpc DeleteUser                  (DeleteUserRequest) returns (DeleteUserResponse);
+    //Srvices
+    rpc SendEmail                   (SendEmailRequest) returns (SendEmailResponse);
+    rpc GetIpInformation            (GetIpInformationRequest) returns (GetIpInformationResponse);
+    rpc CheckVerificationCode       (CheckVerificationCodeRequest) returns (CheckVerificationCodeResponse);
     //File methods
-    rpc GetFile (GetFileRequest) returns (GetFileResponse);
-    rpc GetAllFiles (GetAllFilesRequest) returns (stream GetAllFilesResponse);
-    rpc UpdateFile (UpdateFileRequest) returns (UpdateFileResponse);
-    rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
+    rpc GetFile                     (GetFileRequest) returns (GetFileResponse);
+    rpc GetAllFiles                 (GetAllFilesRequest) returns (stream GetAllFilesResponse);
+    rpc UpdateFile                  (UpdateFileRequest) returns (UpdateFileResponse);
+    rpc DeleteFile                  (DeleteFileRequest) returns (DeleteFileResponse);
 }

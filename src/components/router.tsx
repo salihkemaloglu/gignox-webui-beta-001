@@ -4,7 +4,7 @@ import { App } from '../App';
 import { Home, Help } from '../components';
 import { About } from './about/about';
 
-export const AppRouter: React.StatelessComponent<{}> = () => {
+export const AppRouter = () => {
  
       return (
         <BrowserRouter>

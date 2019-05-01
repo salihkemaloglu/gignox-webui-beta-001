@@ -82,7 +82,7 @@
   font-size: 25px;
   padding: 3px;
   text-decoration: none;
-  color: blue !important;
+  color: #1da1f2!important;
   cursor: pointer;
   transition: font-size 0.5s ease 0s;
 }
@@ -90,9 +90,13 @@
     font-size: 15px;
     text-decoration: none;
     cursor: pointer;
-    color: blue!important;
+    color: #1da1f2!important;
     padding: 3px;
     transition: font-size 0.5s ease 0s;
+}
+.cursor {
+  cursor: pointer;
+  color: #1da1f2!important;
 }
 .checkbox_label span {
   padding: 7px;

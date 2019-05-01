@@ -9,7 +9,7 @@ import AddCircleOutlineOutlined from '@material-ui/icons/AddBoxOutlined';
 import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import FolderOpenOutlined from '@material-ui/icons/FolderOpenOutlined';
 
-export const NavMenu: React.StatelessComponent<{}> = () => {
+export const NavMenu = () => {
 
   const now = 60
   window.onload = () => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Authentication, NavMenu, Admin, TopMenu } from './components';
 
-export const App: React.StatelessComponent<{}> = (props) => {
+export const App = () => {
 
   
   if (sessionStorage.getItem("routingPage") === "nav_menu") {
