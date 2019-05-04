@@ -178,5 +178,12 @@ color: black !important;
 .wrap {
   height: -webkit-fill-available;
 }
+.login-need-help {
+  padding: 4px;
+}
+.forgot-password-link {
+    color: blue !important;
+    cursor: pointer;
+}
 
 }

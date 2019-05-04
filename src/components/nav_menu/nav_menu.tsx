@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IndexLinkContainer } from 'react-router-bootstrap'
+import { IndexLinkContainer } from 'react-router-bootstrap';
 import { Nav, Navbar, ProgressBar } from 'react-bootstrap';
 import './nav_menu.css';
 import ScreenShare from '@material-ui/icons/ScreenShareOutlined';
@@ -22,7 +22,9 @@ export const NavMenu = () => {
   
   var toggleOpen = false;
   var sidebarToggle = "closed";
+  var userDropdown = "closed";
   window.onload = () => {
+    
     var addElement: HTMLElement = document.getElementById('addToggle') as HTMLElement;
     addElement.onmousedown = function () {
       addElement.style.display = 'hidden';
@@ -50,21 +52,27 @@ export const NavMenu = () => {
 
 // -----------------------User dropdown menu--------------------------
     var userMenu = document.getElementById("user-menu") as HTMLElement;
-    var userMenuBar = document.getElementById("dropdown-bar") as HTMLElement;
-    if (userMenu) {
-      userMenu.addEventListener('click', function () {
-        userMenuBar.style.display = "block";
-      });
-      userMenuBar.addEventListener('mouseover', function () {
-        userMenuBar.style.display = "block";
-      });
-      userMenuBar.addEventListener('mouseleave', function () {
-        userMenuBar.style.display = "none";
-      });
-      userMenu.addEventListener('mouseleave', function () {
-        userMenuBar.style.display = "none";
-      });
+    var userMenuBar = document.getElementById("dd") as HTMLElement;
+      if (userMenu) {
+        userMenu.addEventListener('click', function (e: any) {
+          if (userDropdown == "closed"){
+            userMenuBar.className = "wrapper-dropdown-3 active";
+            userDropdown = "opened";
+          }
+          else{
+              userMenuBar.className = "wrapper-dropdown-3";
+              userDropdown = "closed";
+          }
+        });
     }
+   window.addEventListener('click', function(e: any){
+    if (e.target.offsetParent.id != 'dd'){
+      userMenuBar.className = "wrapper-dropdown-3";
+      userDropdown = "closed";
+    }
+   });
+
+
 
 // ----Left side bar menu open and close action in mobile and tablet size------
     var leftSidebarToggle = document.getElementById("toggle_id") as HTMLElement;

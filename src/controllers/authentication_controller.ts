@@ -1,7 +1,7 @@
 import { LoginUserRequest, LoginUserResponse, UserLogin, User, RegisterUserRequest, RegisterUserResponse, CheckVerificationCodeRequest, CheckVerificationCodeResponse, Email, SendEmailRequest, SendEmailResponse } from "../proto/gigxRR_pb";
 import { GigxRRService } from '../proto/gigxRR_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
-import { localURL } from '../global/urls_global'
+import { devURL } from '../global/urls_global'
 import { GeneralResponseModal } from '../modals/general_response_modal'
 var modal = new GeneralResponseModal()
 
@@ -10,18 +10,18 @@ function DoLoginUserRequest(user_: UserLogin) {
   req.setUser(user_);
   grpc.invoke(GigxRRService.Login, {
     request: req,
-    host: localURL,
+    host: devURL,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       console.log("onHeaders", headers);
     },
     onMessage: (responseData_: LoginUserResponse) => {
       user_ = responseData_.getUser() === null ? JSON.parse("null") : responseData_.getUser();
-      // sessionStorage.setItem("token", user_.getToken());
-      // sessionStorage.setItem("userName", user_.getUsername());
-      // sessionStorage.setItem("routingPage", "nav_menu");
-      // location.reload();
-      return user_;
+      sessionStorage.setItem("token", user_.getToken());
+      sessionStorage.setItem("userName", user_.getUsername());
+      sessionStorage.setItem("routingPage", "nav_menu");
+      location.reload();
+
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;
@@ -36,7 +36,7 @@ function DoLoginUserRequest(user_: UserLogin) {
   req.setUser(user_);
   const grpcRequest = await grpc.invoke(GigxRRService.Register, {
     request: req,
-    host: localURL,
+    host: devURL,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
@@ -58,7 +58,7 @@ function DoSendEmailRequest(email_: Email) {
   req.setEmail(email_);
   grpc.invoke(GigxRRService.SendEmail, {
     request: req,
-    host: localURL,
+    host: devURL,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       console.log("onHeaders", headers);
@@ -80,7 +80,7 @@ function DoCheckVerificationCodeRequest(email: Email) {
   req.setEmail(email);
   grpc.invoke(GigxRRService.CheckVerificationCode, {
     request: req,
-    host: localURL,
+    host: devURL,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       console.log("onHeaders", headers);

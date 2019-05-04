@@ -4,11 +4,8 @@ import './admin.css';
 export const Admin = () => {
 
     var sidebarToggle = "closed";
-
+    var userDropdown = "closed";
     window.onload = () => {
-       
-        var userMenu = document.getElementById("user-menu") as HTMLElement;
-        var userMenuBar = document.getElementById("dropdown-bar") as HTMLElement;
 
         var tab1 = document.getElementById("tab1") as HTMLElement;
         var tab2 = document.getElementById("tab2") as HTMLElement;
@@ -19,21 +16,21 @@ export const Admin = () => {
         var starredContent = document.getElementById("starredContent") as HTMLElement;
 
 
-
-        if (userMenu) {
-            userMenu.addEventListener('click', function () {
-                userMenuBar.style.display = "block";
-            });
-            userMenuBar.addEventListener('mouseover', function () {
-                userMenuBar.style.display = "block";
-            });
-            userMenuBar.addEventListener('mouseleave', function () {
-                userMenuBar.style.display = "none";
-            });
-            userMenu.addEventListener('mouseleave', function () {
-                userMenuBar.style.display = "none";
-            });
-        }
+// -----------------------User dropdown menu--------------------------
+var userMenu = document.getElementById("user-menu") as HTMLElement;
+var userMenuBar = document.getElementById("dd") as HTMLElement;
+  if (userMenu) {
+    userMenu.addEventListener('click', function () {
+      if (userDropdown == "closed"){
+        userMenuBar.className = "wrapper-dropdown-3 active";
+        userDropdown = "opened";
+      }
+      else{
+        userMenuBar.className = "wrapper-dropdown-3";
+        userDropdown = "closed";
+      }
+    });
+}
 
         if (tab1) {
             if (latestFilesContent != null) {

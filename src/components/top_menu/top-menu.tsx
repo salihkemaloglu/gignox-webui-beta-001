@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { IndexLinkContainer } from 'react-router-bootstrap'
-import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
+import { Navbar, Form, FormControl } from 'react-bootstrap';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Menu from '@material-ui/icons/Menu';
+import PermIdentity from '@material-ui/icons/PermIdentity';
+import Settings from '@material-ui/icons/SettingsOutlined';
+
 import './top_menu.css';
 
 var logo = require('../../app_root/images/logo.png');
@@ -11,10 +14,11 @@ var logotransparent = require('../../app_root/images/logo_gignox.png');
 
 export const TopMenu = () => {
 
-    function setfalse() {
-        sessionStorage.setItem("routingPage", "nav_menu");
+    function SignOut() {
+        sessionStorage.setItem("routingPage", "authentication");
+        location.reload();
     }
-    function setUserAdmin() {
+    function Profile() {
         sessionStorage.setItem("routingPage", "user_admin");
         location.reload();
     }
@@ -24,7 +28,7 @@ export const TopMenu = () => {
     return (
         <Navbar variant="dark" style={{ backgroundColor: 'black', padding: '10px', height: '65px', width: '100%' }}>
             <IndexLinkContainer className="logo_link" to="/home" onClick={() => sessionStorage.setItem("routingPage", "nav_menu")}>
-                <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent} className="logo_word" alt="logo"/></a>
+                <a href="https://placeholder.com"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent} className="logo_word" alt="logo" /></a>
             </IndexLinkContainer>
             <div className="mr-auto-topmenu">
                 <div className="gigx1">
@@ -38,51 +42,27 @@ export const TopMenu = () => {
                             <span><SearchOutlined className="gigx5" /></span>
                         </div>
                     </div>
-                    <div className="profil_bar">
+                    <div className="profil_bar" id="profile_bar_id">
                         <div className="profil_content">
-                            <div id="user-menu">
-                                <button style={{ backgroundColor: 'transparent', border: 'none', paddingTop: '9px', outline: 'none', cursor: 'pointer' }}>
-                                    <span><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png" alt="logo" width='45px' /></span>
-                                    <span style={{ color: 'white', padding: '7px' }}>omer</span>
-                                </button>
+                            <div id="dd" className="wrapper-dropdown-3">
+                                <div id="user-menu" style={{textAlign: 'center'}}>
+                                    <button style={{ backgroundColor: 'transparent', border: 'none', outline: 'none', cursor: 'pointer' }}>
+                                        <span><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png" alt="logo" width='45px' /></span>
+                                        <span style={{ color: 'white', padding: '7px' }}>omer</span>
+                                    </button>
+                                </div>
+                                <ul className="dropdown">
+                                    <li><a href="#" onClick={Profile}><PermIdentity /> Profil</a></li>
+                                    <li><a href="#"><Settings /> Ayarlar</a></li>
+                                    <li><a href="#" onClick={SignOut}><ExitToApp /> Sign out</a></li>
+                                </ul>
                             </div>
-
-                        </div>
-
-                        <div id="dropdown-bar" style={{ display: 'none' }}>
-                            <a href="/login" className="dropdown-item" onClick={setfalse}>
-                                <div className="dropdown-icon">
-                                    <span><ExitToApp /></span>
-                                </div>
-                                <div className="dropdown-row">
-                                <a className="navItem" onClick={setfalse}>nav menu</a>
-                                </div>
-                            </a>
-                            <a className="dropdown-item">
-                                <div className="dropdown-icon">
-                                    <span><ExitToApp /></span>
-                                </div>
-                                <div className="dropdown-row">
-                                <a className="navItem" onClick={setUserAdmin}>User Admin</a>
-                                
-                                </div>
-                            </a>
-                            <a className="dropdown-item">
-                                <div className="dropdown-icon">
-                                    <span><ExitToApp /></span>
-                                </div>
-                                <div className="dropdown-row">
-                                    <IndexLinkContainer to="/" className="navItem" onClick={setfalse}>
-                                        <Nav.Link ><span className="dropdown-link">Logout</span></Nav.Link>
-                                    </IndexLinkContainer>
-                                </div>
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="toggle_menu" id="toggle_id">
-            <Menu/>
+                <Menu />
             </div>
         </Navbar>
     );
