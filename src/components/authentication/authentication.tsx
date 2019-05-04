@@ -11,6 +11,8 @@ import { useState } from 'react';
 import { UserLogin, User } from '../../proto/gigxRR_pb';
 import { i18next, lang } from '../../services/localization_service'
 import { DoLoginUserRequest, DoRegisterUserRequest } from '../../controllers/authentication_controller';
+import { GeneralResponseModal } from 'src/modals/general_response_modal';
+import { grpc } from '@improbable-eng/grpc-web';
 // import { DoGetIpAddressRequest } from '../../controllers/ipinfo_controller';
 
 export const Authentication = () => {
@@ -25,8 +27,19 @@ export const Authentication = () => {
   // }
 
   function login() {
-    var response = DoLoginUserRequest(userLogin);
-    console.log(response)
+    DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
+      if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+        sessionStorage.setItem("token", userLoginResponse_.getToken());
+        sessionStorage.setItem("userName", userLoginResponse_.getUsername());
+        localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
+        sessionStorage.setItem("routingPage", "nav_menu");
+        location.reload();
+      } else {
+        console.log(generalResponseModalResponse_.GrpcResponseCode)
+        console.log(generalResponseModalResponse_.GrpcResponseMessage)
+      }
+    });
+
   }
   function handleEmailChangeForLogin(e: any) {
     userLogin.setUsername(e.target.value)
@@ -34,29 +47,30 @@ export const Authentication = () => {
   function handlePasswordChangeForLogin(e: any) {
     userLogin.setPassword(e.target.value)
   }
-  async function handleUsernameChangeForRegister(e: any) {
+  function handleUsernameChangeForRegister(e: any) {
     if (e.target.value.length > 0) {
       user.setUsername(e.target.value)
-      var response = await DoRegisterUserRequest(user);
-      console.log(response.GrpcResponseCode)
-      console.log(response.GrpcResponseMessage)
-      if (response.GrpcResponseCode == 6) {
-        console.log("There is a account for that username: " + user.getUsername())
-      } else {
-        console.log("olabilir: " + user.getUsername())
-      }
+      DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
+          console.log(generalResponseModalResponse_.GrpcResponseMessage)
+        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
+          console.log("ok")
+        }
+      });
     }
-
   }
-  async function handleEmailChangeForRegister(e: any) {
+
+
+  function handleEmailChangeForRegister(e: any) {
     if (e.target.value.length > 0) {
       user.setEmail(e.target.value)
-      var response = await DoRegisterUserRequest(user);
-      if (response.GrpcResponseCode == 6) {
-        console.log("There is a account for that email: " + user.getEmail())
-      } else {
-        console.log("olabilir: " + user.getEmail())
-      }
+      DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
+          console.log(generalResponseModalResponse_.GrpcResponseMessage)
+        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
+          console.log("ok")
+        }
+      });
     }
   }
   return (
@@ -71,8 +85,8 @@ export const Authentication = () => {
         </div>
       </section>
       <section className="mainSection">
-      <section className="leftSection">
-        <img src={logos} style={{width: "100%"}}/>
+        <section className="leftSection">
+          <img src={logos} style={{ width: "100%" }} />
         </section>
         <section className="rightSection">
           <DropdownButton alignRight title="Language" id="dropdown-menu-align-right" variant="warning" style={{ marginRight: "2%", float: "right", marginTop: "1%" }}>
