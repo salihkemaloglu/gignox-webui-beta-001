@@ -5,9 +5,9 @@ import { localURL } from '../global/urls_global'
 import { GeneralResponseModal } from '../modals/general_response_modal'
 var modal = new GeneralResponseModal()
 
-function DoLoginUserRequest(user_: UserLogin) {
+export function DoLoginUserRequest(userLogin_: UserLogin, callback: any) {
   const req = new LoginUserRequest();
-  req.setUser(user_);
+  req.setUser(userLogin_);
   grpc.invoke(GigxRRService.Login, {
     request: req,
     host: localURL,
@@ -16,25 +16,20 @@ function DoLoginUserRequest(user_: UserLogin) {
       console.log("onHeaders", headers);
     },
     onMessage: (responseData_: LoginUserResponse) => {
-      user_ = responseData_.getUser() === null ? JSON.parse("null") : responseData_.getUser();
-      // sessionStorage.setItem("token", user_.getToken());
-      // sessionStorage.setItem("userName", user_.getUsername());
-      // sessionStorage.setItem("routingPage", "nav_menu");
-      // location.reload();
-      return user_;
+      userLogin_ = responseData_.getUser() === null ? JSON.parse("null") : responseData_.getUser();
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;
       modal.GrpcResponseMessage = msg_;
-      return modal;
+      callback(userLogin_, modal);
     }
   });
 }
 
- async function DoRegisterUserRequest(user_: User) {
+export function DoRegisterUserRequest(user_: User, callback: any) {
   const req = new RegisterUserRequest();
   req.setUser(user_);
-  const grpcRequest = await grpc.invoke(GigxRRService.Register, {
+  grpc.invoke(GigxRRService.Register, {
     request: req,
     host: localURL,
     metadata: new grpc.Metadata({ "language": "en" }),
@@ -43,17 +38,17 @@ function DoLoginUserRequest(user_: UserLogin) {
     },
     onMessage: (responseData_: RegisterUserResponse) => {
       user_ = responseData_.getGeneralResponse() === null ? JSON.parse("null") : responseData_.getGeneralResponse();
-      sessionStorage.setItem("routingPage", "nav_menu");
+      // sessionStorage.setItem("routingPage", "nav_menu");
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;
       modal.GrpcResponseMessage = msg_;
+      callback(user_, modal);
     }
   });
-  console.log(grpcRequest)
-  return await  modal
+
 }
-function DoSendEmailRequest(email_: Email) {
+export function DoSendEmailRequest(email_: Email) {
   const req = new SendEmailRequest();
   req.setEmail(email_);
   grpc.invoke(GigxRRService.SendEmail, {
@@ -75,7 +70,7 @@ function DoSendEmailRequest(email_: Email) {
     }
   });
 }
-function DoCheckVerificationCodeRequest(email: Email) {
+export function DoCheckVerificationCodeRequest(email: Email) {
   const req = new CheckVerificationCodeRequest();
   req.setEmail(email);
   grpc.invoke(GigxRRService.CheckVerificationCode, {
@@ -98,4 +93,3 @@ function DoCheckVerificationCodeRequest(email: Email) {
   });
 }
 
-export { DoLoginUserRequest, DoRegisterUserRequest, DoSendEmailRequest, DoCheckVerificationCodeRequest }
