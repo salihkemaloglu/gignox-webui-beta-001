@@ -1,22 +1,35 @@
 
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
-  /* .profil_content {
-    position: absolute;
-    left: 38%;
+  .App {
+    text-align: center;
   }
-  .profil_bar {
-    position:fixed;
-    left:0px; 
-    bottom:0px;
-    height:50px;  
-    width:100%;
-    background:black;
+  .App-logo {
+    animation: App-logo-spin infinite 40s linear;
+    height: 55px;
+    width: 55px;
   }
-  .profil_content {
-    display: -webkit-box;
-    height: 100%;
-  } */
+  
+  .App-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+  }
+  
+  .App-title {
+    font-size: 1.5em;
+  }
+  
+  .App-intro {
+    font-size: large;
+  }
+  
+  @keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
   .profil_bar{
     display: none;
   }
@@ -45,12 +58,29 @@
   }
   .searchBox {
     width: 100% !important;
+    border: 1px solid #3C4252 !important;
+    background-color: #3C4252 !important;
   }
+  .inputForm input::placeholder {
+    color: #bab7b7;
+    font-size: 12px;
+}
+.inputForm input:focus {
+  color: #bab7b7;
+  border-color: #3C4252;  
+}
   .gigx1{
     padding: 10px;
   }
   .mr-auto{
     padding: 10px;
+  }
+  .top_menu{
+    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    padding: 10px;
+    height: 65px;
+    width: 100%;
+    z-index: 1000;
   }
   
 }
@@ -89,15 +119,37 @@
   }
   .searchBox {
     width: 100% !important;
+    border: 1px solid #3C4252 !important;
+    background-color: #3C4252 !important;
   }
+  .inputForm input::placeholder {
+    color: #bab7b7;
+}
+.inputForm input:focus {
+  color: #bab7b7;
+  border-color: #3C4252;  
+}
   .gigx1{
     padding: 10px;
+  }
+  .top_menu{
+    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    padding: 10px;
+    height: 65px;
+    width: 100%;
+    z-index: 1000;
   }
 }
 
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
-  
+  .top_menu{
+    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    padding: 10px;
+    height: 65px;
+    width: 100%;
+    z-index: 1000;
+  }
   .navItem {
     color: white;
     align-items: center;
@@ -128,15 +180,15 @@
     display: -webkit-box;
     float: right;
     height: 100%;
-    padding-right: 60px;
     width: 90%;
+    padding-left: 17%;
   }
   .toggle_menu {  
     color: white;
     display: none;
   }
   .mr-auto-topmenu{
-    width: 1167px;
+    width: 100%;
     padding-left: 67px;
     margin: 0;
   }
@@ -186,21 +238,23 @@
     margin-left: 33 !important;
     width: 100% !important;
     height: 120% !important;
-    border: 1px solid white !important;
-    background-color: white !important;
+    border: 1px solid #3C4252 !important;
+    background-color: #3C4252 !important;
+    padding-right: 57px !important;
+  
   }
   .inputForm input::placeholder {
-    color: black;
+    color: #bab7b7;
 }
 .inputForm input:focus {
-  color: black;
-  border-color: black;
+  color: #bab7b7;
+  border-color: #3C4252;  
 }
 .gigx1 {
     height: 65px;
   }
   .gigx2 {
-    padding-top: 15px;
+    padding-top: 7px;
     width: 70%;
     height: 100%;
     float: left;
@@ -216,10 +270,10 @@
     float: right;
   }
   .gigx5 {
-    top: 5px;
-    right: 30px;
+    top: 11px;
+    right: 50px;
     width: 18px;
-    color: #005ec2;
+    color: #a6a6a9;
     height: 18px;
     display: inline-block;
     position: relative;
@@ -273,13 +327,11 @@
     /* Size and position */
     position: relative;
     width: 200px;
-    margin: 0 auto;
     padding: 10px;
 
     /* Styles */
     background: transparent;
     border-radius: 7px;
-    border: 1px solid rgba(0,0,0,0.15);
     box-shadow: 0 1px 1px rgba(50,50,50,0.1);
     cursor: pointer;
     outline: none;
