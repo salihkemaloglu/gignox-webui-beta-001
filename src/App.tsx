@@ -2,11 +2,8 @@ import * as React from 'react';
 import { Authentication, NavMenu, Admin, TopMenu } from './components';
 
 export const App = () => {
-
-  
   if (sessionStorage.getItem("routingPage") === "nav_menu") {
     return (
-      
       <div className='main-nav'>
         <TopMenu />
         <NavMenu />
@@ -25,6 +22,5 @@ export const App = () => {
     return (
       <Authentication />
     );
-
   }
 };

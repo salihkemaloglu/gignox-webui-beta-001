@@ -1,7 +1,7 @@
-import { LoginUserRequest, LoginUserResponse, UserLogin, User, RegisterUserRequest, RegisterUserResponse, CheckVerificationCodeRequest, CheckVerificationCodeResponse, Email, SendEmailRequest, SendEmailResponse } from "../proto/gigxRR_pb";
+import { LoginUserRequest, LoginUserResponse, UserLogin, User, RegisterUserRequest, RegisterUserResponse, CheckVerificationCodeRequest, CheckVerificationCodeResponse, Email, SendEmailRequest, SendEmailResponse, GeneralResponse } from "../proto/gigxRR_pb";
 import { GigxRRService } from '../proto/gigxRR_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
-import { localURL } from '../global/urls_global'
+import { ApiUrl } from '../global/urls_global'
 import { GeneralResponseModal } from '../modals/general_response_modal'
 var modal = new GeneralResponseModal()
 
@@ -10,7 +10,7 @@ export function DoLoginUserRequest(userLogin_: UserLogin, callback: any) {
   req.setUser(userLogin_);
   grpc.invoke(GigxRRService.Login, {
     request: req,
-    host: localURL,
+    host: ApiUrl,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       console.log("onHeaders", headers);
@@ -28,67 +28,66 @@ export function DoLoginUserRequest(userLogin_: UserLogin, callback: any) {
 
 export function DoRegisterUserRequest(user_: User, callback: any) {
   const req = new RegisterUserRequest();
+  var response = new GeneralResponse();
   req.setUser(user_);
   grpc.invoke(GigxRRService.Register, {
     request: req,
-    host: localURL,
+    host: ApiUrl,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
     onMessage: (responseData_: RegisterUserResponse) => {
-      user_ = responseData_.getGeneralResponse() === null ? JSON.parse("null") : responseData_.getGeneralResponse();
+      response = responseData_.getGeneralResponse() === null ? JSON.parse("null") : responseData_.getGeneralResponse();
       // sessionStorage.setItem("routingPage", "nav_menu");
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;
       modal.GrpcResponseMessage = msg_;
-      callback(user_, modal);
+      callback(response, modal);
     }
   });
 
 }
-export function DoSendEmailRequest(email_: Email) {
+export function DoSendEmailRequest(email_: Email, callback: any) {
   const req = new SendEmailRequest();
+  var response = new GeneralResponse();
   req.setEmail(email_);
   grpc.invoke(GigxRRService.SendEmail, {
     request: req,
-    host: localURL,
+    host: ApiUrl,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       console.log("onHeaders", headers);
     },
     onMessage: (responseData_: SendEmailResponse) => {
-      email_ = responseData_.getGeneralResponse() === null ? JSON.parse("null") : responseData_.getGeneralResponse();
-      sessionStorage.setItem("routingPage", "nav_menu");
-      location.reload();
+      response = responseData_.getGeneralResponse() === null ? JSON.parse("null") : responseData_.getGeneralResponse();
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;
       modal.GrpcResponseMessage = msg_;
-      return modal;
+      callback(response, modal);
     }
   });
 }
-export function DoCheckVerificationCodeRequest(email: Email) {
+export function DoCheckVerificationCodeRequest(email_: Email, callback: any) {
   const req = new CheckVerificationCodeRequest();
-  req.setEmail(email);
+  var response = new GeneralResponse();
+  req.setEmail(email_);
   grpc.invoke(GigxRRService.CheckVerificationCode, {
     request: req,
-    host: localURL,
+    host: ApiUrl,
     metadata: new grpc.Metadata({ "language": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       console.log("onHeaders", headers);
     },
     onMessage: (responseData: CheckVerificationCodeResponse) => {
-      email = responseData.getGeneralResponse() === null ? JSON.parse("null") : responseData.getGeneralResponse();
-      sessionStorage.setItem("routingPage", "nav_menu");
-      location.reload();
+      response = responseData.getGeneralResponse() === null ? JSON.parse("null") : responseData.getGeneralResponse();
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;
       modal.GrpcResponseMessage = msg_;
-      return modal;
+      callback(response, modal);
     }
   });
 }

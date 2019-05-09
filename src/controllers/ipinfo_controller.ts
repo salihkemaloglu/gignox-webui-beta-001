@@ -1,14 +1,14 @@
 import { GetIpInformationRequest, GetIpInformationResponse, IpInformation } from "../proto/gigxRR_pb";
 import { GigxRRService } from '../proto/gigxRR_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
-import { localURL } from '../global/urls_global'
+import { ApiUrl } from '../global/urls_global'
 
 function DoGetIpAddressRequest() {
   const req = new GetIpInformationRequest();
   var info = new IpInformation()
   grpc.invoke(GigxRRService.GetIpInformation, {
     request: req,
-    host: localURL,
+    host: ApiUrl,
     onHeaders: (headers: grpc.Metadata) => {
       console.log("onHeaders", headers);
     },

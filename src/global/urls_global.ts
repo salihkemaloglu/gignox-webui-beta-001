@@ -1,4 +1,8 @@
-var localURL = "http://localhost:8900"
-var devURL = "https://dev-rr.gignox.com:8901"
 
-export { localURL, devURL }
+var ApiUrl = "https://dev-rr.gignox.com:8901";
+if (true) {
+    ApiUrl = "http://localhost:8900";
+}
+
+
+export { ApiUrl }

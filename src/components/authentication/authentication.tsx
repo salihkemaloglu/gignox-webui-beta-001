@@ -8,39 +8,135 @@ var logoGignox = require('../../app_root/images/logo_gignox.png');
 var logos = require('../../app_root/images/authentication_page_background_image.png');
 import './authentication.css';
 import { useState } from 'react';
-import { UserLogin, User } from '../../proto/gigxRR_pb';
+import { UserLogin, User, Email, GeneralResponse } from '../../proto/gigxRR_pb';
 import { i18next, lang } from '../../services/localization_service'
-import { DoLoginUserRequest, DoRegisterUserRequest } from '../../controllers/authentication_controller';
-import { GeneralResponseModal } from 'src/modals/general_response_modal';
+import { DoLoginUserRequest, DoRegisterUserRequest, DoSendEmailRequest, DoCheckVerificationCodeRequest } from '../../controllers/authentication_controller';
+import { GeneralResponseModal } from '../../modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
 // import { DoGetIpAddressRequest } from '../../controllers/ipinfo_controller';
 
 export const Authentication = () => {
-
-
   var [fade, setFade] = useState("signup");
   var userLogin = new UserLogin();
   var user = new User();
+  var email = new Email();
+
   // var ipinfo = sessionStorage.getItem("ipinfo") === null ? JSON.parse(JSON.stringify("")) : sessionStorage.getItem("ipinfo")
   // if (ipinfo === "") {
   //   DoGetIpAddressRequest();
   // }
 
   function login() {
-    DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
+    if (!userLogin.getUsername() || !user.getPassword()) {
+      let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
+      let password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
+      if (username && password) {
+        userLogin.setUsername(username);
+        userLogin.setPassword(password);
+        DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
+          if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+            sessionStorage.setItem("token", userLoginResponse_.getToken());
+            sessionStorage.setItem("userName", userLoginResponse_.getUsername());
+            localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
+            sessionStorage.setItem("routingPage", "true");
+            location.reload();
+          } else {
+            console.log(generalResponseModalResponse_.GrpcResponseCode)
+            console.log(generalResponseModalResponse_.GrpcResponseMessage)
+          }
+        });
+      } else {
+        console.log("username and password can not be null")
+      }
+    } else {
+      DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+          sessionStorage.setItem("token", userLoginResponse_.getToken());
+          sessionStorage.setItem("userName", userLoginResponse_.getUsername());
+          localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
+          sessionStorage.setItem("routingPage", "nav_menu");
+          location.reload();
+        } else {
+          console.log(generalResponseModalResponse_.GrpcResponseCode)
+          console.log(generalResponseModalResponse_.GrpcResponseMessage)
+        }
+      });
+    }
+  }
+  function Register() {
+    if (!user.getUsername()) {
+      console.log("username can not be empty")
+    } else if (!user.getEmail()) {
+      console.log("email can not be empty")
+    } else if (!user.getPassword()) {
+      console.log("password can not be empty")
+    } else {
+      DoRegisterUserRequest(user, function (generalResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+          if (generalResponse_.getIsEmailSuccess()) {
+            setFade("verification")
+          } else {
+            console.log(generalResponse_.getMessage())
+          }
+        } else {
+          console.log(generalResponseModalResponse_.GrpcResponseCode)
+          console.log(generalResponseModalResponse_.GrpcResponseMessage)
+        }
+      });
+    }
+  }
+  function SendEmailForRegister() {
+    if (!email.getEmailAddress()) {
+      console.log("email can not be empty")
+    } else {
+      DoSendEmailRequest(email, function (generalResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+            console.log("ok")
+        } else {
+          console.log(generalResponseModalResponse_.GrpcResponseCode)
+          console.log(generalResponseModalResponse_.GrpcResponseMessage)
+        }
+      });
+    }
+  }
+  function SendEmailForForgotPassword() {
+    setFade("reset")
+    if (!email.getEmailAddress()) {
+      console.log("email can not be empty")
+    } else {
+      DoSendEmailRequest(email, function (generalResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+          console.log("ok")
+        } else {
+          console.log(generalResponseModalResponse_.GrpcResponseCode)
+          console.log(generalResponseModalResponse_.GrpcResponseMessage)
+        }
+      });
+    }
+  }
+  function CheckVerificationCodeForRegister() {
+    email.setEmailType("register")
+    DoCheckVerificationCodeRequest(email, function (generalResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
       if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
-        sessionStorage.setItem("token", userLoginResponse_.getToken());
-        sessionStorage.setItem("userName", userLoginResponse_.getUsername());
-        localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
-        sessionStorage.setItem("routingPage", "nav_menu");
-        location.reload();
+        console.log("ok")
       } else {
         console.log(generalResponseModalResponse_.GrpcResponseCode)
         console.log(generalResponseModalResponse_.GrpcResponseMessage)
       }
     });
-
   }
+  function CheckVerificationCodeForForgotPassword() {
+    email.setEmailType("forgot")
+    DoCheckVerificationCodeRequest(email, function (generalResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+      if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+        console.log("ok")
+      } else {
+        console.log(generalResponseModalResponse_.GrpcResponseCode)
+        console.log(generalResponseModalResponse_.GrpcResponseMessage)
+      }
+    });
+  }
+
   function handleEmailChangeForLogin(e: any) {
     userLogin.setUsername(e.target.value)
   }
@@ -60,7 +156,6 @@ export const Authentication = () => {
     }
   }
 
-
   function handleEmailChangeForRegister(e: any) {
     if (e.target.value.length > 0) {
       user.setEmail(e.target.value)
@@ -72,6 +167,15 @@ export const Authentication = () => {
         }
       });
     }
+  }
+  function handlePasswordChangeForRegister(e: any) {
+    user.setPassword(e.target.value)
+  }
+  function handleResetPasswordChangeForLogin(e: any) {
+    email.setEmailAddress(e.target.value);
+  }
+  function handleVerificationAccountChange(e: any) {
+    user.setPassword(e.target.value)
   }
   return (
     <div className="wrap">
@@ -95,6 +199,8 @@ export const Authentication = () => {
           </DropdownButton>
 
           <div className="sign-in-up-container">
+
+            {/* user sign-up forms */}
             <a className="signup-title" onClick={() => setFade("signup")} style={{ fontSize: fade === "signup" ? '25px' : '15px' }}> {i18next.t("authentication_page_sign_up")}</a>|
           <a className="signin-title" onClick={() => setFade("signin")} style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_sign_in")}</a>
           </div>
@@ -107,13 +213,11 @@ export const Authentication = () => {
               </FormGroup>
               <FormGroup>
                 <label>Email</label>
-                <FormControl autoFocus type="email" onChange={handleEmailChangeForRegister} />
+                <FormControl autoComplete="new-email" type="email" onChange={handleEmailChangeForRegister} />
               </FormGroup>
               <FormGroup>
                 <label>{i18next.t("authentication_page_password")}</label>
-                <FormControl
-                  type="password"
-                />
+                <FormControl autoComplete="new-password" type="password" onChange={handlePasswordChangeForRegister} />
               </FormGroup>
               {(() => {
                 switch (lang) {
@@ -125,57 +229,62 @@ export const Authentication = () => {
                     return "null";
                 }
               })()}
-              <Button style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" onClick={() => setFade("verification")} >
+              <Button style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" onClick={Register} >
                 {i18next.t("authentication_page_sign_up")}
               </Button>
             </form>
           </div>
 
-          <div className="Login" style={{ display: fade === "signin" ? 'block' : 'none' }}>
-            <form className="loginForm">
-              <FormGroup >
-                <label>{i18next.t("authentication_page_username_or_email")}</label>
-                <FormControl autoFocus type="email" onChange={handleEmailChangeForLogin} />
-              </FormGroup>
-              <FormGroup>
-                <label>{i18next.t("authentication_page_password")}</label>
-                <FormControl type="password" onChange={handlePasswordChangeForLogin} />
-              </FormGroup>
-              <Button onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} >
-                {i18next.t("authentication_page_sign_in")}
-              </Button>
-              <div className="login-need-help"><a className="forgot-password-link" onClick={() => setFade("reset")}>
-                {i18next.t("authentication_page_forgot_password")}</a></div>
-            </form>
-          </div>
-
-          <div className="reset" style={{ display: fade === "reset" ? 'block' : 'none', paddingTop: '60px' }}>
-            <form className="signupForm">
-              <label className="codeColor"><h3> {i18next.t("authentication_page_password_reset_title")}</h3></label>
-              <label className="codeColor">{i18next.t("authentication_page_password_reset_info")}<br /></label>
-              <FormGroup>
-                <label>Email</label>
-                <FormControl autoFocus type="email" />
-              </FormGroup>
-              <Button style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" >
-                {i18next.t("authentication_page_password_reset")}
-              </Button>
-            </form>
-          </div>
+          {/* verification user Forms */}
           <div className="verification" style={{ display: fade === "verification" ? 'block' : 'none', paddingTop: '60px' }}>
             <form className="signupForm">
               <label className="codeColor"><h3> {i18next.t("authentication_page_verification_code_title")}</h3></label>
               <label className="codeColor">{i18next.t("authentication_page_verification_code_info")}<br /></label>
               <FormGroup>
                 <label>Email</label>
-                <FormControl autoFocus type="email" />
+                <FormControl autoFocus type="email" onChange={handleVerificationAccountChange} />
               </FormGroup>
-              <Button style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" >
+              <Button style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" onClick={CheckVerificationCodeForRegister}>
                 {i18next.t("authentication_page_verificate_code")}
               </Button>
-              <label className="cursor" style={{ marginTop: "2%" }}>{i18next.t("authentication_page_verificate_did_not_get")}</label>
+              <a className="cursor" style={{ marginTop: "2%" }} onClick={SendEmailForRegister} >{i18next.t("authentication_page_verificate_did_not_get")}</a>
             </form>
           </div>
+
+          {/* user sign-in forms */}
+          <div className="Login" style={{ display: fade === "signin" ? 'block' : 'none' }}>
+            <form className="loginForm">
+              <FormGroup >
+                <label>{i18next.t("authentication_page_username_or_email")}</label>
+                <FormControl autoFocus type="email" id="usernameLogin" onChange={handleEmailChangeForLogin} />
+              </FormGroup>
+              <FormGroup>
+                <label>{i18next.t("authentication_page_password")}</label>
+                <FormControl type="password" id="passwordLogin" onChange={handlePasswordChangeForLogin} />
+              </FormGroup>
+              <Button onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} >
+                {i18next.t("authentication_page_sign_in")}
+              </Button>
+              <div className="login-need-help"><a className="forgot-password-link" onClick={SendEmailForForgotPassword}>
+                {i18next.t("authentication_page_forgot_password")}</a></div>
+            </form>
+          </div>
+          {/* reset Password Forms */}
+          <div className="reset" style={{ display: fade === "reset" ? 'block' : 'none', paddingTop: '60px' }}>
+            <form className="signupForm">
+              <label className="codeColor"><h3> {i18next.t("authentication_page_password_reset_title")}</h3></label>
+              <label className="codeColor">{i18next.t("authentication_page_password_reset_info")}<br /></label>
+              <FormGroup>
+                <label>Email</label>
+                <FormControl autoFocus type="email" onChange={handleResetPasswordChangeForLogin} />
+              </FormGroup>
+              <Button style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" onClick={CheckVerificationCodeForForgotPassword}>
+                {i18next.t("authentication_page_password_reset")}
+              </Button>
+            </form>
+          </div>
+
+
 
         </section>
       </section>
