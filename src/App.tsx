@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Authentication, NavMenu, Admin, TopMenu } from './components';
+import { Authentication, NavMenu, TopMenu, Admin } from './components';
 
 export const App = () => {
   if (sessionStorage.getItem("routingPage") === "nav_menu") {
@@ -13,9 +13,10 @@ export const App = () => {
   else if (sessionStorage.getItem("routingPage") === "user_admin") {
     return (
       <div className='main-nav'>
-        <TopMenu />
-        <Admin />
-      </div>
+      <TopMenu />
+      <Admin />
+    </div>
+    
     );
   }
   else {

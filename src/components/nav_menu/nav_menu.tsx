@@ -66,7 +66,7 @@ export const NavMenu = () => {
         });
     }
    window.addEventListener('click', function(e: any){
-    if (e.target.offsetParent.id != 'dd'){
+    if ( e.target.offsetParent != undefined && e.target.offsetParent.id != 'dd'){
       userMenuBar.className = "wrapper-dropdown-3";
       userDropdown = "closed";
     }
@@ -88,29 +88,30 @@ export const NavMenu = () => {
           sidebarToggle = "closed";
         }
       });
-
     }
+
+
   }
 
   return (
     <div className="left_side_bar" id="left_sidebar">
-      <Navbar variant="dark" className="float-left">
+      <Navbar className="float-left">
         <Nav className="mr-auto">
-          <div className="lefSideBar">
+          <div className="leftSideBar">
 
               <a id="addToggle" className="leftNavItem" style={{display: '-webkit-inline-box', cursor: 'pointer'}}><span className="leftNavLinkIcon"> <AddCircleOutlineOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">Add</span></a>
             <div id="addToggleMenu" style={{ width: '85%', float: 'right', display: 'none' }}>
-              <IndexLinkContainer to="/help" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
+              <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
                 <a><span className="leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">Add File</span></a>
               </IndexLinkContainer>
-              <IndexLinkContainer to="/help" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
+              <IndexLinkContainer to="help" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
                 <a><span className="leftNavLinkIcon"> <FolderOpenOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">Add Folder</span></a>
               </IndexLinkContainer>
             </div>
-            <IndexLinkContainer to="/help" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
+            <IndexLinkContainer to="help" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
               <a><span className="leftNavLinkIcon"> <ScreenShare className="iconsSvg" /></span><span className="leftNavLinkMenu">Shared With Me</span></a>
             </IndexLinkContainer>
-            <IndexLinkContainer to="openedfiles" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
+            <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
               <a ><span className="leftNavLinkIcon"><AccessTime className="iconsSvg" /></span><span className="leftNavLinkMenu">Latest</span></a>
             </IndexLinkContainer>
             <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
@@ -126,7 +127,7 @@ export const NavMenu = () => {
               <a onClick={SetAuthentication}><span className="leftNavLinkIcon"><SignOut className="iconsSvg" /></span><span className="leftNavLinkMenu">Sign out</span></a>
             </IndexLinkContainer>
             <div className="leftNavItemStorage">
-              <span className="leftNavLinkMenu">Storage</span>
+              <span className="storage">Storage</span>
               <ProgressBar now={now} label={`${now}%`} style={{ height: '17px', border: '1px solid #add4ff', backgroundColor: 'white' }} />
             </div>
         
