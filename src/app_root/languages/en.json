@@ -12,6 +12,7 @@
     "authentication_page_or":"or",
     "authentication_page_and":"and",
     "authentication_page_goto_sign_in":"sign in to your account",
+    "authentication_page_create_an_account":"create an account",
     "authentication_page_username":"Username",
     "authentication_page_username_or_email":"Username or Email address",
     "authentication_page_password":"Password",
