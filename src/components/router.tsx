@@ -18,8 +18,8 @@ export const AppRouter = () => {
           <AppRoute path="/help" layout={AppNavMenuLayout} component={Help} />
           <AppRoute path="/about" layout={AppNavMenuLayout} component={About} />
           <AppRoute path="/profile" layout={AppAdminLayout} component={Admin} />
-          <Route  path="/"  component={Authentication} />
-          <Route component={NotFound}/>
+          <Route exact path="/" component={Authentication} />
+          <Route path="*" component={NotFound} />
         </Switch>
       </div>
     </BrowserRouter >
