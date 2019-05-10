@@ -12,6 +12,7 @@
     "authentication_page_or":"veya",
     "authentication_page_and":"ve",
     "authentication_page_goto_sign_in":"hesabınıza giriş yapın",
+    "authentication_page_create_an_account":"hesap oluşturun",
     "authentication_page_username":"Kullanıcı Adı",
     "authentication_page_username_or_email":"Kullanıcı Adı veya Email adresi",
     "authentication_page_password":"Şifre",

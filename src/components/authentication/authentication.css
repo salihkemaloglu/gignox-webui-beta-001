@@ -56,10 +56,18 @@
    .Login {
      padding-top: 60px;
    }
-  
+   input:focus {
+    outline-width: 0;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+      outline: none;
+  } 
 }
 
-
+/* Desktop Styles */
 @media only screen and (min-width: 961px) {
 
 .App {
@@ -104,20 +112,16 @@
 
   }
   .signupForm {
-    margin: 0px 55px 0px 55px;
+    margin: 0px 6% 0px 6%;
   }
 .nav-wrapper {
   padding: 10px;
 }
-  .Login form {
-    margin: 0 auto;
-    max-width: 400px;
-    
-  }
   .loginForm {
-    padding: 15px;
+
     border: none;
     padding: 0;
+    margin: 0px 6% 0px 6% !important;
   }
 }
 .mainSection {
@@ -185,5 +189,13 @@ color: black !important;
     color: blue !important;
     cursor: pointer;
 }
-
+input:focus {
+  outline-width: 0;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
 }
