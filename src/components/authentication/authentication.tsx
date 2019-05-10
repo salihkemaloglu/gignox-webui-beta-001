@@ -16,7 +16,7 @@ import { i18next, lang } from '../../services/localization_service'
 import { DoLoginUserRequest, DoRegisterUserRequest, DoSendEmailRequest, DoCheckVerificationCodeRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from '../../modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
-import ValidationMessage from '../validation';
+import ValidationMessage from '../../helpers/validation_helper';
 // import { DoGetIpAddressRequest } from '../../controllers/ipinfo_controller';
 
 export const Authentication = () => {
@@ -40,10 +40,9 @@ export const Authentication = () => {
         DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
           if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
             sessionStorage.setItem("token", userLoginResponse_.getToken());
-            sessionStorage.setItem("userName", userLoginResponse_.getUsername());
+            sessionStorage.setItem("username", userLoginResponse_.getUsername());
             localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
-            sessionStorage.setItem("routingPage", "true");
-            location.reload();
+            window.location.href = "/home";
           } else {
             console.log(generalResponseModalResponse_.GrpcResponseCode)
             console.log(generalResponseModalResponse_.GrpcResponseMessage)
@@ -95,7 +94,7 @@ export const Authentication = () => {
     } else {
       DoSendEmailRequest(email, function (generalResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
-            console.log("ok")
+          console.log("ok")
         } else {
           console.log(generalResponseModalResponse_.GrpcResponseCode)
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
@@ -158,11 +157,11 @@ export const Authentication = () => {
       DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
-         
+
           username_form.style.border = '2px solid red'
           exist.style.display = 'none';
           non_exist.style.display = 'block';
- 
+
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
           console.log("ok")
 
@@ -176,7 +175,7 @@ export const Authentication = () => {
       var username_form2 = document.getElementById('username_form') as HTMLElement;
       var exist_done = document.getElementById('user_exist_done') as HTMLElement;
       var non_exist_cross = document.getElementById('user_exist_cross') as HTMLElement;
-      
+
       username_form2.style.border = ' 1px solid #ced4da';
       exist_done.style.display = 'none';
       non_exist_cross.style.display = 'none';
@@ -215,7 +214,7 @@ export const Authentication = () => {
       non_exist_cross.style.display = 'none';
     }
   }
-  }
+
   function handlePasswordChangeForRegister(e: any) {
     user.setPassword(e.target.value)
   }
@@ -255,24 +254,24 @@ export const Authentication = () => {
           <div className="Signup" style={{ display: fade === "signup" ? 'block' : 'none', paddingTop: '60px' }}>
             <form className="signupForm">
               <label>{i18next.t("authentication_page_or")} <a className="signin-title" onClick={() => setFade("signin")} style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_goto_sign_in")}</a></label>
-              <FormGroup style={{display: 'flow-root'}}>
-                <label style={{width: '100%'}}>{i18next.t("authentication_page_username")}</label>
-                <FormControl autoFocus type="text" style={{width: '88%', float: 'left'}} onChange={handleUsernameChangeForRegister} id="username_form"/>
-                <span style={{padding: '5px', display: 'none', width: '10%', float: 'left'}} id="user_exist_done"><Done style={{color: 'green', fontSize: '33px'}}/></span>
-                <span style={{padding: '5px', display: 'none', width: '10%', float: 'left'}} id="user_exist_cross"><Cross style={{color: 'red', fontSize: '33px'}}/></span>
-                <ValidationMessage color="red" value="KULLANCI ADI GEÇERSİZ"/>
+              <FormGroup style={{ display: 'flow-root' }}>
+                <label style={{ width: '100%' }}>{i18next.t("authentication_page_username")}</label>
+                <FormControl autoFocus autoComplete="new-username" type="text" style={{ width: '88%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
+                <span style={{ padding: '5px', display: 'none', width: '10%', float: 'left' }} id="user_exist_done"><Done style={{ color: 'green', fontSize: '33px' }} /></span>
+                <span style={{ padding: '5px', display: 'none', width: '10%', float: 'left' }} id="user_exist_cross"><Cross style={{ color: 'red', fontSize: '33px' }} /></span>
+                <ValidationMessage color="red" value="KULLANCI ADI GEÇERSİZ" />
               </FormGroup>
-              <FormGroup style={{display: 'flow-root'}}>
-                <label style={{width: '100%'}}>Email</label>
-                <FormControl autoFocus type="email" style={{width: '88%', float: 'left'}} onChange={handleEmailChangeForRegister}  id="email_form"/>
-                <span style={{padding: '5px', display: 'none', width: '10%', float: 'left'}} id="email_exist_done"><Done style={{color: 'green', fontSize: '33px'}}/></span>
-                <span style={{padding: '5px', display: 'none', width: '10%', float: 'left'}} id="email_exist_cross"><Cross style={{color: 'red', fontSize: '33px'}}/></span>
-                <ValidationMessage color="green" value="Geçersiz email"/>
+              <FormGroup style={{ display: 'flow-root' }}>
+                <label style={{ width: '100%' }}>Email</label>
+                <FormControl autoFocus type="email" style={{ width: '88%', float: 'left' }} onChange={handleEmailChangeForRegister} id="email_form" />
+                <span style={{ padding: '5px', display: 'none', width: '10%', float: 'left' }} id="email_exist_done"><Done style={{ color: 'green', fontSize: '33px' }} /></span>
+                <span style={{ padding: '5px', display: 'none', width: '10%', float: 'left' }} id="email_exist_cross"><Cross style={{ color: 'red', fontSize: '33px' }} /></span>
+                <ValidationMessage color="green" value="Geçersiz email" />
               </FormGroup>
-              <FormGroup style={{display: 'flow-root'}}>
-                <label style={{width: '100%'}}>{i18next.t("authentication_page_password")}</label>
-                <FormControl type="password"  style={{width: '88%', float: 'left'}}/>
-                <ValidationMessage color="blue" value="Geçersiz Şifre"/>
+              <FormGroup style={{ display: 'flow-root' }}>
+                <label style={{ width: '100%' }}>{i18next.t("authentication_page_password")}</label>
+                <FormControl type="password" autoComplete="new-password" style={{ width: '88%', float: 'left' }} onChange={handlePasswordChangeForRegister} />
+                <ValidationMessage color="blue" value="Geçersiz Şifre" />
               </FormGroup>
               {(() => {
                 switch (lang) {
@@ -308,7 +307,7 @@ export const Authentication = () => {
 
           {/* user sign-in forms */}
           <div className="Login" style={{ display: fade === "signin" ? 'block' : 'none' }}>
-            <form className="loginForm">  
+            <form className="loginForm">
               <FormGroup >
                 <label>{i18next.t("authentication_page_username_or_email")}</label>
                 <FormControl autoFocus type="email" id="usernameLogin" onChange={handleEmailChangeForLogin} />
@@ -339,10 +338,8 @@ export const Authentication = () => {
             </form>
           </div>
 
-
-
         </section>
       </section>
-      </div>    
+    </div>
   );
 };

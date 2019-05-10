@@ -79,7 +79,7 @@
     background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
     padding: 10px;
     height: 65px;
-    width: 100%;
+    width: 95%;
     z-index: 1000;
   }
   
@@ -136,7 +136,7 @@
     background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
     padding: 10px;
     height: 65px;
-    width: 100%;
+    width: 95%;
     z-index: 1000;
   }
 }

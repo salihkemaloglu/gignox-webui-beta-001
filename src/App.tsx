@@ -1,27 +1,20 @@
 import * as React from 'react';
-import { Authentication, NavMenu, TopMenu, Admin } from './components';
+import { NavMenu, TopMenu } from './components';
 
-export const App = () => {
-  if (sessionStorage.getItem("routingPage") === "nav_menu") {
-    return (
-      <div className='main-nav'>
-        <TopMenu />
-        <NavMenu />
-      </div>
-    );
-  }
-  else if (sessionStorage.getItem("routingPage") === "user_admin") {
-    return (
-      <div className='main-nav'>
+export const AppNavMenuLayout = props => {
+  return (
+    <div className='main-nav'>
       <TopMenu />
-      <Admin />
+      <NavMenu />
+      {props.children}
     </div>
-    
-    );
-  }
-  else {
-    return (
-      <Authentication />
-    );
-  }
+  );
+};
+export const AppAdminLayout = props => {
+  return (
+    <div className='main-nav'>
+      <TopMenu />
+      {props.children}
+    </div>
+  );
 };
