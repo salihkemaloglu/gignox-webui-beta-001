@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Navbar, Form, FormControl } from 'react-bootstrap';
+
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Menu from '@material-ui/icons/Menu';
@@ -54,9 +55,10 @@ export const TopMenu = () => {
     }
     return (
         <Navbar variant="dark" className="top_menu">
-            <div style={{ width: '15%' }}>
-                <a href="/home"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent} className="logo_word" alt="logo" /></a>
-            </div>
+            <a href="/home" className="logo_link">
+                <img src={logo} className="App-logo" alt="logo" />
+                <img src={logotransparent} className="logo_word" alt="logo" />
+            </a>
             <div className="mr-auto-topmenu">
                 <div className="gigx1">
                     <div className="gigx2">

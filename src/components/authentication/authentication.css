@@ -186,7 +186,7 @@ color: black !important;
   padding: 4px;
 }
 .forgot-password-link {
-    color: blue !important;
+    color: #1da1f2!important;
     cursor: pointer;
 }
 input:focus {
@@ -194,8 +194,9 @@ input:focus {
 }
 input:focus,
 select:focus,
-textarea:focus,
+textarea:focus, 
 button:focus {
     outline: none;
 }
+
 }

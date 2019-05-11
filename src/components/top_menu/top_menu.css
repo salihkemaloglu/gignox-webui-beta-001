@@ -79,7 +79,7 @@
     background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
     padding: 10px;
     height: 65px;
-    width: 95%;
+    width: 100%;
     z-index: 1000;
   }
   
@@ -165,7 +165,7 @@
     background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
     padding: 10px;
     height: 65px;
-    width: 95%;
+    width: 100%;
     z-index: 1000;
   }
 }
@@ -218,7 +218,7 @@
   }
   .mr-auto-topmenu{
     width: 100%;
-    padding-left: 67px;
+    padding-left: 80px;
     margin: 0;
   }
   .logo_link{

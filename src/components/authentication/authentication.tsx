@@ -30,6 +30,8 @@ export const Authentication = () => {
   // }
 
   function login() {
+    var login_button = document.getElementById('login_button') as HTMLButtonElement;
+    login_button.disabled = true;
     if (!userLogin.getUsername() || !userLogin.getPassword()) {
       let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
       let password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
@@ -39,7 +41,7 @@ export const Authentication = () => {
         DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
           if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
             sessionStorage.setItem("token", userLoginResponse_.getToken());
-            sessionStorage.setItem("userName", userLoginResponse_.getUsername());
+            sessionStorage.setItem("username", userLoginResponse_.getUsername());
             localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
             sessionStorage.setItem("routingPage", "nav_menu");
             window.location.href = '/home'
@@ -67,6 +69,8 @@ export const Authentication = () => {
         }
       });
     }
+    login_button.disabled = false;
+
   }
   function handleEmailChangeForLogin(e: any) {
     userLogin.setUsername(e.target.value)
@@ -97,7 +101,7 @@ export const Authentication = () => {
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
           console.log("ok")
 
-          
+
           validation_username.innerText = "Bu sizin kullanıcı adınız olacak";
           validation_username.style.color = "green"
           validation_username.style.display = "block"
@@ -144,7 +148,7 @@ export const Authentication = () => {
 
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
           console.log("ok")
-          
+
           validation_email.innerText = "Bu email adresine doğrulama mail'i göndereceğiz";
           validation_email.style.color = "green"
           validation_email.style.display = "block"
@@ -198,14 +202,14 @@ export const Authentication = () => {
                 <FormControl autoFocus type="text" style={{ width: '100%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
                 <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="user_exist_done"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                 <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="user_exist_cross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
-                <div className="validation_box" id="validation_username" style={{ display: "none", fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px'}}>validation</div>
+                <div className="validation_box" id="validation_username" style={{ display: "none", fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px' }}>validation</div>
               </FormGroup>
               <FormGroup style={{ display: 'flow-root' }}>
                 <label id="email_label" style={{ width: '100%' }}>Email</label>
                 <FormControl autoFocus type="email" style={{ width: '100%', float: 'left' }} onChange={handleEmailChangeForRegister} id="email_form" />
                 <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="email_exist_done"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                 <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="email_exist_cross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
-                <div className="validation_box" id="validation_email" style={{ display: "none", fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px'}}>validation</div>
+                <div className="validation_box" id="validation_email" style={{ display: "none", fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px' }}>validation</div>
               </FormGroup>
               <FormGroup style={{ display: 'flow-root' }}>
                 <label style={{ width: '100%' }}>{i18next.t("authentication_page_password")}</label>
@@ -238,9 +242,10 @@ export const Authentication = () => {
                 <label>{i18next.t("authentication_page_password")}</label>
                 <FormControl type="password" id="passwordLogin" onChange={handlePasswordChangeForLogin} />
               </FormGroup>
-              <Button onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} >
+              <Button onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} id="login_button">
                 {i18next.t("authentication_page_sign_in")}
               </Button>
+
               <div className="login-need-help"><a className="forgot-password-link" onClick={() => setFade("reset")}>
                 {i18next.t("authentication_page_forgot_password")}</a></div>
             </form>
