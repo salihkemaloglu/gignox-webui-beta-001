@@ -5,10 +5,6 @@ import { FormGroup, FormControl, Button, Nav, Dropdown, DropdownButton } from 'r
 import Done from '@material-ui/icons/Done';
 import Cross from '@material-ui/icons/WarningOutlined';
 
-
-var logo = require('../../app_root/images/logo.png');
-var logoGignox = require('../../app_root/images/logo_gignox.png');
-var logos = require('../../app_root/images/authentication_page_background_image.png');
 import './authentication.css';
 import { useState } from 'react';
 import { UserLogin, User } from '../../proto/gigxRR_pb';
@@ -16,6 +12,10 @@ import { i18next, lang } from '../../services/localization_service'
 import { DoLoginUserRequest, DoRegisterUserRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
+
+var logo = require('../../app_root/images/logo.png');
+var logoGignox = require('../../app_root/images/logo_gignox.png');
+var logos = require('../../app_root/images/authentication_page_background_image.png');
 // import { DoGetIpAddressRequest } from '../../controllers/ipinfo_controller';
 
 export const Authentication = () => {
@@ -39,10 +39,10 @@ export const Authentication = () => {
         DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
           if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
             sessionStorage.setItem("token", userLoginResponse_.getToken());
-            sessionStorage.setItem("userName", userLoginResponse_.getUsername());
+            sessionStorage.setItem("username", userLoginResponse_.getUsername());
             localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
             sessionStorage.setItem("routingPage", "nav_menu");
-            window.location.href = '/home'
+            window.location.href = '/'
           } else {
             console.log(generalResponseModalResponse_.GrpcResponseCode)
             console.log(generalResponseModalResponse_.GrpcResponseMessage)
@@ -83,6 +83,7 @@ export const Authentication = () => {
       var non_exist = document.getElementById('user_exist_cross') as HTMLElement;
 
       user.setUsername(e.target.value)
+      user.setEmail("")
       DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
@@ -130,6 +131,7 @@ export const Authentication = () => {
       var non_exist = document.getElementById('email_exist_cross') as HTMLElement;
 
       user.setEmail(e.target.value)
+      user.setUsername("")
       DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
@@ -195,7 +197,7 @@ export const Authentication = () => {
               <label>{i18next.t("authentication_page_or")} <a className="signin-title" onClick={() => setFade("signin")} style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_goto_sign_in")}</a></label>
               <FormGroup style={{ display: 'flow-root' }}>
                 <label id="username_label" style={{ width: '100%' }}>{i18next.t("authentication_page_username")}</label>
-                <FormControl autoFocus type="text" style={{ width: '100%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
+                <FormControl autoFocus autoComplete="new-username" type="text" style={{ width: '100%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
                 <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="user_exist_done"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                 <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="user_exist_cross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
                 <div className="validation_box" id="validation_username" style={{ display: "none", fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px'}}>validation</div>
@@ -209,7 +211,7 @@ export const Authentication = () => {
               </FormGroup>
               <FormGroup style={{ display: 'flow-root' }}>
                 <label style={{ width: '100%' }}>{i18next.t("authentication_page_password")}</label>
-                <FormControl type="password" style={{ width: '100%', float: 'left' }} />
+                <FormControl type="password" autoComplete="new-password" style={{ width: '100%', float: 'left' }} />
               </FormGroup>
               {(() => {
                 switch (lang) {

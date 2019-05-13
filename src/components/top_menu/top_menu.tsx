@@ -55,7 +55,7 @@ export const TopMenu = () => {
     return (
         <Navbar variant="dark" className="top_menu">
             <div style={{ width: '15%' }}>
-                <a href="/home"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent} className="logo_word" alt="logo" /></a>
+                <a href="/"><img src={logo} className="App-logo" alt="logo" /><img src={logotransparent} className="logo_word" alt="logo" /></a>
             </div>
             <div className="mr-auto-topmenu">
                 <div className="gigx1">
@@ -82,7 +82,7 @@ export const TopMenu = () => {
                                 <ul className="dropdown">
                                     <li><a href="profile" ><PermIdentity /> Profil</a></li>
                                     <li><a href=""><Settings /> Ayarlar</a></li>
-                                    <li><a href="/" onClick={SignOut}><ExitToApp /> Sign out</a></li>
+                                    <li><a href="/authentication" onClick={SignOut}><ExitToApp /> Sign out</a></li>
                                 </ul>
                             </div>
                         </div>
