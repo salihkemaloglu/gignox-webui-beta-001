@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Navbar, Form, FormControl } from 'react-bootstrap';
-
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Menu from '@material-ui/icons/Menu';
@@ -32,29 +30,14 @@ export const TopMenu = () => {
             }
         });
     }
-    // ----Left side bar menu open and close action in mobile and tablet size------
-    //   var sidebarToggle = "closed";
-    //   var leftSidebarToggle = document.getElementById("toggle_id") as HTMLElement;
-    //   var leftSidebar = document.getElementById("left_sidebar") as HTMLElement;
-    //   if (leftSidebarToggle) {
-    //     leftSidebarToggle.addEventListener('click', function () {
-    //       if (sidebarToggle == "closed") {
-    //         leftSidebar.style.display = "block";
-    //         sidebarToggle = "opened";
-    //       }
-    //       else {
-    //         leftSidebar.style.display = "none";
-    //         sidebarToggle = "closed";
-    //       }
-    //     });
-    //   }
 
     function SignOut() {
         sessionStorage.removeItem("userName");
         sessionStorage.removeItem("token");
     }
+    
     return (
-        <Navbar variant="dark" className="top_menu">
+        <nav className="top_menu">
             <a href="/home" className="logo_link">
                 <img src={logo} className="App-logo" alt="logo" />
                 <img src={logotransparent} className="logo_word" alt="logo" />
@@ -63,9 +46,9 @@ export const TopMenu = () => {
                 <div className="gigx1">
                     <div className="gigx2">
                         <div className="gigx3">
-                            <Form className="inputForm" inline style={{ width: '100%', height: '85%' }}>
-                                <FormControl type="text" placeholder="Search on gignox" className="searchBox" />
-                            </Form>
+                            <form className="inputForm" style={{ width: '100%', height: '85%' }}>
+                                <input type="text" placeholder="Search on gignox" className="searchBox" />
+                            </form>
                         </div>
                         <div className="gigx4">
                             <span><SearchOutlined className="gigx5" /></span>
@@ -94,7 +77,7 @@ export const TopMenu = () => {
             <div className="toggle_menu" id="toggle_id">
                 <Menu />
             </div>
-        </Navbar>
+        </nav>
     );
 }
 

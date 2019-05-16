@@ -23,6 +23,42 @@
   .Login {
     padding-top: 60px;
   }
+  .input_control {
+    display: block;
+      width: 100%;
+      height: calc(2.25rem + 2px);
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  .btn_primary {
+    color: #fff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  .language_dropdown {
+    width: 35% !important;
+    float: right;
+    background-color: rgb(204, 247, 114) !important;
+    color: black !important;
+    display: inline-table !important;
+  }
 }
 
 /* Tablet Styles */
@@ -65,6 +101,42 @@
   button:focus {
       outline: none;
   } 
+  .input_control {
+    display: block;
+      width: 100%;
+      height: calc(2.25rem + 2px);
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  .btn_primary {
+    color: #fff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  .language_dropdown {
+    width: 35% !important;
+    float: right;
+    background-color: rgb(204, 247, 114) !important;
+    color: black !important;
+    display: inline-table !important;
+  }
 }
 
 /* Desktop Styles */
@@ -106,6 +178,7 @@
 .barBaz {
   color: tomato;
 }
+
 @media all and (min-width: 480px) {
   .Login {
     padding: 60px 0;
@@ -113,6 +186,7 @@
   }
   .signupForm {
     margin: 0px 6% 0px 6%;
+    line-height: 1.8;
   }
 .nav-wrapper {
   padding: 10px;
@@ -121,9 +195,11 @@
 
     border: none;
     padding: 0;
+    line-height: 1.8;
     margin: 0px 6% 0px 6% !important;
   }
 }
+
 .mainSection {
   display: -webkit-box;
   height: stretch;
@@ -198,5 +274,46 @@ textarea:focus,
 button:focus {
     outline: none;
 }
-
+.input_control {
+  display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.input_control::placeholder {
+   color: #cdcfd0;
+}
+  .btn_primary {
+    color: #fff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    cursor: pointer;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  label {
+    padding: 5px;
+  }
+  .language_dropdown {
+    width: 35% !important;
+    float: right;
+    background-color: rgb(204, 247, 114) !important;
+    color: black !important;
+    display: inline-table !important;
+  }
 }

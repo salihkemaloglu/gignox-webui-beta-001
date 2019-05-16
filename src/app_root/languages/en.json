@@ -27,6 +27,7 @@
     "authentication_page_verificate_code":"Verificate the code",
     "authentication_page_verification_code_title":"We sent a verification code to your e-mail address",
     "authentication_page_verification_code_info":"Enter the code below to confirm your account.",
-    "authentication_page_verificate_did_not_get":"Didn't you get an e-mail?"
+    "authentication_page_verificate_did_not_get":"Didn't you get an e-mail?",
+    "authentication_page_language":"Language"
 }
 

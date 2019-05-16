@@ -27,5 +27,6 @@
     "authentication_page_verificate_code":"Kodu doğrula",
     "authentication_page_verification_code_title":"Mail adresine bir doğrulama kodu gönderdik",
     "authentication_page_verification_code_info":"Hesabını onaylamak sana gelen kodu aşağı gir.",
-    "authentication_page_verificate_did_not_get":"E-posta almadın mı?"
+    "authentication_page_verificate_did_not_get":"E-posta almadın mı?",
+    "authentication_page_language":"Dil"
 }
