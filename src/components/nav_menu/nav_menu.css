@@ -224,6 +224,7 @@ color: orange;
       height: stretch !important ;
       width: 295px;
       z-index: 1000;
+      float: left;
    }
 
 

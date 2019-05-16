@@ -5,8 +5,11 @@ export const AppNavMenuLayout = props => {
   return (
     <div className='main-nav'>
       <TopMenu />
-      <NavMenu />
-      {props.children}
+      <div className="left_side_bar" id="left_sidebar">
+        <NavMenu />
+        {props.children}
+      </div>
+      
     </div>
   );
 };
