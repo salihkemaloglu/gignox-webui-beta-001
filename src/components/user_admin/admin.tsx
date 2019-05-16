@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './admin.css';
-import { Nav, Navbar } from 'react-bootstrap';
 import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 
@@ -108,8 +107,8 @@ export const Admin = () => {
     return (
     <div>
         <div className="p_left_side_bar" id="left_sidebar">
-        <Navbar className="p_float-left">
-          <Nav className="p_mr-auto">
+        <nav className="p_float-left">
+          <div className="p_mr-auto">
             <div className="p_leftSideBar">
             <IndexLinkContainer to="" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
                 <a><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Your Profile</span></a>
@@ -127,8 +126,8 @@ export const Admin = () => {
                 <a><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Sign out</span></a>
               </IndexLinkContainer>
             </div>
-          </Nav>
-        </Navbar>
+          </div>
+        </nav>
       </div>
         <div className="admin_page">
            <div className="container">
