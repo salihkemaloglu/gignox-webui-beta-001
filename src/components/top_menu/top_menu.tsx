@@ -82,7 +82,7 @@ export const TopMenu = () => {
                                 <ul className="dropdown">
                                     <li><a href="profile" ><PermIdentity /> Profil</a></li>
                                     <li><a href=""><Settings /> Ayarlar</a></li>
-                                    <li><a href="/authentication" onClick={SignOut}><ExitToApp /> Sign out</a></li>
+                                    <li><a href="/" onClick={SignOut}><ExitToApp /> Sign out</a></li>
                                 </ul>
                             </div>
                         </div>

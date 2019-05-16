@@ -7,14 +7,14 @@ export const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
   let token = sessionStorage.getItem("token") === null ? "null" : sessionStorage.getItem("token")
   if (username != "null" && token != "null") {
     isSignedIn = true
-    if (location.pathname == "/authentication") {
+    if (location.pathname == "/") {
       return (
         <Route
           {...rest}
           render={props => (
             <Redirect
               to={{
-                pathname: '/',
+                pathname: '/home',
                 state: { from: props.location }
               }}
             />
@@ -34,7 +34,7 @@ export const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
         ) : (
             <Redirect
               to={{
-                pathname: '/authentication',
+                pathname: '/',
                 state: { from: props.location }
               }}
             />
@@ -47,14 +47,14 @@ export const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
 export const AuthenticaitonRoute = ({ component: Component, ...rest }) => {
   let username = sessionStorage.getItem("username") === null ? "null" : sessionStorage.getItem("username")
   let token = sessionStorage.getItem("token") === null ? "null" : sessionStorage.getItem("token")
-  if (username != "null" && token != "null" && location.pathname == "/authentication") {
+  if (username != "null" && token != "null" && location.pathname == "/") {
     return (
       <Route
         {...rest}
         render={props => (
           <Redirect
             to={{
-              pathname: '/',
+              pathname: '/home',
               state: { from: props.location }
             }}
           />

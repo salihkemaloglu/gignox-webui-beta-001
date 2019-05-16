@@ -44,7 +44,7 @@ export const Authentication = () => {
             sessionStorage.setItem("username", userLoginResponse_.getUsername());
             localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
             sessionStorage.setItem("routingPage", "nav_menu");
-            window.location.href = '/'
+            window.location.href = '/home'
           } else {
             console.log(generalResponseModalResponse_.GrpcResponseCode)
             console.log(generalResponseModalResponse_.GrpcResponseMessage)

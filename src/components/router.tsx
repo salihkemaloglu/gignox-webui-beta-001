@@ -20,11 +20,11 @@ export const AppRouter = () => {
     <BrowserRouter>
       <div className="container-fluid" style={{ padding: 0, height: '-webkit-fill-available' }}>
         <Switch>
-          <AppRoute exact path="/" layout={AppNavMenuLayout} component={WaitingComponent(Home)} />
+          <AppRoute path="/home" layout={AppNavMenuLayout} component={WaitingComponent(Home)} />
           <AppRoute path="/help" layout={AppNavMenuLayout} component={WaitingComponent(Help)} />
           <AppRoute path="/about" layout={AppNavMenuLayout} component={WaitingComponent(About)} />
           <AppRoute path="/profile" layout={AppAdminLayout} component={WaitingComponent(Admin)} />
-          <AuthenticaitonRoute  path="/authentication"  component={WaitingComponent(Authentication)} />
+          <AuthenticaitonRoute exact path="/"  component={WaitingComponent(Authentication)} />
           <Route exact path="/password_reset/:id" component={WaitingComponent(PasswordReset)} />
           <Route path="*" component={WaitingComponent(NotFound)} />
         </Switch>
