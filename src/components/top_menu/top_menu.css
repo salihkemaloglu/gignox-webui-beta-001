@@ -9,7 +9,10 @@
     height: 55px;
     width: 55px;
   }
-  
+  .topmenu_logo_word{
+    width: 92px;
+    margin-bottom: 6px;
+  }
   .App-header {
     background-color: #222;
     height: 150px;
@@ -37,9 +40,7 @@
    width: 35px;
    height: 35px;
   }
-  .logo_word{
-    width: 90px;
-  }
+
   .logo_link {
     width: 200px !important;
     padding: 5px;
@@ -59,13 +60,12 @@
   .searchBox {
     width: 100% !important;
     border: 1px solid #3C4252 !important;
-    background-color: #3C4252 !important;
+    background: linear-gradient(to right, #2b2f43 0%, #2b2f43 100%) !important;
     margin-left: 33 !important;
     width: 100% !important;
     height: 120% !important;
     border: 1px solid #3C4252 !important;
-    background-color: #3C4252 !important;
-    padding-right: 57px !important;
+    padding-right: 9px !important;
     padding: .375rem .75rem;
     font-size: 1rem;
     font-weight: 400;
@@ -97,7 +97,7 @@
     padding: 10px;
   }
   .top_menu{
-    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    background: linear-gradient(to right, #252839 0%, #252839 100%);
     padding: 10px;
     height: 65px;
     width: 100%;
@@ -151,11 +151,12 @@ align-items: center;
    width: 35px;
    height: 35px;
   }
-  .logo_word{
-    width: 90px;
+  .topmenu_logo_word{
+    width: 115px;
+    margin-bottom: 5px;
   }
   .logo_link {
-    width: 200px !important;
+    width: 230px !important;
     padding: 5px;
   }
   .toggle_menu {
@@ -173,13 +174,12 @@ align-items: center;
   .searchBox {
     width: 100% !important;
     border: 1px solid #3C4252 !important;
-    background-color: #3C4252 !important;
+    background: linear-gradient(to right, #2b2f43 0%, #2b2f43 100%) !important;
     margin-left: 33 !important;
     width: 100% !important;
     height: 120% !important;
     border: 1px solid #3C4252 !important;
-    background-color: #3C4252 !important;
-    padding-right: 57px !important;
+    padding-right: 9px !important;
     padding: .375rem .75rem;
     font-size: 1rem;
     font-weight: 400;
@@ -207,7 +207,7 @@ align-items: center;
     padding: 10px;
   }
   .top_menu{
-    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    background: linear-gradient(to right, #252839 0%, #252839 100%);
     padding: 10px;
     height: 65px;
     width: 100%;
@@ -221,7 +221,7 @@ align-items: center;
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
   .top_menu{
-    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    background: linear-gradient(to right, #252839 0%, #252839 100%);
     padding: 10px;
     height: 65px;
     width: 100%;
@@ -269,7 +269,7 @@ align-items: center;
   }
   .mr-auto-topmenu{
     width: 100%;
-    padding-left: 80px;
+    padding-left: 55px;
     margin: 0;
   }
   .logo_link{
@@ -277,8 +277,9 @@ align-items: center;
      padding: 10px;
      display: contents;
   }
-  .logo_word {
+  .topmenu_logo_word {
     width: 150px;
+    margin: 0;
   }
 .profil_bar{
    width: 30%;
@@ -290,8 +291,8 @@ align-items: center;
 }
 .App-logo {
   animation: App-logo-spin infinite 40s linear;
-  height: 55px;
-  width: 55px;
+  height: 45px;
+  width: 45px;
 }
 
 .App-header {
@@ -319,7 +320,7 @@ align-items: center;
     width: 100% !important;
     height: 120% !important;
     border: 1px solid #3C4252 !important;
-    background-color: #3C4252 !important;
+    background: linear-gradient(to right, #2b2f43 0%, #2b2f43 100%) !important;
     padding-right: 57px !important;
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -450,7 +451,8 @@ align-items: center;
 .wrapper-dropdown-3 .dropdown {
   /* Size & position */
   padding-left: 5px;
-    top: 7px;
+  position: absolute;
+    top: 60px;
     left: 13px;
     right: 0;
 margin-top: 5px;
@@ -470,15 +472,20 @@ margin-top: 5px;
 }
 
 .wrapper-dropdown-3 .dropdown li a {
-    display: block;
+    display: inline-flex  ;
     padding: 10px;
     text-decoration: none;
     color: #8aa8bd;
-    border-bottom: 1px solid #e6e8ea;
+    
     box-shadow: inset 0 1px 0 rgba(255,255,255,1);
     transition: all 0.3s ease-out;
 }
-
+.dropdown li {
+  border-bottom: 1px solid #e6e8ea;
+}
+.dropdown li a span{
+  padding-left: 10px;
+}
 .wrapper-dropdown-3 .dropdown li i {
     float: right;
     color: inherit;
@@ -495,7 +502,7 @@ margin-top: 5px;
 
 /* Hover state */
 
-.wrapper-dropdown-3 .dropdown li:hover a {
+.wrapper-dropdown-3 .dropdown li:hover {
     background: #e2ffff;
 }
 .wrapper-dropdown-3 .dropdown:after {

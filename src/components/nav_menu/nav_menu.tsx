@@ -8,6 +8,7 @@ import AddCircleOutlineOutlined from '@material-ui/icons/AddBoxOutlined';
 import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import FolderOpenOutlined from '@material-ui/icons/FolderOpenOutlined';
 import SignOut from '@material-ui/icons/ExitToApp';
+
 import { Progress } from 'semantic-ui-react';
 
 
@@ -55,6 +56,7 @@ export const NavMenu = () => {
     var userMenuBar = document.getElementById("dd") as HTMLElement;
     if (userMenu) {
       userMenu.addEventListener('click', function (e: any) {
+
         if (userDropdown == "closed") {
           userMenuBar.className = "wrapper-dropdown-3 active";
           userDropdown = "opened";
@@ -100,14 +102,14 @@ export const NavMenu = () => {
 
           <a id="addToggle" className="leftNavItem" style={{ display: '-webkit-inline-box', cursor: 'pointer' }}><span className="leftNavLinkIcon"> <AddCircleOutlineOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">Add</span></a>
           <div id="addToggleMenu" style={{ width: '85%', float: 'right', display: 'none' }}>
-            <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
+            <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid rgb(73, 73, 73)' }}>
               <a><span className="leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">Add File</span></a>
             </IndexLinkContainer>
-            <IndexLinkContainer to="help" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
+            <IndexLinkContainer to="help" className="leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid rgb(73, 73, 73)' }}>
               <a><span className="leftNavLinkIcon"> <FolderOpenOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">Add Folder</span></a>
             </IndexLinkContainer>
           </div>
-          <IndexLinkContainer to="help" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
+          <IndexLinkContainer to="help" className="leftNavItem active" style={{ display: '-webkit-inline-box' }}>
             <a><span className="leftNavLinkIcon"> <ScreenShare className="iconsSvg" /></span><span className="leftNavLinkMenu">Shared With Me</span></a>
           </IndexLinkContainer>
           <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
@@ -125,13 +127,23 @@ export const NavMenu = () => {
           <IndexLinkContainer to="/" className="leftNavItem sign_out">
             <a onClick={SetAuthentication}><span className="leftNavLinkIcon"><SignOut className="iconsSvg" /></span><span className="leftNavLinkMenu">Sign out</span></a>
           </IndexLinkContainer>
-          <div className="leftNavItemStorage">
-            <span className="storage">Storage</span>
-            <Progress percent={now} size='tiny' color="blue" style={{margin: '10px 0px 0px 0px'}}/>
-            <label className="storage" style={{fontSize: '12px'}}>{`${now}%`}</label>
-          </div>
 
+          <div className="leftNavItemStorage" style={{ borderBottom: 'none' }}>
+            <div style={{ padding: '15px' }}>
+              <label style={{ fontSize: '12px', paddingTop: '10px', paddingBottom: '0', color: 'rgb(145, 145, 145)' }}>Toplam alan: 15 GB - ({`${now}%`})</label>
+            </div>
+            <Progress percent={now} size='tiny' color="blue" style={{ margin: '3px 0px 0px 0px' }} />
+
+            {/* <label className="storage" style={{ fontSize: '12px', padding: '0', color: '#cccccc' }}>{`${now}%`}</label> */}
+          </div>
         </div>
+      </div>
+
+      <div className="footer" style={{ position: 'absolute', bottom: '0', textAlign: 'center', width: '250px', marginBottom: '10px' }}>
+        <div className="mb1">
+          <a className="link" style={{ color: '#929292' }}>All right reserved @2019</a>
+        </div>
+
       </div>
     </nav>
   );
