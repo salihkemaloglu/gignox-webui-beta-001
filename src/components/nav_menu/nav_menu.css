@@ -1,5 +1,8 @@
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
+  .footer {
+    display: none;
+  }
  a{
    text-decoration: none !important;
  }
@@ -17,7 +20,7 @@
    }
   .float-left {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0), 0 2px 3px 0 rgba(0, 0, 0, 0.12) !important;
-    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    background: linear-gradient(to right, #2b2f43 0%, #2b2f43 100%);
      padding: 20px !important;
      flex-direction: column !important;
       height: stretch !important ;
@@ -69,20 +72,21 @@
 .leftNavLinkMenu {
   display: block;
   padding: 6px 6px 6px 25px;
-  color: white;
+  color: whitesmoke;
   opacity: 0.8;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.7;
   font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
 }
-
+  
 .leftNavLinkMenu:hover {
-color: orange;
+color: white;
 }
 .storage {
   display: block;
-   padding: 6px 6px 6px 25px;
+  width: 100px !important;
+  padding: 1px 6px 5px 2px !important;
    color: white;
    opacity: 0.8;
    font-size: 16px;
@@ -100,6 +104,9 @@ color: orange;
 
 /* Tablet Styles */
 @media only screen and (min-width: 401px) and (max-width: 960px) {
+  .footer {
+    display: none;
+  }
   a{
     text-decoration: none !important;
   }
@@ -117,7 +124,7 @@ color: orange;
    }
   .float-left {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0), 0 2px 3px 0 rgba(0, 0, 0, 0.12) !important;
-    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    background: linear-gradient(to right, #2b2f43 0%, #2b2f43 100%);
      padding: 20px !important;
      flex-direction: column !important;
       height: stretch !important ;
@@ -184,7 +191,8 @@ color: orange;
 }
 .storage {
   display: block;
-   padding: 6px 6px 6px 25px;
+  width: 100px !important;
+  padding: 1px 6px 5px 2px !important;
    color: white;
    opacity: 0.8;
    font-size: 16px;
@@ -202,6 +210,10 @@ color: orange;
 
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
+  span {
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important;
+    font-size: 14px !important;
+  }
   a{
     text-decoration: none !important;
   }
@@ -218,11 +230,11 @@ color: orange;
   }
    .float-left {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0), 0 2px 3px 0 rgba(0, 0, 0, 0.12) !important;
-    background: linear-gradient(to right, #2D323E 0%, #3C4252 100%);
+    background: linear-gradient(to right, #2b2f43 0%, #2b2f43 100%);
      padding: 20px !important;
      flex-direction: column !important;
       height: stretch !important ;
-      width: 295px;
+      width: 270px;
       z-index: 1000;
       float: left;
    }
@@ -248,7 +260,7 @@ color: orange;
     }
     .leftNavItem {
       color: white;
-      border-bottom: 1px solid  #8c8c8c;
+      border-bottom: 1px solid  #6e6e6e;
       font-size: 12px;
       vertical-align: middle;
       width: 100px;
@@ -268,7 +280,7 @@ color: orange;
     .leftNavLinkMenu {
       display: block;
       padding: 6px 6px 6px 25px;
-      color: white;
+      color: #bab7b7;
       opacity: 0.8;
       font-size: 16px;
       font-weight: 400;
@@ -277,12 +289,13 @@ color: orange;
     }
 
 .leftNavLinkMenu:hover {
-  color: orange;
+  color: white;
 }
   .storage {
        display: block;
-        padding: 6px 6px 6px 25px;
-        color: white;
+       width: 100px !important;
+       padding: 1px 6px 5px 2px !important;
+       color: white;
         opacity: 0.8;
         font-size: 16px;
         font-weight: 400;
@@ -292,12 +305,26 @@ color: orange;
 
     .leftNavLinkIcon {
       font-size: 20px;
-      color: rgb(167, 201, 255);
+      color: white;
       line-height: 2; 
     }
     .left_side_bar{
       display: block !important;
     }
+
+
+
+    
+  .tc {
+    text-align: center;
+}
+.link:link, .link:visited {
+  transition: color .15s ease-in;
+}
+.flex {
+  display: flex;
+}
+
 }
 
 
