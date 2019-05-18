@@ -37,8 +37,11 @@ export class User extends jspb.Message {
   getUpdatedDate(): string;
   setUpdatedDate(value: string): void;
 
-  getLanguageCode(): string;
-  setLanguageCode(value: string): void;
+  getLanguageToken(): string;
+  setLanguageToken(value: string): void;
+
+  getIsConfirmAccount(): boolean;
+  setIsConfirmAccount(value: boolean): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): User.AsObject;
@@ -63,7 +66,8 @@ export namespace User {
     totalSpace: number,
     createdDate: string,
     updatedDate: string,
-    languageCode: string,
+    languageToken: string,
+    isConfirmAccount: boolean,
   }
 }
 
@@ -295,35 +299,43 @@ export namespace UserLogin {
   }
 }
 
-export class Email extends jspb.Message {
+export class GeneralRequest extends jspb.Message {
   getEmailAddress(): string;
   setEmailAddress(value: string): void;
 
   getEmailType(): string;
   setEmailType(value: string): void;
 
-  getRegisterVerificationCode(): string;
-  setRegisterVerificationCode(value: string): void;
+  getRegisterVerificationToken(): string;
+  setRegisterVerificationToken(value: string): void;
 
-  getForgotPasswordVerificationCode(): string;
-  setForgotPasswordVerificationCode(value: string): void;
+  getForgotPasswordVerificationToken(): string;
+  setForgotPasswordVerificationToken(value: string): void;
+
+  getPassword(): string;
+  setPassword(value: string): void;
+
+  getPasswordConfirm(): string;
+  setPasswordConfirm(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Email.AsObject;
-  static toObject(includeInstance: boolean, msg: Email): Email.AsObject;
+  toObject(includeInstance?: boolean): GeneralRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GeneralRequest): GeneralRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: Email, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Email;
-  static deserializeBinaryFromReader(message: Email, reader: jspb.BinaryReader): Email;
+  static serializeBinaryToWriter(message: GeneralRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GeneralRequest;
+  static deserializeBinaryFromReader(message: GeneralRequest, reader: jspb.BinaryReader): GeneralRequest;
 }
 
-export namespace Email {
+export namespace GeneralRequest {
   export type AsObject = {
     emailAddress: string,
     emailType: string,
-    registerVerificationCode: string,
-    forgotPasswordVerificationCode: string,
+    registerVerificationToken: string,
+    forgotPasswordVerificationToken: string,
+    password: string,
+    passwordConfirm: string,
   }
 }
 
@@ -365,6 +377,12 @@ export class IpInformation extends jspb.Message {
   getCountryFlag(): string;
   setCountryFlag(value: string): void;
 
+  getCountryCode(): string;
+  setCountryCode(value: string): void;
+
+  getCountryName(): string;
+  setCountryName(value: string): void;
+
   getGmtOffSet(): number;
   setGmtOffSet(value: number): void;
 
@@ -383,6 +401,8 @@ export namespace IpInformation {
     ipAddress: string,
     languageCode: string,
     countryFlag: string,
+    countryCode: string,
+    countryName: string,
     gmtOffSet: number,
   }
 }
@@ -466,6 +486,50 @@ export class RegisterUserResponse extends jspb.Message {
 }
 
 export namespace RegisterUserResponse {
+  export type AsObject = {
+    generalResponse?: GeneralResponse.AsObject,
+  }
+}
+
+export class CheckUserToRegisterRequest extends jspb.Message {
+  hasUser(): boolean;
+  clearUser(): void;
+  getUser(): User | undefined;
+  setUser(value?: User): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CheckUserToRegisterRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: CheckUserToRegisterRequest): CheckUserToRegisterRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CheckUserToRegisterRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CheckUserToRegisterRequest;
+  static deserializeBinaryFromReader(message: CheckUserToRegisterRequest, reader: jspb.BinaryReader): CheckUserToRegisterRequest;
+}
+
+export namespace CheckUserToRegisterRequest {
+  export type AsObject = {
+    user?: User.AsObject,
+  }
+}
+
+export class CheckUserToRegisterResponse extends jspb.Message {
+  hasGeneralResponse(): boolean;
+  clearGeneralResponse(): void;
+  getGeneralResponse(): GeneralResponse | undefined;
+  setGeneralResponse(value?: GeneralResponse): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CheckUserToRegisterResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: CheckUserToRegisterResponse): CheckUserToRegisterResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CheckUserToRegisterResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CheckUserToRegisterResponse;
+  static deserializeBinaryFromReader(message: CheckUserToRegisterResponse, reader: jspb.BinaryReader): CheckUserToRegisterResponse;
+}
+
+export namespace CheckUserToRegisterResponse {
   export type AsObject = {
     generalResponse?: GeneralResponse.AsObject,
   }
@@ -782,10 +846,10 @@ export namespace DeleteFileResponse {
 }
 
 export class SendEmailRequest extends jspb.Message {
-  hasEmail(): boolean;
-  clearEmail(): void;
-  getEmail(): Email | undefined;
-  setEmail(value?: Email): void;
+  hasGeneralrequest(): boolean;
+  clearGeneralrequest(): void;
+  getGeneralrequest(): GeneralRequest | undefined;
+  setGeneralrequest(value?: GeneralRequest): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): SendEmailRequest.AsObject;
@@ -799,7 +863,7 @@ export class SendEmailRequest extends jspb.Message {
 
 export namespace SendEmailRequest {
   export type AsObject = {
-    email?: Email.AsObject,
+    generalrequest?: GeneralRequest.AsObject,
   }
 }
 
@@ -825,45 +889,45 @@ export namespace SendEmailResponse {
   }
 }
 
-export class CheckVerificationCodeRequest extends jspb.Message {
-  hasEmail(): boolean;
-  clearEmail(): void;
-  getEmail(): Email | undefined;
-  setEmail(value?: Email): void;
+export class CheckVerificationTokenRequest extends jspb.Message {
+  hasGeneralrequest(): boolean;
+  clearGeneralrequest(): void;
+  getGeneralrequest(): GeneralRequest | undefined;
+  setGeneralrequest(value?: GeneralRequest): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): CheckVerificationCodeRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: CheckVerificationCodeRequest): CheckVerificationCodeRequest.AsObject;
+  toObject(includeInstance?: boolean): CheckVerificationTokenRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: CheckVerificationTokenRequest): CheckVerificationTokenRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: CheckVerificationCodeRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): CheckVerificationCodeRequest;
-  static deserializeBinaryFromReader(message: CheckVerificationCodeRequest, reader: jspb.BinaryReader): CheckVerificationCodeRequest;
+  static serializeBinaryToWriter(message: CheckVerificationTokenRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CheckVerificationTokenRequest;
+  static deserializeBinaryFromReader(message: CheckVerificationTokenRequest, reader: jspb.BinaryReader): CheckVerificationTokenRequest;
 }
 
-export namespace CheckVerificationCodeRequest {
+export namespace CheckVerificationTokenRequest {
   export type AsObject = {
-    email?: Email.AsObject,
+    generalrequest?: GeneralRequest.AsObject,
   }
 }
 
-export class CheckVerificationCodeResponse extends jspb.Message {
+export class CheckVerificationTokenResponse extends jspb.Message {
   hasGeneralResponse(): boolean;
   clearGeneralResponse(): void;
   getGeneralResponse(): GeneralResponse | undefined;
   setGeneralResponse(value?: GeneralResponse): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): CheckVerificationCodeResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: CheckVerificationCodeResponse): CheckVerificationCodeResponse.AsObject;
+  toObject(includeInstance?: boolean): CheckVerificationTokenResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: CheckVerificationTokenResponse): CheckVerificationTokenResponse.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: CheckVerificationCodeResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): CheckVerificationCodeResponse;
-  static deserializeBinaryFromReader(message: CheckVerificationCodeResponse, reader: jspb.BinaryReader): CheckVerificationCodeResponse;
+  static serializeBinaryToWriter(message: CheckVerificationTokenResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CheckVerificationTokenResponse;
+  static deserializeBinaryFromReader(message: CheckVerificationTokenResponse, reader: jspb.BinaryReader): CheckVerificationTokenResponse;
 }
 
-export namespace CheckVerificationCodeResponse {
+export namespace CheckVerificationTokenResponse {
   export type AsObject = {
     generalResponse?: GeneralResponse.AsObject,
   }
@@ -908,6 +972,50 @@ export class GetIpInformationResponse extends jspb.Message {
 export namespace GetIpInformationResponse {
   export type AsObject = {
     ipInformation?: IpInformation.AsObject,
+  }
+}
+
+export class ResetUserPasswordRequest extends jspb.Message {
+  hasGeneralrequest(): boolean;
+  clearGeneralrequest(): void;
+  getGeneralrequest(): GeneralRequest | undefined;
+  setGeneralrequest(value?: GeneralRequest): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResetUserPasswordRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ResetUserPasswordRequest): ResetUserPasswordRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ResetUserPasswordRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResetUserPasswordRequest;
+  static deserializeBinaryFromReader(message: ResetUserPasswordRequest, reader: jspb.BinaryReader): ResetUserPasswordRequest;
+}
+
+export namespace ResetUserPasswordRequest {
+  export type AsObject = {
+    generalrequest?: GeneralRequest.AsObject,
+  }
+}
+
+export class ResetUserPasswordResponse extends jspb.Message {
+  hasGeneralResponse(): boolean;
+  clearGeneralResponse(): void;
+  getGeneralResponse(): GeneralResponse | undefined;
+  setGeneralResponse(value?: GeneralResponse): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResetUserPasswordResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ResetUserPasswordResponse): ResetUserPasswordResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ResetUserPasswordResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResetUserPasswordResponse;
+  static deserializeBinaryFromReader(message: ResetUserPasswordResponse, reader: jspb.BinaryReader): ResetUserPasswordResponse;
+}
+
+export namespace ResetUserPasswordResponse {
+  export type AsObject = {
+    generalResponse?: GeneralResponse.AsObject,
   }
 }
 

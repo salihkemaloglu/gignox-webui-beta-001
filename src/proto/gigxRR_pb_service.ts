@@ -30,6 +30,22 @@ export namespace GigxRRService {
     static readonly requestType = proto_gigxRR_pb.RegisterUserRequest;
     static readonly responseType = proto_gigxRR_pb.RegisterUserResponse;
   }
+  export class CheckUserToRegister {
+    static readonly methodName = "CheckUserToRegister";
+    static readonly service = GigxRRService;
+    static readonly requestStream = false;
+    static readonly responseStream = false;
+    static readonly requestType = proto_gigxRR_pb.CheckUserToRegisterRequest;
+    static readonly responseType = proto_gigxRR_pb.CheckUserToRegisterResponse;
+  }
+  export class ResetUserPassword {
+    static readonly methodName = "ResetUserPassword";
+    static readonly service = GigxRRService;
+    static readonly requestStream = false;
+    static readonly responseStream = false;
+    static readonly requestType = proto_gigxRR_pb.ResetUserPasswordRequest;
+    static readonly responseType = proto_gigxRR_pb.ResetUserPasswordResponse;
+  }
   export class UpdateUser {
     static readonly methodName = "UpdateUser";
     static readonly service = GigxRRService;
@@ -62,13 +78,13 @@ export namespace GigxRRService {
     static readonly requestType = proto_gigxRR_pb.GetIpInformationRequest;
     static readonly responseType = proto_gigxRR_pb.GetIpInformationResponse;
   }
-  export class CheckVerificationCode {
-    static readonly methodName = "CheckVerificationCode";
+  export class CheckVerificationToken {
+    static readonly methodName = "CheckVerificationToken";
     static readonly service = GigxRRService;
     static readonly requestStream = false;
     static readonly responseStream = false;
-    static readonly requestType = proto_gigxRR_pb.CheckVerificationCodeRequest;
-    static readonly responseType = proto_gigxRR_pb.CheckVerificationCodeResponse;
+    static readonly requestType = proto_gigxRR_pb.CheckVerificationTokenRequest;
+    static readonly responseType = proto_gigxRR_pb.CheckVerificationTokenResponse;
   }
   export class GetFile {
     static readonly methodName = "GetFile";

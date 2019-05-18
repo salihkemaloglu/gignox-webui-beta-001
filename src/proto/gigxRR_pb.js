@@ -12,16 +12,18 @@ var goog = jspb;
 var global = Function('return this')();
 
 goog.exportSymbol('proto.gigx.Buried', null, global);
-goog.exportSymbol('proto.gigx.CheckVerificationCodeRequest', null, global);
-goog.exportSymbol('proto.gigx.CheckVerificationCodeResponse', null, global);
+goog.exportSymbol('proto.gigx.CheckUserToRegisterRequest', null, global);
+goog.exportSymbol('proto.gigx.CheckUserToRegisterResponse', null, global);
+goog.exportSymbol('proto.gigx.CheckVerificationTokenRequest', null, global);
+goog.exportSymbol('proto.gigx.CheckVerificationTokenResponse', null, global);
 goog.exportSymbol('proto.gigx.DeleteFileRequest', null, global);
 goog.exportSymbol('proto.gigx.DeleteFileResponse', null, global);
 goog.exportSymbol('proto.gigx.DeleteUserRequest', null, global);
 goog.exportSymbol('proto.gigx.DeleteUserResponse', null, global);
-goog.exportSymbol('proto.gigx.Email', null, global);
 goog.exportSymbol('proto.gigx.File', null, global);
 goog.exportSymbol('proto.gigx.Folder', null, global);
 goog.exportSymbol('proto.gigx.Follow', null, global);
+goog.exportSymbol('proto.gigx.GeneralRequest', null, global);
 goog.exportSymbol('proto.gigx.GeneralResponse', null, global);
 goog.exportSymbol('proto.gigx.GetAllFilesRequest', null, global);
 goog.exportSymbol('proto.gigx.GetAllFilesResponse', null, global);
@@ -36,6 +38,8 @@ goog.exportSymbol('proto.gigx.LoginUserRequest', null, global);
 goog.exportSymbol('proto.gigx.LoginUserResponse', null, global);
 goog.exportSymbol('proto.gigx.RegisterUserRequest', null, global);
 goog.exportSymbol('proto.gigx.RegisterUserResponse', null, global);
+goog.exportSymbol('proto.gigx.ResetUserPasswordRequest', null, global);
+goog.exportSymbol('proto.gigx.ResetUserPasswordResponse', null, global);
 goog.exportSymbol('proto.gigx.SendEmailRequest', null, global);
 goog.exportSymbol('proto.gigx.SendEmailResponse', null, global);
 goog.exportSymbol('proto.gigx.UpdateFileRequest', null, global);
@@ -102,7 +106,8 @@ proto.gigx.User.toObject = function(includeInstance, msg) {
     totalSpace: jspb.Message.getFieldWithDefault(msg, 9, 0),
     createdDate: jspb.Message.getFieldWithDefault(msg, 10, ""),
     updatedDate: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    languageCode: jspb.Message.getFieldWithDefault(msg, 12, "")
+    languageToken: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    isConfirmAccount: jspb.Message.getFieldWithDefault(msg, 13, false)
   };
 
   if (includeInstance) {
@@ -185,7 +190,11 @@ proto.gigx.User.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 12:
       var value = /** @type {string} */ (reader.readString());
-      msg.setLanguageCode(value);
+      msg.setLanguageToken(value);
+      break;
+    case 13:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsConfirmAccount(value);
       break;
     default:
       reader.skipField();
@@ -293,10 +302,17 @@ proto.gigx.User.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getLanguageCode();
+  f = message.getLanguageToken();
   if (f.length > 0) {
     writer.writeString(
       12,
+      f
+    );
+  }
+  f = message.getIsConfirmAccount();
+  if (f) {
+    writer.writeBool(
+      13,
       f
     );
   }
@@ -469,17 +485,34 @@ proto.gigx.User.prototype.setUpdatedDate = function(value) {
 
 
 /**
- * optional string language_code = 12;
+ * optional string language_token = 12;
  * @return {string}
  */
-proto.gigx.User.prototype.getLanguageCode = function() {
+proto.gigx.User.prototype.getLanguageToken = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
 
 /** @param {string} value */
-proto.gigx.User.prototype.setLanguageCode = function(value) {
+proto.gigx.User.prototype.setLanguageToken = function(value) {
   jspb.Message.setProto3StringField(this, 12, value);
+};
+
+
+/**
+ * optional bool is_confirm_account = 13;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.gigx.User.prototype.getIsConfirmAccount = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 13, false));
+};
+
+
+/** @param {boolean} value */
+proto.gigx.User.prototype.setIsConfirmAccount = function(value) {
+  jspb.Message.setProto3BooleanField(this, 13, value);
 };
 
 
@@ -2078,12 +2111,12 @@ proto.gigx.UserLogin.prototype.setToken = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.gigx.Email = function(opt_data) {
+proto.gigx.GeneralRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.gigx.Email, jspb.Message);
+goog.inherits(proto.gigx.GeneralRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.gigx.Email.displayName = 'proto.gigx.Email';
+  proto.gigx.GeneralRequest.displayName = 'proto.gigx.GeneralRequest';
 }
 
 
@@ -2098,8 +2131,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.gigx.Email.prototype.toObject = function(opt_includeInstance) {
-  return proto.gigx.Email.toObject(opt_includeInstance, this);
+proto.gigx.GeneralRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.gigx.GeneralRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -2108,16 +2141,18 @@ proto.gigx.Email.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.gigx.Email} msg The msg instance to transform.
+ * @param {!proto.gigx.GeneralRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.gigx.Email.toObject = function(includeInstance, msg) {
+proto.gigx.GeneralRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     emailAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     emailType: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    registerVerificationCode: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    forgotPasswordVerificationCode: jspb.Message.getFieldWithDefault(msg, 4, "")
+    registerVerificationToken: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    forgotPasswordVerificationToken: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    password: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    passwordConfirm: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -2131,23 +2166,23 @@ proto.gigx.Email.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.gigx.Email}
+ * @return {!proto.gigx.GeneralRequest}
  */
-proto.gigx.Email.deserializeBinary = function(bytes) {
+proto.gigx.GeneralRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.gigx.Email;
-  return proto.gigx.Email.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.gigx.GeneralRequest;
+  return proto.gigx.GeneralRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.gigx.Email} msg The message object to deserialize into.
+ * @param {!proto.gigx.GeneralRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.gigx.Email}
+ * @return {!proto.gigx.GeneralRequest}
  */
-proto.gigx.Email.deserializeBinaryFromReader = function(msg, reader) {
+proto.gigx.GeneralRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2164,11 +2199,19 @@ proto.gigx.Email.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setRegisterVerificationCode(value);
+      msg.setRegisterVerificationToken(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setForgotPasswordVerificationCode(value);
+      msg.setForgotPasswordVerificationToken(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPassword(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPasswordConfirm(value);
       break;
     default:
       reader.skipField();
@@ -2183,9 +2226,9 @@ proto.gigx.Email.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.gigx.Email.prototype.serializeBinary = function() {
+proto.gigx.GeneralRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.gigx.Email.serializeBinaryToWriter(this, writer);
+  proto.gigx.GeneralRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2193,11 +2236,11 @@ proto.gigx.Email.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.gigx.Email} message
+ * @param {!proto.gigx.GeneralRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.gigx.Email.serializeBinaryToWriter = function(message, writer) {
+proto.gigx.GeneralRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getEmailAddress();
   if (f.length > 0) {
@@ -2213,17 +2256,31 @@ proto.gigx.Email.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getRegisterVerificationCode();
+  f = message.getRegisterVerificationToken();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getForgotPasswordVerificationCode();
+  f = message.getForgotPasswordVerificationToken();
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getPassword();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getPasswordConfirm();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -2234,13 +2291,13 @@ proto.gigx.Email.serializeBinaryToWriter = function(message, writer) {
  * optional string email_address = 1;
  * @return {string}
  */
-proto.gigx.Email.prototype.getEmailAddress = function() {
+proto.gigx.GeneralRequest.prototype.getEmailAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.gigx.Email.prototype.setEmailAddress = function(value) {
+proto.gigx.GeneralRequest.prototype.setEmailAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -2249,44 +2306,74 @@ proto.gigx.Email.prototype.setEmailAddress = function(value) {
  * optional string email_type = 2;
  * @return {string}
  */
-proto.gigx.Email.prototype.getEmailType = function() {
+proto.gigx.GeneralRequest.prototype.getEmailType = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.gigx.Email.prototype.setEmailType = function(value) {
+proto.gigx.GeneralRequest.prototype.setEmailType = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string register_verification_code = 3;
+ * optional string register_verification_token = 3;
  * @return {string}
  */
-proto.gigx.Email.prototype.getRegisterVerificationCode = function() {
+proto.gigx.GeneralRequest.prototype.getRegisterVerificationToken = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.gigx.Email.prototype.setRegisterVerificationCode = function(value) {
+proto.gigx.GeneralRequest.prototype.setRegisterVerificationToken = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string forgot_password_verification_code = 4;
+ * optional string forgot_password_verification_token = 4;
  * @return {string}
  */
-proto.gigx.Email.prototype.getForgotPasswordVerificationCode = function() {
+proto.gigx.GeneralRequest.prototype.getForgotPasswordVerificationToken = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.gigx.Email.prototype.setForgotPasswordVerificationCode = function(value) {
+proto.gigx.GeneralRequest.prototype.setForgotPasswordVerificationToken = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional string password = 5;
+ * @return {string}
+ */
+proto.gigx.GeneralRequest.prototype.getPassword = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/** @param {string} value */
+proto.gigx.GeneralRequest.prototype.setPassword = function(value) {
+  jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional string password_Confirm = 6;
+ * @return {string}
+ */
+proto.gigx.GeneralRequest.prototype.getPasswordConfirm = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.gigx.GeneralRequest.prototype.setPasswordConfirm = function(value) {
+  jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
@@ -2540,7 +2627,9 @@ proto.gigx.IpInformation.toObject = function(includeInstance, msg) {
     ipAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     languageCode: jspb.Message.getFieldWithDefault(msg, 2, ""),
     countryFlag: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    gmtOffSet: jspb.Message.getFieldWithDefault(msg, 4, 0)
+    countryCode: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    countryName: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    gmtOffSet: jspb.Message.getFieldWithDefault(msg, 6, 0)
   };
 
   if (includeInstance) {
@@ -2590,6 +2679,14 @@ proto.gigx.IpInformation.deserializeBinaryFromReader = function(msg, reader) {
       msg.setCountryFlag(value);
       break;
     case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCountryCode(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCountryName(value);
+      break;
+    case 6:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setGmtOffSet(value);
       break;
@@ -2643,10 +2740,24 @@ proto.gigx.IpInformation.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getCountryCode();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
+  f = message.getCountryName();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
   f = message.getGmtOffSet();
   if (f !== 0) {
     writer.writeInt32(
-      4,
+      6,
       f
     );
   }
@@ -2699,17 +2810,47 @@ proto.gigx.IpInformation.prototype.setCountryFlag = function(value) {
 
 
 /**
- * optional int32 gmt_off_set = 4;
+ * optional string country_code = 4;
+ * @return {string}
+ */
+proto.gigx.IpInformation.prototype.getCountryCode = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/** @param {string} value */
+proto.gigx.IpInformation.prototype.setCountryCode = function(value) {
+  jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional string country_name = 5;
+ * @return {string}
+ */
+proto.gigx.IpInformation.prototype.getCountryName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/** @param {string} value */
+proto.gigx.IpInformation.prototype.setCountryName = function(value) {
+  jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional int32 gmt_off_set = 6;
  * @return {number}
  */
 proto.gigx.IpInformation.prototype.getGmtOffSet = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /** @param {number} value */
 proto.gigx.IpInformation.prototype.setGmtOffSet = function(value) {
-  jspb.Message.setProto3IntField(this, 4, value);
+  jspb.Message.setProto3IntField(this, 6, value);
 };
 
 
@@ -3311,6 +3452,324 @@ proto.gigx.RegisterUserResponse.prototype.clearGeneralResponse = function() {
  * @return {!boolean}
  */
 proto.gigx.RegisterUserResponse.prototype.hasGeneralResponse = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.gigx.CheckUserToRegisterRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.gigx.CheckUserToRegisterRequest, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.gigx.CheckUserToRegisterRequest.displayName = 'proto.gigx.CheckUserToRegisterRequest';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.gigx.CheckUserToRegisterRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.gigx.CheckUserToRegisterRequest.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.gigx.CheckUserToRegisterRequest} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.CheckUserToRegisterRequest.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    user: (f = msg.getUser()) && proto.gigx.User.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.gigx.CheckUserToRegisterRequest}
+ */
+proto.gigx.CheckUserToRegisterRequest.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.gigx.CheckUserToRegisterRequest;
+  return proto.gigx.CheckUserToRegisterRequest.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.gigx.CheckUserToRegisterRequest} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.gigx.CheckUserToRegisterRequest}
+ */
+proto.gigx.CheckUserToRegisterRequest.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.gigx.User;
+      reader.readMessage(value,proto.gigx.User.deserializeBinaryFromReader);
+      msg.setUser(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.gigx.CheckUserToRegisterRequest.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.gigx.CheckUserToRegisterRequest.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.gigx.CheckUserToRegisterRequest} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.CheckUserToRegisterRequest.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getUser();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.gigx.User.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional User user = 1;
+ * @return {?proto.gigx.User}
+ */
+proto.gigx.CheckUserToRegisterRequest.prototype.getUser = function() {
+  return /** @type{?proto.gigx.User} */ (
+    jspb.Message.getWrapperField(this, proto.gigx.User, 1));
+};
+
+
+/** @param {?proto.gigx.User|undefined} value */
+proto.gigx.CheckUserToRegisterRequest.prototype.setUser = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.gigx.CheckUserToRegisterRequest.prototype.clearUser = function() {
+  this.setUser(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.gigx.CheckUserToRegisterRequest.prototype.hasUser = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.gigx.CheckUserToRegisterResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.gigx.CheckUserToRegisterResponse, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.gigx.CheckUserToRegisterResponse.displayName = 'proto.gigx.CheckUserToRegisterResponse';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.gigx.CheckUserToRegisterResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.gigx.CheckUserToRegisterResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.gigx.CheckUserToRegisterResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.CheckUserToRegisterResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    generalResponse: (f = msg.getGeneralResponse()) && proto.gigx.GeneralResponse.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.gigx.CheckUserToRegisterResponse}
+ */
+proto.gigx.CheckUserToRegisterResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.gigx.CheckUserToRegisterResponse;
+  return proto.gigx.CheckUserToRegisterResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.gigx.CheckUserToRegisterResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.gigx.CheckUserToRegisterResponse}
+ */
+proto.gigx.CheckUserToRegisterResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.gigx.GeneralResponse;
+      reader.readMessage(value,proto.gigx.GeneralResponse.deserializeBinaryFromReader);
+      msg.setGeneralResponse(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.gigx.CheckUserToRegisterResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.gigx.CheckUserToRegisterResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.gigx.CheckUserToRegisterResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.CheckUserToRegisterResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getGeneralResponse();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.gigx.GeneralResponse.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional GeneralResponse general_response = 1;
+ * @return {?proto.gigx.GeneralResponse}
+ */
+proto.gigx.CheckUserToRegisterResponse.prototype.getGeneralResponse = function() {
+  return /** @type{?proto.gigx.GeneralResponse} */ (
+    jspb.Message.getWrapperField(this, proto.gigx.GeneralResponse, 1));
+};
+
+
+/** @param {?proto.gigx.GeneralResponse|undefined} value */
+proto.gigx.CheckUserToRegisterResponse.prototype.setGeneralResponse = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.gigx.CheckUserToRegisterResponse.prototype.clearGeneralResponse = function() {
+  this.setGeneralResponse(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.gigx.CheckUserToRegisterResponse.prototype.hasGeneralResponse = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -5591,7 +6050,7 @@ proto.gigx.SendEmailRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.gigx.SendEmailRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    email: (f = msg.getEmail()) && proto.gigx.Email.toObject(includeInstance, f)
+    generalrequest: (f = msg.getGeneralrequest()) && proto.gigx.GeneralRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5629,9 +6088,9 @@ proto.gigx.SendEmailRequest.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.gigx.Email;
-      reader.readMessage(value,proto.gigx.Email.deserializeBinaryFromReader);
-      msg.setEmail(value);
+      var value = new proto.gigx.GeneralRequest;
+      reader.readMessage(value,proto.gigx.GeneralRequest.deserializeBinaryFromReader);
+      msg.setGeneralrequest(value);
       break;
     default:
       reader.skipField();
@@ -5662,35 +6121,35 @@ proto.gigx.SendEmailRequest.prototype.serializeBinary = function() {
  */
 proto.gigx.SendEmailRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getEmail();
+  f = message.getGeneralrequest();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.gigx.Email.serializeBinaryToWriter
+      proto.gigx.GeneralRequest.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Email email = 1;
- * @return {?proto.gigx.Email}
+ * optional GeneralRequest generalRequest = 1;
+ * @return {?proto.gigx.GeneralRequest}
  */
-proto.gigx.SendEmailRequest.prototype.getEmail = function() {
-  return /** @type{?proto.gigx.Email} */ (
-    jspb.Message.getWrapperField(this, proto.gigx.Email, 1));
+proto.gigx.SendEmailRequest.prototype.getGeneralrequest = function() {
+  return /** @type{?proto.gigx.GeneralRequest} */ (
+    jspb.Message.getWrapperField(this, proto.gigx.GeneralRequest, 1));
 };
 
 
-/** @param {?proto.gigx.Email|undefined} value */
-proto.gigx.SendEmailRequest.prototype.setEmail = function(value) {
+/** @param {?proto.gigx.GeneralRequest|undefined} value */
+proto.gigx.SendEmailRequest.prototype.setGeneralrequest = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
 
 
-proto.gigx.SendEmailRequest.prototype.clearEmail = function() {
-  this.setEmail(undefined);
+proto.gigx.SendEmailRequest.prototype.clearGeneralrequest = function() {
+  this.setGeneralrequest(undefined);
 };
 
 
@@ -5698,7 +6157,7 @@ proto.gigx.SendEmailRequest.prototype.clearEmail = function() {
  * Returns whether this field is set.
  * @return {!boolean}
  */
-proto.gigx.SendEmailRequest.prototype.hasEmail = function() {
+proto.gigx.SendEmailRequest.prototype.hasGeneralrequest = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -5873,12 +6332,12 @@ proto.gigx.SendEmailResponse.prototype.hasGeneralResponse = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.gigx.CheckVerificationCodeRequest = function(opt_data) {
+proto.gigx.CheckVerificationTokenRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.gigx.CheckVerificationCodeRequest, jspb.Message);
+goog.inherits(proto.gigx.CheckVerificationTokenRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.gigx.CheckVerificationCodeRequest.displayName = 'proto.gigx.CheckVerificationCodeRequest';
+  proto.gigx.CheckVerificationTokenRequest.displayName = 'proto.gigx.CheckVerificationTokenRequest';
 }
 
 
@@ -5893,8 +6352,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.gigx.CheckVerificationCodeRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.gigx.CheckVerificationCodeRequest.toObject(opt_includeInstance, this);
+proto.gigx.CheckVerificationTokenRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.gigx.CheckVerificationTokenRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -5903,13 +6362,13 @@ proto.gigx.CheckVerificationCodeRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.gigx.CheckVerificationCodeRequest} msg The msg instance to transform.
+ * @param {!proto.gigx.CheckVerificationTokenRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.gigx.CheckVerificationCodeRequest.toObject = function(includeInstance, msg) {
+proto.gigx.CheckVerificationTokenRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    email: (f = msg.getEmail()) && proto.gigx.Email.toObject(includeInstance, f)
+    generalrequest: (f = msg.getGeneralrequest()) && proto.gigx.GeneralRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -5923,23 +6382,23 @@ proto.gigx.CheckVerificationCodeRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.gigx.CheckVerificationCodeRequest}
+ * @return {!proto.gigx.CheckVerificationTokenRequest}
  */
-proto.gigx.CheckVerificationCodeRequest.deserializeBinary = function(bytes) {
+proto.gigx.CheckVerificationTokenRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.gigx.CheckVerificationCodeRequest;
-  return proto.gigx.CheckVerificationCodeRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.gigx.CheckVerificationTokenRequest;
+  return proto.gigx.CheckVerificationTokenRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.gigx.CheckVerificationCodeRequest} msg The message object to deserialize into.
+ * @param {!proto.gigx.CheckVerificationTokenRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.gigx.CheckVerificationCodeRequest}
+ * @return {!proto.gigx.CheckVerificationTokenRequest}
  */
-proto.gigx.CheckVerificationCodeRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.gigx.CheckVerificationTokenRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5947,9 +6406,9 @@ proto.gigx.CheckVerificationCodeRequest.deserializeBinaryFromReader = function(m
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.gigx.Email;
-      reader.readMessage(value,proto.gigx.Email.deserializeBinaryFromReader);
-      msg.setEmail(value);
+      var value = new proto.gigx.GeneralRequest;
+      reader.readMessage(value,proto.gigx.GeneralRequest.deserializeBinaryFromReader);
+      msg.setGeneralrequest(value);
       break;
     default:
       reader.skipField();
@@ -5964,9 +6423,9 @@ proto.gigx.CheckVerificationCodeRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.gigx.CheckVerificationCodeRequest.prototype.serializeBinary = function() {
+proto.gigx.CheckVerificationTokenRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.gigx.CheckVerificationCodeRequest.serializeBinaryToWriter(this, writer);
+  proto.gigx.CheckVerificationTokenRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5974,41 +6433,41 @@ proto.gigx.CheckVerificationCodeRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.gigx.CheckVerificationCodeRequest} message
+ * @param {!proto.gigx.CheckVerificationTokenRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.gigx.CheckVerificationCodeRequest.serializeBinaryToWriter = function(message, writer) {
+proto.gigx.CheckVerificationTokenRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getEmail();
+  f = message.getGeneralrequest();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.gigx.Email.serializeBinaryToWriter
+      proto.gigx.GeneralRequest.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Email email = 1;
- * @return {?proto.gigx.Email}
+ * optional GeneralRequest generalRequest = 1;
+ * @return {?proto.gigx.GeneralRequest}
  */
-proto.gigx.CheckVerificationCodeRequest.prototype.getEmail = function() {
-  return /** @type{?proto.gigx.Email} */ (
-    jspb.Message.getWrapperField(this, proto.gigx.Email, 1));
+proto.gigx.CheckVerificationTokenRequest.prototype.getGeneralrequest = function() {
+  return /** @type{?proto.gigx.GeneralRequest} */ (
+    jspb.Message.getWrapperField(this, proto.gigx.GeneralRequest, 1));
 };
 
 
-/** @param {?proto.gigx.Email|undefined} value */
-proto.gigx.CheckVerificationCodeRequest.prototype.setEmail = function(value) {
+/** @param {?proto.gigx.GeneralRequest|undefined} value */
+proto.gigx.CheckVerificationTokenRequest.prototype.setGeneralrequest = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
 
 
-proto.gigx.CheckVerificationCodeRequest.prototype.clearEmail = function() {
-  this.setEmail(undefined);
+proto.gigx.CheckVerificationTokenRequest.prototype.clearGeneralrequest = function() {
+  this.setGeneralrequest(undefined);
 };
 
 
@@ -6016,7 +6475,7 @@ proto.gigx.CheckVerificationCodeRequest.prototype.clearEmail = function() {
  * Returns whether this field is set.
  * @return {!boolean}
  */
-proto.gigx.CheckVerificationCodeRequest.prototype.hasEmail = function() {
+proto.gigx.CheckVerificationTokenRequest.prototype.hasGeneralrequest = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -6032,12 +6491,12 @@ proto.gigx.CheckVerificationCodeRequest.prototype.hasEmail = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.gigx.CheckVerificationCodeResponse = function(opt_data) {
+proto.gigx.CheckVerificationTokenResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.gigx.CheckVerificationCodeResponse, jspb.Message);
+goog.inherits(proto.gigx.CheckVerificationTokenResponse, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.gigx.CheckVerificationCodeResponse.displayName = 'proto.gigx.CheckVerificationCodeResponse';
+  proto.gigx.CheckVerificationTokenResponse.displayName = 'proto.gigx.CheckVerificationTokenResponse';
 }
 
 
@@ -6052,8 +6511,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.gigx.CheckVerificationCodeResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.gigx.CheckVerificationCodeResponse.toObject(opt_includeInstance, this);
+proto.gigx.CheckVerificationTokenResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.gigx.CheckVerificationTokenResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -6062,11 +6521,11 @@ proto.gigx.CheckVerificationCodeResponse.prototype.toObject = function(opt_inclu
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.gigx.CheckVerificationCodeResponse} msg The msg instance to transform.
+ * @param {!proto.gigx.CheckVerificationTokenResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.gigx.CheckVerificationCodeResponse.toObject = function(includeInstance, msg) {
+proto.gigx.CheckVerificationTokenResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     generalResponse: (f = msg.getGeneralResponse()) && proto.gigx.GeneralResponse.toObject(includeInstance, f)
   };
@@ -6082,23 +6541,23 @@ proto.gigx.CheckVerificationCodeResponse.toObject = function(includeInstance, ms
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.gigx.CheckVerificationCodeResponse}
+ * @return {!proto.gigx.CheckVerificationTokenResponse}
  */
-proto.gigx.CheckVerificationCodeResponse.deserializeBinary = function(bytes) {
+proto.gigx.CheckVerificationTokenResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.gigx.CheckVerificationCodeResponse;
-  return proto.gigx.CheckVerificationCodeResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.gigx.CheckVerificationTokenResponse;
+  return proto.gigx.CheckVerificationTokenResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.gigx.CheckVerificationCodeResponse} msg The message object to deserialize into.
+ * @param {!proto.gigx.CheckVerificationTokenResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.gigx.CheckVerificationCodeResponse}
+ * @return {!proto.gigx.CheckVerificationTokenResponse}
  */
-proto.gigx.CheckVerificationCodeResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.gigx.CheckVerificationTokenResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6123,9 +6582,9 @@ proto.gigx.CheckVerificationCodeResponse.deserializeBinaryFromReader = function(
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.gigx.CheckVerificationCodeResponse.prototype.serializeBinary = function() {
+proto.gigx.CheckVerificationTokenResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.gigx.CheckVerificationCodeResponse.serializeBinaryToWriter(this, writer);
+  proto.gigx.CheckVerificationTokenResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6133,11 +6592,11 @@ proto.gigx.CheckVerificationCodeResponse.prototype.serializeBinary = function() 
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.gigx.CheckVerificationCodeResponse} message
+ * @param {!proto.gigx.CheckVerificationTokenResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.gigx.CheckVerificationCodeResponse.serializeBinaryToWriter = function(message, writer) {
+proto.gigx.CheckVerificationTokenResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getGeneralResponse();
   if (f != null) {
@@ -6154,19 +6613,19 @@ proto.gigx.CheckVerificationCodeResponse.serializeBinaryToWriter = function(mess
  * optional GeneralResponse general_response = 1;
  * @return {?proto.gigx.GeneralResponse}
  */
-proto.gigx.CheckVerificationCodeResponse.prototype.getGeneralResponse = function() {
+proto.gigx.CheckVerificationTokenResponse.prototype.getGeneralResponse = function() {
   return /** @type{?proto.gigx.GeneralResponse} */ (
     jspb.Message.getWrapperField(this, proto.gigx.GeneralResponse, 1));
 };
 
 
 /** @param {?proto.gigx.GeneralResponse|undefined} value */
-proto.gigx.CheckVerificationCodeResponse.prototype.setGeneralResponse = function(value) {
+proto.gigx.CheckVerificationTokenResponse.prototype.setGeneralResponse = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
 
 
-proto.gigx.CheckVerificationCodeResponse.prototype.clearGeneralResponse = function() {
+proto.gigx.CheckVerificationTokenResponse.prototype.clearGeneralResponse = function() {
   this.setGeneralResponse(undefined);
 };
 
@@ -6175,7 +6634,7 @@ proto.gigx.CheckVerificationCodeResponse.prototype.clearGeneralResponse = functi
  * Returns whether this field is set.
  * @return {!boolean}
  */
-proto.gigx.CheckVerificationCodeResponse.prototype.hasGeneralResponse = function() {
+proto.gigx.CheckVerificationTokenResponse.prototype.hasGeneralResponse = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -6477,6 +6936,324 @@ proto.gigx.GetIpInformationResponse.prototype.clearIpInformation = function() {
  * @return {!boolean}
  */
 proto.gigx.GetIpInformationResponse.prototype.hasIpInformation = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.gigx.ResetUserPasswordRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.gigx.ResetUserPasswordRequest, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.gigx.ResetUserPasswordRequest.displayName = 'proto.gigx.ResetUserPasswordRequest';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.gigx.ResetUserPasswordRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.gigx.ResetUserPasswordRequest.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.gigx.ResetUserPasswordRequest} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.ResetUserPasswordRequest.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    generalrequest: (f = msg.getGeneralrequest()) && proto.gigx.GeneralRequest.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.gigx.ResetUserPasswordRequest}
+ */
+proto.gigx.ResetUserPasswordRequest.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.gigx.ResetUserPasswordRequest;
+  return proto.gigx.ResetUserPasswordRequest.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.gigx.ResetUserPasswordRequest} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.gigx.ResetUserPasswordRequest}
+ */
+proto.gigx.ResetUserPasswordRequest.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.gigx.GeneralRequest;
+      reader.readMessage(value,proto.gigx.GeneralRequest.deserializeBinaryFromReader);
+      msg.setGeneralrequest(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.gigx.ResetUserPasswordRequest.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.gigx.ResetUserPasswordRequest.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.gigx.ResetUserPasswordRequest} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.ResetUserPasswordRequest.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getGeneralrequest();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.gigx.GeneralRequest.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional GeneralRequest generalRequest = 1;
+ * @return {?proto.gigx.GeneralRequest}
+ */
+proto.gigx.ResetUserPasswordRequest.prototype.getGeneralrequest = function() {
+  return /** @type{?proto.gigx.GeneralRequest} */ (
+    jspb.Message.getWrapperField(this, proto.gigx.GeneralRequest, 1));
+};
+
+
+/** @param {?proto.gigx.GeneralRequest|undefined} value */
+proto.gigx.ResetUserPasswordRequest.prototype.setGeneralrequest = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.gigx.ResetUserPasswordRequest.prototype.clearGeneralrequest = function() {
+  this.setGeneralrequest(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.gigx.ResetUserPasswordRequest.prototype.hasGeneralrequest = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.gigx.ResetUserPasswordResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.gigx.ResetUserPasswordResponse, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.gigx.ResetUserPasswordResponse.displayName = 'proto.gigx.ResetUserPasswordResponse';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.gigx.ResetUserPasswordResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.gigx.ResetUserPasswordResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.gigx.ResetUserPasswordResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.ResetUserPasswordResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    generalResponse: (f = msg.getGeneralResponse()) && proto.gigx.GeneralResponse.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.gigx.ResetUserPasswordResponse}
+ */
+proto.gigx.ResetUserPasswordResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.gigx.ResetUserPasswordResponse;
+  return proto.gigx.ResetUserPasswordResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.gigx.ResetUserPasswordResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.gigx.ResetUserPasswordResponse}
+ */
+proto.gigx.ResetUserPasswordResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.gigx.GeneralResponse;
+      reader.readMessage(value,proto.gigx.GeneralResponse.deserializeBinaryFromReader);
+      msg.setGeneralResponse(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.gigx.ResetUserPasswordResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.gigx.ResetUserPasswordResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.gigx.ResetUserPasswordResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.gigx.ResetUserPasswordResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getGeneralResponse();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.gigx.GeneralResponse.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional GeneralResponse general_response = 1;
+ * @return {?proto.gigx.GeneralResponse}
+ */
+proto.gigx.ResetUserPasswordResponse.prototype.getGeneralResponse = function() {
+  return /** @type{?proto.gigx.GeneralResponse} */ (
+    jspb.Message.getWrapperField(this, proto.gigx.GeneralResponse, 1));
+};
+
+
+/** @param {?proto.gigx.GeneralResponse|undefined} value */
+proto.gigx.ResetUserPasswordResponse.prototype.setGeneralResponse = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.gigx.ResetUserPasswordResponse.prototype.clearGeneralResponse = function() {
+  this.setGeneralResponse(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.gigx.ResetUserPasswordResponse.prototype.hasGeneralResponse = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 

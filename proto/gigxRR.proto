@@ -17,7 +17,8 @@ message User {
     int32  total_space=9;
     string created_date=10;
     string updated_date=11;
-    string language_code=12;
+    string language_token=12;
+    bool   is_confirm_account=13;
 }
 
 message Follow {
@@ -72,11 +73,13 @@ message UserLogin {
     string token=6;
 }
 
-message Email {
+message GeneralRequest {
     string email_address=1;
     string email_type=2;
-    string register_verification_code=3;
-    string forgot_password_verification_code=4;
+    string register_verification_token=3;
+    string forgot_password_verification_token=4;
+    string password=5;
+    string password_Confirm=6;
 }
 
 message GeneralResponse {
@@ -89,7 +92,9 @@ message IpInformation {
     string ip_address=1;
     string language_code=2;
     string country_flag=3;
-    int32  gmt_off_set=4;
+    string country_code=4;
+    string country_name=5;
+    int32  gmt_off_set=6;
 
 }
 
@@ -109,7 +114,12 @@ message RegisterUserRequest {
 message RegisterUserResponse {
     GeneralResponse general_response =1;
 }
-
+message CheckUserToRegisterRequest {
+    User user=1;
+}
+message CheckUserToRegisterResponse {
+    GeneralResponse general_response =1;
+}
 message LoginUserRequest {
     UserLogin user=1;
 }
@@ -156,15 +166,15 @@ message DeleteFileResponse {
     GeneralResponse general_response =1;
 }
 message SendEmailRequest {
-    Email email=1;
+    GeneralRequest generalRequest=1;
 }
 message SendEmailResponse {
     GeneralResponse general_response =1;
 }
-message CheckVerificationCodeRequest {
-    Email email=1;
+message CheckVerificationTokenRequest {
+    GeneralRequest generalRequest=1;
 }
-message CheckVerificationCodeResponse {
+message CheckVerificationTokenResponse {
     GeneralResponse general_response=1;
 }
 message GetIpInformationRequest {
@@ -173,18 +183,26 @@ message GetIpInformationRequest {
 message GetIpInformationResponse {
     IpInformation ip_information=1;
 }
+message ResetUserPasswordRequest {
+    GeneralRequest generalRequest=1;
+}
+message ResetUserPasswordResponse {
+    GeneralResponse general_response=1;
+}
 service GigxRRService{
     //Say Hello 
     rpc SayHello (HelloRequest) returns (HelloResponse);
     //User methods
     rpc Login                       (LoginUserRequest) returns (LoginUserResponse);
     rpc Register                    (RegisterUserRequest) returns (RegisterUserResponse);
+    rpc CheckUserToRegister         (CheckUserToRegisterRequest) returns (CheckUserToRegisterResponse);
+    rpc ResetUserPassword           (ResetUserPasswordRequest) returns (ResetUserPasswordResponse);
     rpc UpdateUser                  (UpdateUserRequest) returns (UpdateUserResponse);
     rpc DeleteUser                  (DeleteUserRequest) returns (DeleteUserResponse);
-    //Srvices
+    //Services
     rpc SendEmail                   (SendEmailRequest) returns (SendEmailResponse);
     rpc GetIpInformation            (GetIpInformationRequest) returns (GetIpInformationResponse);
-    rpc CheckVerificationCode       (CheckVerificationCodeRequest) returns (CheckVerificationCodeResponse);
+    rpc CheckVerificationToken      (CheckVerificationTokenRequest) returns (CheckVerificationTokenResponse);
     //File methods
     rpc GetFile                     (GetFileRequest) returns (GetFileResponse);
     rpc GetAllFiles                 (GetAllFilesRequest) returns (stream GetAllFilesResponse);

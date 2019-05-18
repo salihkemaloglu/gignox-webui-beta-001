@@ -9,7 +9,7 @@ import './authentication.css';
 import { useState } from 'react';
 import { UserLogin, User } from '../../proto/gigxRR_pb';
 import { i18next, lang } from '../../services/localization_service'
-import { DoLoginUserRequest, DoRegisterUserRequest } from '../../controllers/authentication_controller';
+import { DoLoginUserRequest, DoRegisterUserRequest, DoCheckUserToRegisterRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
 // import { DoGetIpAddressRequest } from '../../controllers/ipinfo_controller';
@@ -25,7 +25,7 @@ export const Authentication = () => {
   //   DoGetIpAddressRequest();
   // }
 
-  function login() {
+  function Login() {
     var login_button = document.getElementById('login_button') as HTMLButtonElement;
     login_button.disabled = true;
     if (!userLogin.getUsername() || !userLogin.getPassword()) {
@@ -68,7 +68,7 @@ export const Authentication = () => {
     login_button.disabled = false;
 
   }
-  function signup() {
+  function Signup() {
     if (!user.getUsername() || !user.getEmail() || !user.getPassword) {
       let username = (document.getElementById("username_form") as HTMLInputElement).value;
       let email = (document.getElementById("email_form") as HTMLInputElement).value;
@@ -81,7 +81,7 @@ export const Authentication = () => {
           if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
             // sessionStorage.setItem("token", userRegisterResponse_.getToken());
             sessionStorage.setItem("username", userRegisterResponse_.getUsername());
-            localStorage.setItem("languageCode", userRegisterResponse_.getLanguageCode())
+            // localStorage.setItem("languageCode", userRegisterResponse_.getLanguageToken())
             sessionStorage.setItem("routingPage", "nav_menu");
             window.location.href = '/home'
           } else {
@@ -113,7 +113,7 @@ export const Authentication = () => {
 
       user.setUsername(e.target.value)
       user.setEmail("")
-      DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
+      DoCheckUserToRegisterRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
 
@@ -123,7 +123,7 @@ export const Authentication = () => {
           exist.style.display = 'none';
           non_exist.style.display = 'block';
 
-        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
+        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           console.log("ok")
 
 
@@ -162,7 +162,7 @@ export const Authentication = () => {
       user.setEmail(e.target.value)
       user.setUsername("")
 
-      DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
+      DoCheckUserToRegisterRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
 
@@ -174,7 +174,7 @@ export const Authentication = () => {
           non_exist.style.display = 'block';
 
 
-        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
+        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           console.log("ok")
 
           // validation_email.innerText = "Bu email adresine doğrulama mail'i göndereceğiz";
@@ -274,7 +274,7 @@ export const Authentication = () => {
                     return "null";
                 }
               })()}
-              <button className="btn_primary" style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" /* onClick={() => setFade("verification")} */ onClick={signup}>
+              <button className="btn_primary" style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" /* onClick={() => setFade("verification")} */ onClick={Signup}>
                 {i18next.t("authentication_page_sign_up")}
               </button>
             </form>
@@ -291,11 +291,11 @@ export const Authentication = () => {
                 <label>{i18next.t("authentication_page_password")}</label>
                 <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" onChange={handlePasswordChangeForLogin} />
               </div>
-              <button className="btn_primary" onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} id="login_button">
+              <button className="btn_primary" onClick={Login} style={{ width: '100%', backgroundColor: '#17a2b8' }} id="login_button">
                 {i18next.t("authentication_page_sign_in")}
               </button>
 
-              <div className="login-need-help"><a className="forgot-password-link" onClick={() => setFade("reset")}>
+              <div className="login-need-help"><a href="password_reset" className="forgot-password-link" >
                 {i18next.t("authentication_page_forgot_password")}</a></div>
             </form>
           </div>

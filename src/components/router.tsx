@@ -7,6 +7,7 @@ import { Admin } from './user_admin';
 import { Authentication } from './authentication';
 import { NotFound } from './not_found';
 import { AppRoute, AuthenticaitonRoute } from '../helpers/route_helper';
+import { PasswordResetSendMail } from './password_reset';
 
 export const AppRouter = () => {
   function WaitingComponent(Component: any) {
@@ -25,6 +26,7 @@ export const AppRouter = () => {
           <AppRoute path="/about" layout={AppNavMenuLayout} component={WaitingComponent(About)} />
           <AppRoute path="/profile" layout={AppAdminLayout} component={WaitingComponent(Admin)} />
           <AuthenticaitonRoute exact path="/"  component={WaitingComponent(Authentication)} />
+          <Route exact path="/password_reset" component={WaitingComponent(PasswordResetSendMail)} />
           <Route exact path="/password_reset/:id" component={WaitingComponent(PasswordReset)} />
           <Route path="*" component={WaitingComponent(NotFound)} />
         </Switch>
