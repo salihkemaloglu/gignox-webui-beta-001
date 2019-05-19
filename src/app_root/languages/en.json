@@ -40,6 +40,6 @@
     "password_resent_page_account_not_found":"We can't find your account",
     "password_resent_page_password_empty_validation":"Password fields can not be empty",
     "password_resent_page_password_match_validation":"Password confirmation doesn't match the password",
-    "password_resent_page_password_password_strenght_info":"The new password you provided is weak and can be easily guessed. Your password was not saved. Please choose a stronger password"
+    "password_resent_page_password_strenght_validation_info":"The new password you provided is weak and can be easily guessed. Your password was not saved. Please choose a stronger password"
 }
 

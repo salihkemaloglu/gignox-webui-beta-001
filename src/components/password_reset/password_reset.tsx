@@ -59,7 +59,7 @@ export const PasswordReset = () => {
       setmessageType("warning");
       setLoader("active");
     } else if (result.score < 2) {
-      setmessageNotify(i18next.t("password_resent_page_password_password_strenght_info"));
+      setmessageNotify(i18next.t("password_resent_page_password_strenght_validation_info"));
       setmessageType("warning");
       setLoader("active");
     } else {

@@ -40,5 +40,5 @@
     "password_resent_page_account_not_found": "Hesabınızı bulamıyoruz",
     "password_resent_page_password_empty_validation": "Şifre alanları boş bırakılamaz",
     "password_resent_page_password_match_validation": "Şifre onayı şifre ile eşleşmiyor",
-    "password_resent_page_password_password_strenght_info": "Sağladığınız yeni şifre zayıf ve kolayca tahmin edilebilir. Şifreniz kaydedilmedi. Lütfen daha güçlü bir şifre seçin"
+    "password_resent_page_password_strenght_validation_info": "Sağladığınız yeni şifre zayıf ve kolayca tahmin edilebilir. Şifreniz kaydedilmedi. Lütfen daha güçlü bir şifre seçin"
 }
