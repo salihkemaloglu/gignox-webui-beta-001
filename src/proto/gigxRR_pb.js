@@ -106,7 +106,7 @@ proto.gigx.User.toObject = function(includeInstance, msg) {
     totalSpace: jspb.Message.getFieldWithDefault(msg, 9, 0),
     createdDate: jspb.Message.getFieldWithDefault(msg, 10, ""),
     updatedDate: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    languageToken: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    languageCode: jspb.Message.getFieldWithDefault(msg, 12, ""),
     isConfirmAccount: jspb.Message.getFieldWithDefault(msg, 13, false)
   };
 
@@ -190,7 +190,7 @@ proto.gigx.User.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 12:
       var value = /** @type {string} */ (reader.readString());
-      msg.setLanguageToken(value);
+      msg.setLanguageCode(value);
       break;
     case 13:
       var value = /** @type {boolean} */ (reader.readBool());
@@ -302,7 +302,7 @@ proto.gigx.User.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getLanguageToken();
+  f = message.getLanguageCode();
   if (f.length > 0) {
     writer.writeString(
       12,
@@ -485,16 +485,16 @@ proto.gigx.User.prototype.setUpdatedDate = function(value) {
 
 
 /**
- * optional string language_token = 12;
+ * optional string language_code = 12;
  * @return {string}
  */
-proto.gigx.User.prototype.getLanguageToken = function() {
+proto.gigx.User.prototype.getLanguageCode = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
 
 /** @param {string} value */
-proto.gigx.User.prototype.setLanguageToken = function(value) {
+proto.gigx.User.prototype.setLanguageCode = function(value) {
   jspb.Message.setProto3StringField(this, 12, value);
 };
 
@@ -2363,7 +2363,7 @@ proto.gigx.GeneralRequest.prototype.setPassword = function(value) {
 
 
 /**
- * optional string password_Confirm = 6;
+ * optional string password_confirm = 6;
  * @return {string}
  */
 proto.gigx.GeneralRequest.prototype.getPasswordConfirm = function() {

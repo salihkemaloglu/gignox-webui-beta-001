@@ -37,8 +37,8 @@ export class User extends jspb.Message {
   getUpdatedDate(): string;
   setUpdatedDate(value: string): void;
 
-  getLanguageToken(): string;
-  setLanguageToken(value: string): void;
+  getLanguageCode(): string;
+  setLanguageCode(value: string): void;
 
   getIsConfirmAccount(): boolean;
   setIsConfirmAccount(value: boolean): void;
@@ -66,7 +66,7 @@ export namespace User {
     totalSpace: number,
     createdDate: string,
     updatedDate: string,
-    languageToken: string,
+    languageCode: string,
     isConfirmAccount: boolean,
   }
 }

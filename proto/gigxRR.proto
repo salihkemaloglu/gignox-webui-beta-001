@@ -17,7 +17,7 @@ message User {
     int32  total_space=9;
     string created_date=10;
     string updated_date=11;
-    string language_token=12;
+    string language_code=12;
     bool   is_confirm_account=13;
 }
 
@@ -79,7 +79,7 @@ message GeneralRequest {
     string register_verification_token=3;
     string forgot_password_verification_token=4;
     string password=5;
-    string password_Confirm=6;
+    string password_confirm=6;
 }
 
 message GeneralResponse {

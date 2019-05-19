@@ -58,13 +58,15 @@ export const Authentication = () => {
 
       }
     } else {
+      userLogin.setUsername(username);
+      userLogin.setPassword(password);
       DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           sessionStorage.setItem("token", userLoginResponse_.getToken());
-          sessionStorage.setItem("userName", userLoginResponse_.getUsername());
+          sessionStorage.setItem("username", userLoginResponse_.getUsername());
           localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
           sessionStorage.setItem("routingPage", "nav_menu");
-          location.reload();
+          window.location.href = '/'
         } else {
 
           setmessageType("error");
@@ -132,8 +134,6 @@ export const Authentication = () => {
           non_exist.style.display = 'block';
 
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
-          console.log("ok")
-
           validationUsername.style.display = "none"
           usernameLabel.style.color = 'green';
           exist.style.display = 'block';
@@ -175,11 +175,7 @@ export const Authentication = () => {
           emailLabel.style.color = 'red'
           exist.style.display = 'none';
           nonExist.style.display = 'block';
-
-
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
-          console.log("ok")
-
           validationEmail.style.display = "none"
           emailLabel.style.color = 'green'
           exist.style.display = 'block';
@@ -294,37 +290,8 @@ export const Authentication = () => {
                 {i18next.t("authentication_page_sign_in")}
               </button>
 
-              <div className="login-need-help"><a className="forgot-password-link" onClick={() => setFade("reset")}>
+              <div className="login-need-help"><a href="password_reset" className="forgot-password-link">
                 {i18next.t("authentication_page_forgot_password")}</a></div>
-            </form>
-          </div>
-
-          <div className="reset" style={{ display: fade === "reset" ? 'block' : 'none', paddingTop: '60px' }}>
-            <form className="signupForm">
-              <label className="codeColor"><h3> {i18next.t("authentication_page_password_reset_title")}</h3></label>
-              <label className="codeColor">{i18next.t("authentication_page_password_reset_info")}<br /></label>
-              <div>
-                <label>Email</label>
-                <input className="input_control" autoFocus type="email" />
-              </div>
-              <button className="btn_primary" style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" >
-                {i18next.t("authentication_page_password_reset")}
-              </button>
-            </form>
-          </div>
-          <div className="verification" style={{ display: fade === "verification" ? 'block' : 'none', paddingTop: '60px' }}>
-            <form className="signupForm">
-              <label className="codeColor"><h3> {i18next.t("authentication_page_verification_code_title")}</h3></label>
-              <label className="codeColor">{i18next.t("authentication_page_verification_code_info")}<br /></label>
-
-              <div>
-                <label>Email</label>
-                <input className="input_control" autoFocus type="email" />
-              </div>
-              <button className="btn_primary" style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button">
-                {i18next.t("authentication_page_verificate_code")}
-              </button>
-              <label className="cursor" style={{ marginTop: "2%" }}>{i18next.t("authentication_page_verificate_did_not_get")}</label>
             </form>
           </div>
 
