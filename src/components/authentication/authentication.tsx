@@ -23,9 +23,15 @@ export const Authentication = () => {
 
   function login() {
     if (!userLogin.getUsername() || !userLogin.getPassword()) {
-      let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;  
+      let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
       let password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
-      if (username && password) {
+      if (!username) {
+        setmessageType("warning");
+        setheaderNotify(i18next.t("authentication_page_enter_username_or_email"))
+      } else if (!password) {
+        setmessageType("warning");
+        setheaderNotify(i18next.t("authentication_page_enter_password"))
+      } else {
         userLogin.setUsername(username);
         userLogin.setPassword(password);
         DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
@@ -43,38 +49,7 @@ export const Authentication = () => {
             console.log(generalResponseModalResponse_.GrpcResponseMessage)
           }
         });
-      } else {
-
-        if (!username) {
-            setmessageType("warning");
-            setheaderNotify(i18next.t("authentication_page_enter_username_or_email"))
-        }
-        else if (!password) {
-          setmessageType("warning");
-          setheaderNotify(i18next.t("authentication_page_enter_password"))
-        }
-
-        console.log("username and password can not be null")
-
       }
-    } else {
-      userLogin.setUsername(username);
-      userLogin.setPassword(password);
-      DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
-        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
-          sessionStorage.setItem("token", userLoginResponse_.getToken());
-          sessionStorage.setItem("username", userLoginResponse_.getUsername());
-          localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
-          sessionStorage.setItem("routingPage", "nav_menu");
-          window.location.href = '/'
-        } else {
-
-          setmessageType("error");
-          setheaderNotify(i18next.t("authentication_page_invalid_username_or_password"))
-          console.log(generalResponseModalResponse_.GrpcResponseCode)
-          console.log(generalResponseModalResponse_.GrpcResponseMessage)
-        }
-      });
     }
   }
 
