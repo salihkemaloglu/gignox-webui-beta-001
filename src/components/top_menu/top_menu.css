@@ -4,10 +4,10 @@
   .App {
     text-align: center;
   }
-  .App-logo {
+  .topmenu-app-logo {
     animation: App-logo-spin infinite 40s linear;
-    height: 55px;
-    width: 55px;
+    height: 35px;
+    width: 35px;
   }
   .topmenu_logo_word{
     width: 92px;
@@ -36,13 +36,13 @@
   .profil_bar{
     display: none;
   }
-  .App-logo {
+  .topmenu-app-logo {
    width: 35px;
    height: 35px;
   }
 
   .logo_link {
-    width: 200px !important;
+    width: 300px !important;
     padding: 5px;
   }
   .toggle_menu {
@@ -115,10 +115,10 @@ align-items: center;
   .App {
     text-align: center;
   }
-  .App-logo {
+  .topmenu-app-logo {
     animation: App-logo-spin infinite 40s linear;
-    height: 55px;
-    width: 55px;
+    height: 35px;
+    width: 35px;
   }
   
   .App-header {
@@ -147,7 +147,7 @@ align-items: center;
   .profil_bar{
     display: none;
   }
-  .App-logo {
+  .topmenu-app-logo {
    width: 35px;
    height: 35px;
   }
@@ -156,7 +156,7 @@ align-items: center;
     margin-bottom: 5px;
   }
   .logo_link {
-    width: 230px !important;
+    width: 300px !important;
     padding: 5px;
   }
   .toggle_menu {
@@ -269,7 +269,7 @@ align-items: center;
   }
   .mr-auto-topmenu{
     width: 100%;
-    padding-left: 55px;
+    padding-left: 65px;
     margin: 0;
   }
   .logo_link{
@@ -289,7 +289,7 @@ align-items: center;
 .App {
   text-align: center;
 }
-.App-logo {
+.topmenu-app-logo {
   animation: App-logo-spin infinite 40s linear;
   height: 45px;
   width: 45px;

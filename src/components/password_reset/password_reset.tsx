@@ -101,7 +101,7 @@ export const PasswordReset = () => {
       <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450, marginTop: '5%' }}>
           <Header as='h2' color='teal' textAlign='center'>
-            <a href="/home" className="active"><img src={logo} className="App-logo" alt="logo" /><img src={logoGignox} alt="logo" style={{ marginBottom: '8px' }} /></a>
+            <a href="/home" className="active"><img src={logo} className="App-logo" alt="logo"/><img src={logoGignox} alt="logo"/></a>
           </Header>
           <Message success style={{ display: messageType === "success" ? 'block' : 'none' }}>
             <Message.Header>New password set successfully.</Message.Header>

@@ -39,7 +39,7 @@ export const TopMenu = () => {
     return (
         <nav className="top_menu">
             <a href="/" className="logo_link">
-                <img src={logo} className="App-logo" alt="logo" />
+                <img src={logo} className="topmenu-app-logo" alt="logo" />
                 <img src={logotransparent} className="topmenu_logo_word" alt="logo"/>
             </a>
             <div className="mr-auto-topmenu">

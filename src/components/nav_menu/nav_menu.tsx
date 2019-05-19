@@ -141,7 +141,7 @@ export const NavMenu = () => {
 
       <div className="footer" style={{ position: 'absolute', bottom: '0', textAlign: 'center', width: '250px', marginBottom: '10px' }}>
         <div className="mb1">
-          <a className="link" style={{ color: '#929292' }}>All right reserved @2019</a>
+          <a className="link" style={{ color: '#929292', marginRight: '30px' }}>All right reserved @2019</a>
         </div>
 
       </div>

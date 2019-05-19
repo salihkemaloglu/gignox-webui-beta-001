@@ -1,12 +1,12 @@
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
-  .App-logo {
+  .authentication-app-logo {
     animation: App-logo-spin infinite 40s linear;
-    height: 55px;
-    width: 55px;
+    height: 40px;
+    width: 40px;
   }
   .authentication_logo_word{
-    width: 92px;
+    width: 120px;
     margin-bottom: 6px;
   }
  .leftSection{
@@ -68,17 +68,23 @@
     color: black !important;
     display: inline-table !important;
   }
+  .language_box {
+    margin-top: 0;
+  }
+.language_box div:hover{
+   background-color: #e2ffff;
+}
 }
 
 /* Tablet Styles */
 @media only screen and (min-width: 401px) and (max-width: 960px) {
-  .App-logo {
+  .authentication-app-logo {
     animation: App-logo-spin infinite 40s linear;
-    height: 55px;
-    width: 55px;
+    height: 40px;
+    width: 40px;
   }
   .authentication_logo_word{
-    width: 92px;
+    width: 120px;
     margin-bottom: 6px;
   }
   .leftSection{
@@ -155,19 +161,30 @@
     color: black !important;
     display: inline-table !important;
   }
+  .language_box {
+    margin-top: 0;
+  }
+.language_box div:hover{
+   background-color: #e2ffff;
+}
 }
 
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
-
+  .language_box {
+    margin-top: 0;
+  }
+.language_box div:hover{
+   background-color: #e2ffff;
+}
 .App {
   text-align: center;
 }
 .authentication_logo_word {
   width: 170px !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
 }
-.App-logo {
+.authentication-app-logo {
   animation: App-logo-spin infinite 40s linear;
   height: 55px;
   width: 55px;

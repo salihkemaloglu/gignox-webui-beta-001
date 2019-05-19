@@ -12,28 +12,18 @@ import { i18next, lang } from '../../services/localization_service'
 import { DoLoginUserRequest, DoRegisterUserRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
-// import { DoGetIpAddressRequest } from '../../controllers/ipinfo_controller';
 
 export const Authentication = () => {
 
-
   var [fade, setFade] = useState("signup");
+  let [messageType, setmessageType] = useState("info");
+  let [headerNotify, setheaderNotify] = useState("");
   var userLogin = new UserLogin();
   var user = new User();
-  // var ipinfo = sessionStorage.getItem("ipinfo") === null ? JSON.parse(JSON.stringify("")) : sessionStorage.getItem("ipinfo")
-  // if (ipinfo === "") {
-  //   DoGetIpAddressRequest();
-  // }
 
   function login() {
-
-    var validationMessage = document.getElementById('validationMessage') as HTMLElement;
-    var validationWarningMessage = document.getElementById('validationWarningMessage') as HTMLElement;
-
-    validationMessage.style.display = "none"
-    validationWarningMessage.style.display = "none";
     if (!userLogin.getUsername() || !userLogin.getPassword()) {
-      let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
+      let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;  
       let password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
       if (username && password) {
         userLogin.setUsername(username);
@@ -44,11 +34,10 @@ export const Authentication = () => {
             sessionStorage.setItem("username", userLoginResponse_.getUsername());
             localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
             sessionStorage.setItem("routingPage", "nav_menu");
-            window.location.href = '/'
+            window.location.href = '/home'
           } else {
-            validationMessage.innerText = "Geçersiz Kullanıcı adı veya şifre"
-            validationMessage.style.display = "block"
-
+            setmessageType("error");
+            setheaderNotify(i18next.t("authentication_page_invalid_username_or_password"))
 
             console.log(generalResponseModalResponse_.GrpcResponseCode)
             console.log(generalResponseModalResponse_.GrpcResponseMessage)
@@ -57,13 +46,12 @@ export const Authentication = () => {
       } else {
 
         if (!username) {
-          validationWarningMessage.innerText = "Lütfen kullanıcı adı veya email giriniz"
-          validationWarningMessage.style.display = "block"
+            setmessageType("warning");
+            setheaderNotify(i18next.t("authentication_page_enter_username_or_email"))
         }
         else if (!password) {
-
-          validationMessage.innerText = "Lütfen şifre giriniz"
-          validationMessage.style.display = "block"
+          setmessageType("warning");
+          setheaderNotify(i18next.t("authentication_page_enter_password"))
         }
 
         console.log("username and password can not be null")
@@ -79,10 +67,8 @@ export const Authentication = () => {
           location.reload();
         } else {
 
-
-          validationMessage.innerText = "Geçersiz Kullanıcı adı veya şifre"
-          validationMessage.style.display = "block"
-
+          setmessageType("error");
+          setheaderNotify(i18next.t("authentication_page_invalid_username_or_password"))
           console.log(generalResponseModalResponse_.GrpcResponseCode)
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
         }
@@ -103,7 +89,7 @@ export const Authentication = () => {
           if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
             // sessionStorage.setItem("token", userRegisterResponse_.getToken());
             sessionStorage.setItem("username", userRegisterResponse_.getUsername());
-            localStorage.setItem("languageCode", userRegisterResponse_.getLanguageCode())
+            //  localStorage.setItem("languageCode", userRegisterResponse_.getLanguageCode())
             sessionStorage.setItem("routingPage", "nav_menu");
             window.location.href = '/'
           } else {
@@ -139,7 +125,7 @@ export const Authentication = () => {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
 
-          validationUsername.innerText = "Bu kullanıcı adı zaten mevcut";
+          validationUsername.innerText = i18next.t("authentication_page_username_or_email_already_exist")
           validationUsername.style.display = "inline-flex"
           usernameLabel.style.color = 'red'
           exist.style.display = 'none';
@@ -183,7 +169,7 @@ export const Authentication = () => {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
           console.log(generalResponseModalResponse_.GrpcResponseMessage)
 
-          validationEmail.innerText = "Bu email geçersiz veya zaten alınmış";
+          validationEmail.innerText = i18next.t("authentication_page_invalid_email_or_received")
           validationEmail.style.color = "red"
           validationEmail.style.display = "inline-flex"
           emailLabel.style.color = 'red'
@@ -218,8 +204,8 @@ export const Authentication = () => {
         <div className="nav-wrapper">
           <div className="mr-auto">
             <a href="/" className="logo_link">
-              <img src={logo} className="App-logo" alt="logo" />
-              <img src={logoGignox} className="authentication_logo_word" alt="logo"/>
+              <img src={logo} className="authentication-app-logo" alt="logo" />
+              <img src={logoGignox} className="authentication_logo_word" alt="logo" />
             </a>
           </div>
         </div>
@@ -231,9 +217,8 @@ export const Authentication = () => {
         <section className="rightSection">
           <div style={{ float: 'right', width: '100%', padding: '15px' }}>
             <Dropdown text="Language" icon='language' floating labeled button className='icon language_dropdown'>
-              <Dropdown.Menu style={{ marginTop: '0' }}>
-                <Dropdown.Divider />
-                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='france' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "en")} text='En' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
+              <Dropdown.Menu className="language_box" style={{ marginTop: '0!important' }}>
+                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='united kingdom' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "en")} text='En' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
                 <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='turkey' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "tr")} text='Tr' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
               </Dropdown.Menu>
             </Dropdown>
@@ -249,7 +234,7 @@ export const Authentication = () => {
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                 <label id="usernameLabel" style={{ width: '100%' }}>{i18next.t("authentication_page_username")}</label>
 
-                <Form.Field style={{ padding: '5px' }}>
+                <Form.Field>
                   <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
@@ -259,7 +244,7 @@ export const Authentication = () => {
 
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                 <label id="emailLabel" style={{ width: '100%' }}>Email</label>
-                <Form.Field style={{ padding: '5px' }}>
+                <Form.Field>
                   <input autoComplete="new-email" className="input_control" placeholder="Email" autoFocus type="email" style={{ width: '100%', float: 'left' }} onChange={handleEmailChangeForRegister} id="email_form" />
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistCross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
@@ -290,11 +275,11 @@ export const Authentication = () => {
           <div className="Login" style={{ display: fade === "signin" ? 'block' : 'none' }}>
 
             <form className="loginForm">
-              <Message warning id="validationWarningMessage" style={{ display: 'none' }}>
-                <Message.Header>We're sorry we can't apply that discount</Message.Header>
+              <Message color='red' style={{ display: messageType === "error" ? 'block' : 'none' }}>
+                <Message.Header>{headerNotify}</Message.Header>
               </Message>
-              <Message color="red" id="validationMessage" style={{ display: 'none' }}>
-                <Message.Header>We're sorry we can't apply that discount</Message.Header>
+              <Message warning style={{ display: messageType === "warning" ? 'block' : 'none' }}>
+                <Message.Header>{headerNotify}</Message.Header>
               </Message>
               <label>{i18next.t("authentication_page_or")} <a className="signup-title" onClick={() => setFade("signup")} style={{ fontSize: fade === "signup" ? '25px' : '15px' }}>{i18next.t("authentication_page_create_an_account")}</a></label>
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>

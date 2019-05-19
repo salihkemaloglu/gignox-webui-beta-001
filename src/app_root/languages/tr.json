@@ -33,5 +33,10 @@
     "password_reset_page_send_password_reset_email":"Şifre sıfırlama e-postası gönder",
     "password_reset_page_change_password_info":"En az 15 karakter olduğundan emin olun VEYA bir sayı ve küçük harf içeren en az 8 karakter",
     "password_reset_page_go_back_authentiocation":"Giriş sayfasına dön",
-    "password_reset_page_reset_Password":"Şifreyi değiştir"    
+    "password_reset_page_reset_Password":"Şifreyi değiştir",
+    "authentication_page_invalid_username_or_password":"Geçersiz kullanıcı adı veya şifre",
+    "authentication_page_enter_username_or_email":"Lütfet kullanıcı veya email giriniz",
+    "authentication_page_enter_password":"Lütfen şifre giriniz",
+    "authentication_page_username_or_email_already_exist":"Kullanıcı adı veya email zaten mevcut",
+    "authentication_page_invalid_email_or_received":"Bu email geçersiz veya zaten alınmış"
 }
