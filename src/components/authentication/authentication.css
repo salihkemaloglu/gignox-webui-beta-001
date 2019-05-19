@@ -1,5 +1,14 @@
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
+  .App-logo {
+    animation: App-logo-spin infinite 40s linear;
+    height: 55px;
+    width: 55px;
+  }
+  .authentication_logo_word{
+    width: 92px;
+    margin-bottom: 6px;
+  }
  .leftSection{
    display: none;
  }
@@ -63,6 +72,15 @@
 
 /* Tablet Styles */
 @media only screen and (min-width: 401px) and (max-width: 960px) {
+  .App-logo {
+    animation: App-logo-spin infinite 40s linear;
+    height: 55px;
+    width: 55px;
+  }
+  .authentication_logo_word{
+    width: 92px;
+    margin-bottom: 6px;
+  }
   .leftSection{
     display: none;
   }
@@ -145,10 +163,14 @@
 .App {
   text-align: center;
 }
-
+.authentication_logo_word {
+  width: 170px !important;
+  margin-bottom: 10px !important;
+}
 .App-logo {
   animation: App-logo-spin infinite 40s linear;
-  height: 60px;
+  height: 55px;
+  width: 55px;
 }
 .App-image {
   animation: App-logo-spin infinite 1000s linear;
@@ -316,4 +338,5 @@ button:focus {
     color: black !important;
     display: inline-table !important;
   }
+
 }

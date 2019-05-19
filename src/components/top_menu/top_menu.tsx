@@ -38,9 +38,9 @@ export const TopMenu = () => {
     
     return (
         <nav className="top_menu">
-            <a href="/home" className="logo_link">
+            <a href="/" className="logo_link">
                 <img src={logo} className="App-logo" alt="logo" />
-                <img src={logotransparent} className="logo_word" alt="logo" />
+                <img src={logotransparent} className="topmenu_logo_word" alt="logo"/>
             </a>
             <div className="mr-auto-topmenu">
                 <div className="gigx1">
@@ -59,15 +59,15 @@ export const TopMenu = () => {
                         <div className="profil_content">
                             <div id="dd" className="wrapper-dropdown-3">
                                 <div id="user-menu" style={{ textAlign: 'center' }}>
-                                    <button style={{ backgroundColor: 'transparent', border: 'none', outline: 'none', cursor: 'pointer' }}>
-                                        <span><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png" alt="logo" width='45px' /></span>
+                                    <button style={{ backgroundColor: 'transparent', border: 'none', outline: 'none', cursor: 'pointer', lineHeight: '2.7', display: 'inline-flex'}}>
+                                        <span><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png" alt="logo" width='45px' style={{borderRadius: '50%'}}/></span>
                                         <span style={{ color: 'white', padding: '7px' }}>omer</span>
                                     </button>
                                 </div>
                                 <ul className="dropdown">
-                                    <li><a href="profile" ><PermIdentity /> Profil</a></li>
-                                    <li><a href=""><Settings /> Ayarlar</a></li>
-                                    <li><a href="/" onClick={SignOut}><ExitToApp /> Sign out</a></li>
+                                    <li><a href="profile" style={{width: '100%'}}><PermIdentity /> <span>Profil</span></a></li>
+                                    <li><a href="" style={{width: '100%'}}><Settings /> <span>Ayarlar</span></a></li>
+                                    <li><a href="/" onClick={SignOut} style={{width: '100%'}}><ExitToApp /><span> Sign out</span></a></li>
                                 </ul>
                             </div>
                         </div>
