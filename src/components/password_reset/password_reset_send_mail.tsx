@@ -24,8 +24,7 @@ export const PasswordResetSendMail = () => {
     let message = sessionStorage.getItem("message") == null ? JSON.parse(JSON.stringify("null")) : sessionStorage.getItem("message");
     if (message != "null") {
       setmessageType("error");
-      setheaderNotify(message);
-      setmessageNotify("Please check your email and  try again")
+      setmessageNotify(message);
       sessionStorage.removeItem("message");
     }
   })
@@ -34,13 +33,13 @@ export const PasswordResetSendMail = () => {
     setLoader("loading");
     let emailValue = (document.getElementById("emailReserPassword") as HTMLInputElement).value;
     if (!emailValue) {
-      setheaderNotify("Email can not be empty");
-      setmessageNotify("Please check your email and  try again");
+      
+      setmessageNotify(i18next.t("password_resent_page_email_empty_validation"));
       setmessageType("warning");
       setLoader("active");
     } else if (!ValidateEmail(emailValue)) {
-      setheaderNotify("Email address is not valid");
-      setmessageNotify("Please check your email and  try again");
+      setheaderNotify(i18next.t("password_resent_page_email_valid_empty_validation"));
+      setmessageNotify(i18next.t("password_resent_page_email_check_info"));
       setmessageType("warning");
       setLoader("active");
     } else {
@@ -51,15 +50,17 @@ export const PasswordResetSendMail = () => {
         setmessageType(response.MessageType);
         setmessageNotify(response.Message);
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.NotFound) {
-          setheaderNotify("We can't find your account");
+          setheaderNotify(i18next.t("password_resent_page_account_not_found"));
           setLoader("active");
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
-          setheaderNotify("Email can not be empty");
+          setheaderNotify(i18next.t("password_resent_page_email_empty_validation"));
           setLoader("active");
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           setmessageType("success");
           setInput("off");
           setLoader("success");
+        } else {
+          setLoader("active");
         }
       });
     }

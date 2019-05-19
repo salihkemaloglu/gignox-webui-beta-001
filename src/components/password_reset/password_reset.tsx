@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Form, Message, Grid, Header, Segment, Dimmer, Loader } from 'semantic-ui-react'
+import { Button, Form, Message, Grid, Header, Segment, Dimmer, Loader, Progress } from 'semantic-ui-react'
 import { i18next } from '../../services/localization_service';
 import { grpc } from '@improbable-eng/grpc-web';
 import { useState } from 'react';
@@ -11,6 +11,7 @@ import { DoCheckVerificationTokenRequest, DoResetUserPasswordRequest } from '../
 import { GeneralRequest, GeneralResponse } from '../../proto/gigxRR_pb';
 import { GeneralResponseModal } from '../../modals/general_response_modal';
 import { GetMessageType } from '../../helpers/message_type_helper';
+var zxcvbn = require('zxcvbn');
 export const PasswordReset = () => {
 
   let [loader, setLoader] = useState("active");
@@ -19,6 +20,8 @@ export const PasswordReset = () => {
   let [headerNotify, setheaderNotify] = useState("");
   let [messageNotify, setmessageNotify] = useState("");
   let [userEmail, setuserEmail] = useState("");
+  let [passwordStrenghtWidth, setpasswordStrenghtWidth] = useState("");
+  let [passwordStrenghtColor, setpasswordStrenghtColor] = useState("off");
   let generalRequest = new GeneralRequest();
   const match = matchPath(location.pathname, {
     path: "/password_reset/:id",
@@ -46,14 +49,17 @@ export const PasswordReset = () => {
     setLoader("loading");
     let password = (document.getElementById("password") as HTMLInputElement).value;
     let passwordConfirm = (document.getElementById("passwordConfirm") as HTMLInputElement).value;
+    var result = zxcvbn(password);
     if (!password && !passwordConfirm) {
-      setheaderNotify("Password fields can not be empty");
-      setmessageNotify("");
+      setmessageNotify(i18next.t("password_resent_page_password_empty_validation"));
       setmessageType("warning");
       setLoader("active");
     } else if (password != passwordConfirm) {
-      setheaderNotify("Password confirmation doesn't match the password");
-      setmessageNotify("");
+      setmessageNotify(i18next.t("password_resent_page_password_match_validation"));
+      setmessageType("warning");
+      setLoader("active");
+    } else if (result.score < 2) {
+      setmessageNotify(i18next.t("password_resent_page_password_password_strenght_info"));
       setmessageType("warning");
       setLoader("active");
     } else {
@@ -63,24 +69,20 @@ export const PasswordReset = () => {
       generalRequest.setForgotPasswordVerificationToken(match.params.id);
       generalRequest.setEmailType("forgot");
       DoResetUserPasswordRequest(generalRequest, function (generalResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+        var response = GetMessageType(generalResponseModalResponse_);
+        setmessageType(response.MessageType);
+        setmessageNotify(response.Message);
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.NotFound) {
-          setheaderNotify("We can't find your account");
-          setmessageNotify("please check your email and resent");
-          setmessageType("error");
+          setheaderNotify(i18next.t("password_resent_page_account_not_found"));
           setLoader("active");
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
-          setheaderNotify("Email can not be empty");
-          setmessageNotify("please check your email and resent");
-          setmessageType("warning");
+          setheaderNotify(i18next.t("password_resent_page_password_empty_validation"));
           setLoader("active");
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           setmessageType("success");
           setInput("off");
           setLoader("success");
         } else {
-          setheaderNotify("Email could not be sended ");
-          setmessageNotify("Service is not avaible now,please tyr later.");
-          setmessageType("error");
           setLoader("active");
         }
       });
@@ -88,11 +90,40 @@ export const PasswordReset = () => {
 
   }
   function handlePasswordChange(e: any) {
-    console.log(e.target.value)
+    if (!e.target.value) {
+      setpasswordStrenghtColor("");
+    } else {
+      var result = zxcvbn(e.target.value);
+      switch (result.score) {
+        case 0:
+          setpasswordStrenghtWidth("20%");
+          setpasswordStrenghtColor("red");
+          break;
+        case 1:
+          setpasswordStrenghtWidth("40%");
+          setpasswordStrenghtColor("orange");
+          break;
+        case 2:
+          setpasswordStrenghtWidth("60%");
+          setpasswordStrenghtColor("yellow");
+          break;
+        case 3:
+          setpasswordStrenghtWidth("80%");
+          setpasswordStrenghtColor("olive");
+          break;
+        case 4:
+          setpasswordStrenghtWidth("100%");
+          setpasswordStrenghtColor("green");
+          break;
+        default:
+          setpasswordStrenghtWidth("0%");
+          setpasswordStrenghtColor("none");
+          break;
+      }
+    }
+
   }
-  function handleConfirmPasswordChange(e: any) {
-    console.log(e.target.value)
-  }
+
   function GoBackAuthentication() {
     window.location.href = "/";
   }
@@ -126,8 +157,14 @@ export const PasswordReset = () => {
 
           <Form size='large' style={{ display: input === "on" ? 'block' : 'none' }}>
             <Segment stacked>
-              <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' id="password" onChange={handlePasswordChange} />
-              <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password confirm' id="passwordConfirm" onChange={handleConfirmPasswordChange} />
+              <Form.Input fluid icon='lock' iconPosition='left' type="password" placeholder='Password' id="password" onChange={handlePasswordChange} />
+              <Form.Input fluid icon='lock' iconPosition='left' type="password" placeholder='Password confirm' id="passwordConfirm"  />
+              <div style={{ display: passwordStrenghtColor === "red" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='red' size='tiny' /></div>
+              <div style={{ display: passwordStrenghtColor === "orange" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='orange' size='tiny' /></div>
+              <div style={{ display: passwordStrenghtColor === "yellow" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='yellow' size='tiny' /></div>
+              <div style={{ display: passwordStrenghtColor === "olive" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='olive' size='tiny' /></div>
+              <div style={{ display: passwordStrenghtColor === "green" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='green' size='tiny' /></div>
+              <p>{i18next.t("password_reset_page_change_password_info")}</p>
               <Button color='teal' fluid size='large' style={{ display: loader === "active" ? 'block' : 'none' }} onClick={ResetPassword} >
                 {i18next.t("password_reset_page_reset_Password")}
               </Button>
@@ -136,6 +173,7 @@ export const PasswordReset = () => {
               </Button>
             </Segment>
           </Form>
+
           <Button color='teal' fluid size='large' style={{ display: loader === "success" ? 'block' : 'none' }} onClick={GoBackAuthentication} >
             {i18next.t("password_reset_page_go_back_authentiocation")}
           </Button>
