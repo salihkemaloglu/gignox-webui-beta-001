@@ -74,6 +74,9 @@
 .language_box div:hover{
    background-color: #e2ffff;
 }
+.mr-auto{
+  background-color: #2B2F43;
+}
 }
 
 /* Tablet Styles */
@@ -166,6 +169,9 @@
   }
 .language_box div:hover{
    background-color: #e2ffff;
+}
+.mr-auto{
+  background-color: #2B2F43;
 }
 }
 

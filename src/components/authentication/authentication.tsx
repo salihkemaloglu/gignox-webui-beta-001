@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Done from '@material-ui/icons/Done';
 import Cross from '@material-ui/icons/WarningOutlined';
-import { Dropdown, Flag, Label, Form, Message } from 'semantic-ui-react'
+import { Dropdown, Flag, Label, Form, Message, Button } from 'semantic-ui-react'
 var logo = require('../../app_root/images/logo.png');
 var logoGignox = require('../../app_root/images/logo_gignox.png');
 var logos = require('../../app_root/images/authentication_page_background_image.png');
@@ -14,23 +14,27 @@ import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
 
 export const Authentication = () => {
-
+  let [loader, setLoader] = useState("active");
   var [fade, setFade] = useState("signup");
   let [messageType, setmessageType] = useState("info");
   let [headerNotify, setheaderNotify] = useState("");
+  let [messageNotify, setmessageNotify] = useState("");
   var userLogin = new UserLogin();
   var user = new User();
-
+ 
   function login() {
-    if (!userLogin.getUsername() || !userLogin.getPassword()) {
+    setheaderNotify("")
+    setLoader("loading");
       let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
       let password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
       if (!username) {
         setmessageType("warning");
-        setheaderNotify(i18next.t("authentication_page_enter_username_or_email"))
+        setmessageNotify(i18next.t("authentication_page_enter_username_or_email"))
+        setLoader("active");
       } else if (!password) {
         setmessageType("warning");
-        setheaderNotify(i18next.t("authentication_page_enter_password"))
+        setmessageNotify(i18next.t("authentication_page_enter_password"))
+        setLoader("active");
       } else {
         userLogin.setUsername(username);
         userLogin.setPassword(password);
@@ -41,16 +45,15 @@ export const Authentication = () => {
             localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
             sessionStorage.setItem("routingPage", "nav_menu");
             window.location.href = '/home'
+            setLoader("active");
           } else {
             setmessageType("error");
-            setheaderNotify(i18next.t("authentication_page_invalid_username_or_password"))
+            setmessageNotify(i18next.t("authentication_page_invalid_username_or_password"))
 
-            console.log(generalResponseModalResponse_.GrpcResponseCode)
-            console.log(generalResponseModalResponse_.GrpcResponseMessage)
+            setLoader("active");
           }
         });
       }
-    }
   }
 
   function signup() {
@@ -198,7 +201,7 @@ export const Authentication = () => {
             <a className="signup-title" onClick={() => setFade("signup")} style={{ fontSize: fade === "signup" ? '25px' : '15px' }}> {i18next.t("authentication_page_sign_up")}</a>|
           <a className="signin-title" onClick={() => setFade("signin")} style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_sign_in")}</a>
           </div>
-          <div className="Signup" style={{ display: fade === "signup" ? 'block' : 'none', paddingTop: '60px' }}>
+          <div className="Signup" style={{ display: fade === "signup" ? 'block' : 'none', lineHeight: '2', padding: '35px 16px 16px' }}>
             <form className="signupForm">
               <label>{i18next.t("authentication_page_or")} <a className="signin-title" onClick={() => setFade("signin")} style={{ fontSize: fade === "signin" ? '25px' : '15px' }}>{i18next.t("authentication_page_goto_sign_in")}</a></label>
 
@@ -237,20 +240,24 @@ export const Authentication = () => {
                     return "null";
                 }
               })()}
-              <button className="btn_primary" style={{ width: '100%', backgroundColor: '#17a2b8' }} type="button" /* onClick={() => setFade("verification")} */ onClick={signup}>
+                   <Button fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={signup} >
                 {i18next.t("authentication_page_sign_up")}
-              </button>
+              </Button>
+
+          
             </form>
           </div>
 
-          <div className="Login" style={{ display: fade === "signin" ? 'block' : 'none' }}>
+          <div className="Login" style={{ display: fade === "signin" ? 'block' : 'none', lineHeight: '2', padding: '35px 16px 16px' }}>
 
             <form className="loginForm">
               <Message color='red' style={{ display: messageType === "error" ? 'block' : 'none' }}>
                 <Message.Header>{headerNotify}</Message.Header>
+                <p>{messageNotify}</p>
               </Message>
               <Message warning style={{ display: messageType === "warning" ? 'block' : 'none' }}>
                 <Message.Header>{headerNotify}</Message.Header>
+                <p>{messageNotify}</p>
               </Message>
               <label>{i18next.t("authentication_page_or")} <a className="signup-title" onClick={() => setFade("signup")} style={{ fontSize: fade === "signup" ? '25px' : '15px' }}>{i18next.t("authentication_page_create_an_account")}</a></label>
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
@@ -261,9 +268,16 @@ export const Authentication = () => {
                 <label>{i18next.t("authentication_page_password")}</label>
                 <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" onChange={handlePasswordChangeForLogin} />
               </div>
-              <button className="btn_primary" onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} id="loginButton" type="button">
+              {/* <button className="btn_primary" onClick={login} style={{ width: '100%', backgroundColor: '#17a2b8' }} id="loginButton" type="button">
                 {i18next.t("authentication_page_sign_in")}
-              </button>
+              </button> */}
+
+              <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={login} >
+                {i18next.t("authentication_page_sign_in")}
+              </Button>
+              <Button loading fluid style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white'  }} color='teal'>
+                Loading
+                </Button>
 
               <div className="login-need-help"><a href="password_reset" className="forgot-password-link">
                 {i18next.t("authentication_page_forgot_password")}</a></div>

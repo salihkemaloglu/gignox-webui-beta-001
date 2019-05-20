@@ -7,7 +7,7 @@ import StarOutlined from '@material-ui/icons/StarBorderOutlined';
 import AddCircleOutlineOutlined from '@material-ui/icons/AddBoxOutlined';
 import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import FolderOpenOutlined from '@material-ui/icons/FolderOpenOutlined';
-import SignOut from '@material-ui/icons/ExitToApp';
+import SignOutIcun from '@material-ui/icons/ExitToApp';
 
 import { Progress } from 'semantic-ui-react';
 
@@ -15,11 +15,6 @@ import { Progress } from 'semantic-ui-react';
 export const NavMenu = () => {
 
   const now = 60
-
-  function SetAuthentication() {
-    sessionStorage.setItem("routingPage", "authentication");
-    location.reload();
-  }
 
   var toggleOpen = false;
   var sidebarToggle = "closed";
@@ -91,10 +86,11 @@ export const NavMenu = () => {
         }
       });
     }
-
-
   }
-
+  function SignOut() {
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("token");
+}
   return (
     <nav className="float-left">
       <div className="mr-auto">
@@ -125,7 +121,7 @@ export const NavMenu = () => {
             </button>
           </div>
           <IndexLinkContainer to="/" className="leftNavItem sign_out">
-            <a onClick={SetAuthentication}><span className="leftNavLinkIcon"><SignOut className="iconsSvg" /></span><span className="leftNavLinkMenu">Sign out</span></a>
+            <a onClick={SignOut}><span className="leftNavLinkIcon"><SignOutIcun className="iconsSvg" /></span><span className="leftNavLinkMenu">Sign out</span></a>
           </IndexLinkContainer>
 
           <div className="leftNavItemStorage" style={{ borderBottom: 'none' }}>

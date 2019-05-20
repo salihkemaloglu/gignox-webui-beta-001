@@ -32,7 +32,7 @@ export const TopMenu = () => {
     }
 
     function SignOut() {
-        sessionStorage.removeItem("userName");
+        sessionStorage.removeItem("username");
         sessionStorage.removeItem("token");
     }
     
