@@ -1,5 +1,6 @@
 
 import * as React from "react";
+import HomepageLayout from '../deneme';
 
 
 export const About = () => {
@@ -22,10 +23,6 @@ export const About = () => {
     });
   }
   return (
-    <div style={{ display: 'flex' }}>
-      <div className="container">
-        <span>about</span>
-      </div>
-    </div>
+    <HomepageLayout/>
   );
 }

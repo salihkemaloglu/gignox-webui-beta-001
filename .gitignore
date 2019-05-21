@@ -23,3 +23,5 @@ yarn-error.log*
 /.yarnclean
 generate.sh
 
+src/components/deneme.tsx
+src/components/about/about.tsx

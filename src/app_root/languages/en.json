@@ -45,7 +45,10 @@
     "authentication_page_enter_username_or_email":"Please enter a username or email",
     "authentication_page_enter_password":"Please enter a password",
     "authentication_page_username_or_email_already_exist":"Username or email already exist",
-    "authentication_page_invalid_email_or_received":"This email is invalid or already received"
+    "authentication_page_invalid_email_or_received":"This email is invalid or already received",
+    "authentication_page_unexpected_error":"An unexpected error has occurred, Please try later",
+    "authentication_page_sign_up_empty_validation":"Following fields cannot be empty",
+    "authentication_page_sign_up_resolve_following_errors":"Please resolve the following errors"
     
 }
 

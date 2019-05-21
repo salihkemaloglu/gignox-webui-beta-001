@@ -69,15 +69,17 @@ export const NavMenu = () => {
       }
     });
 
+    
 
 
     // ----Left side bar menu open and close action in mobile and tablet size------
     var leftSidebarToggle = document.getElementById("toggle_id") as HTMLElement;
-    var leftSidebar = document.getElementById("left_sidebar") as HTMLElement;
+    var leftSidebar = document.getElementById("floatLeft") as HTMLElement;
     if (leftSidebarToggle) {
       leftSidebarToggle.addEventListener('click', function () {
         if (sidebarToggle == "closed") {
           leftSidebar.style.display = "block";
+          leftSidebar.style.transition = "";
           sidebarToggle = "opened";
         }
         else {
@@ -92,7 +94,7 @@ export const NavMenu = () => {
     sessionStorage.removeItem("token");
 }
   return (
-    <nav className="float-left">
+    <nav className="float-left" id="floatLeft">
       <div className="mr-auto">
         <div className="leftSideBar">
 
@@ -129,8 +131,6 @@ export const NavMenu = () => {
               <label style={{ fontSize: '12px', paddingTop: '10px', paddingBottom: '0', color: 'rgb(145, 145, 145)' }}>Toplam alan: 15 GB - ({`${now}%`})</label>
             </div>
             <Progress percent={now} size='tiny' color="blue" style={{ margin: '3px 0px 0px 0px' }} />
-
-            {/* <label className="storage" style={{ fontSize: '12px', padding: '0', color: '#cccccc' }}>{`${now}%`}</label> */}
           </div>
         </div>
       </div>
