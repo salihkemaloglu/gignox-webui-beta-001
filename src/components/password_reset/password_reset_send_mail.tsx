@@ -98,7 +98,7 @@ export const PasswordResetSendMail = () => {
               <Button color='teal' fluid size='large' style={{ display: loader === "active" ? 'block' : 'none' }} onClick={SendPasswordResetEmail} >
                 {i18next.t("password_reset_page_send_password_reset_email")}
               </Button>
-              <Button loading fluid style={{ display: loader === "loading" ? 'block' : 'none' }} color='teal'>
+              <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none' }} color='teal'>
                 Loading
               </Button>
             </Segment>

@@ -16,16 +16,16 @@ export const AppRouter = () => {
         <Component {...props} />
       </React.Suspense>
     );
-  }
+  } 
   return (
     <BrowserRouter>
       <div className="container-fluid" style={{ padding: 0, height: '-webkit-fill-available' }}>
         <Switch>
           <AppRoute path="/home" layout={AppNavMenuLayout} component={WaitingComponent(Home)} />
           <AppRoute path="/help" layout={AppNavMenuLayout} component={WaitingComponent(Help)} />
-          <AppRoute path="/about" layout={AppNavMenuLayout} component={WaitingComponent(About)} />
           <AppRoute path="/profile" layout={AppAdminLayout} component={WaitingComponent(Admin)} />
           <AuthenticaitonRoute exact path="/"  component={WaitingComponent(Authentication)} />
+          <Route path="/about" component={About} />
           <Route exact path="/password_reset" component={WaitingComponent(PasswordResetSendMail)} />
           <Route exact path="/password_reset/:id" component={WaitingComponent(PasswordReset)} />
           <Route path="*" component={WaitingComponent(NotFound)} />

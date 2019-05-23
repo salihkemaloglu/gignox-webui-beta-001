@@ -168,7 +168,7 @@ export const PasswordReset = () => {
               <Button color='teal' fluid size='large' style={{ display: loader === "active" ? 'block' : 'none' }} onClick={ResetPassword} >
                 {i18next.t("password_reset_page_reset_Password")}
               </Button>
-              <Button loading fluid style={{ display: loader === "  " ? 'block' : 'none' }} color='teal'>
+              <Button loading fluid disabled style={{ display: loader === "  " ? 'block' : 'none' }} color='teal'>
                 Loading
               </Button>
             </Segment>

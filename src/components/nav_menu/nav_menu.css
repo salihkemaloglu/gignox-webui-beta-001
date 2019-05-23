@@ -30,7 +30,7 @@
       z-index: 1000;
     }
 
-.left_side_bar{
+.float-left{
   display: none;
 }
 .leftSideBar .active{
@@ -132,7 +132,7 @@ color: white;
       z-index: 1000;
     }
 
-.left_side_bar{
+.float-left{
   display: none;
   
 }

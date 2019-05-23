@@ -45,5 +45,8 @@
     "authentication_page_enter_username_or_email":"Lütfet kullanıcı veya email giriniz",
     "authentication_page_enter_password":"Lütfen şifre giriniz",
     "authentication_page_username_or_email_already_exist":"Kullanıcı adı veya email zaten mevcut",
-    "authentication_page_invalid_email_or_received":"Bu email geçersiz veya zaten alınmış"
+    "authentication_page_invalid_email_or_received":"Bu email geçersiz veya zaten alınmış",
+    "authentication_page_unexpected_error":"Beklenmedik bir hata oluştu lütfen daha sonra tekrar deneyiniz",
+    "authentication_page_sign_up_empty_validation":"Aşağıdaki alanlar boş olamaz",
+    "authentication_page_sign_up_resolve_following_errors":"Lütfen aşağıdaki hataları giderin"
 }
