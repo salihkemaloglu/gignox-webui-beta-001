@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Done from '@material-ui/icons/Done';
 import Cross from '@material-ui/icons/WarningOutlined';
-import { Dropdown, Flag, Label, Form, Message, Button, Progress } from 'semantic-ui-react'
+import { Dropdown, Flag, Label, Form, Message, Button, Progress } from 'semantic-ui-react';
 var logo = require('../../app_root/images/logo.png');
 var logoGignox = require('../../app_root/images/logo_gignox.png');
 var logos = require('../../app_root/images/authentication_page_background_image.png');
