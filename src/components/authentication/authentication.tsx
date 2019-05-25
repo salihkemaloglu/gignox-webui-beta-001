@@ -74,17 +74,8 @@ export const Authentication = () => {
   function Login() {
     setloginHeaderNotify("")
     setLoader("loading");
-    let temp = (document.getElementById("usernameLogin") as HTMLInputElement).value
-    let username = ""
-    let password = ""
-     if (temp != null) {
-       username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
-       password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
-     }
-     else {
-       username = (document.getElementById("usernameLoginMob") as HTMLInputElement).value;
-       password = (document.getElementById("passwordLoginMob") as HTMLInputElement).value;
-     }
+      let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
+      let password = (document.getElementById("passwordLogin") as HTMLInputElement).value; 
    
     if (!username) {
       setloginMessageType("warning");
