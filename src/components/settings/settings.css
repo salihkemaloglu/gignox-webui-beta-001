@@ -1,0 +1,33 @@
+/* Mobile Styles */
+@media only screen and (max-width: 660px) {
+.sideBarColumn{
+    display: contents !important;
+}
+.sideBarColumn .horizontal{
+    overflow-x: scroll !important;
+}
+.rightSideForm {
+    padding-top: 20px;
+    width: 100% !important;
+}
+}
+/* Tablet Styles */
+@media only screen and (min-width: 661px) and (max-width: 960px) {
+    .rightSideForm {
+        padding-top: 20px;
+        width: 50% !important;
+    }
+    .sideBarColumn {
+        width: 34% !important;
+     }
+}
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
+    .rightSideForm {
+        padding-top: 20px;
+        width: 50% !important;
+    }
+    .sideBarColumn {
+       width: 25% !important;
+    }
+}

@@ -1,12 +1,10 @@
 import * as React from 'react';
 import './admin.css';
-import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
-import { IndexLinkContainer } from 'react-router-bootstrap';
+// import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 
 export const Admin = () => {
 
-    var userDropdown = "closed";
-    var sidebarToggle = "closed";
+    // var sidebarToggle = "closed";
     window.onload = () => {
 
         var tab1 = document.getElementById("tab1") as HTMLElement;
@@ -17,29 +15,6 @@ export const Admin = () => {
         var sharedWithMeContent = document.getElementById("sharedWithMeContent") as HTMLElement;
         var starredContent = document.getElementById("starredContent") as HTMLElement;
 
-
-        // -----------------------User dropdown menu--------------------------
-        var userMenu = document.getElementById("user-menu") as HTMLElement;
-        var userMenuBar = document.getElementById("dd") as HTMLElement;
-        if (userMenu) {
-            userMenu.addEventListener('click', function () {
-                if (userDropdown == "closed") {
-                    userMenuBar.className = "wrapper-dropdown-3 active";
-                    userDropdown = "opened";
-                }
-                else {
-                    userMenuBar.className = "wrapper-dropdown-3";
-                    userDropdown = "closed";
-                }
-            });
-        }
-
-        window.addEventListener('click', function (e: any) {
-            if (e.target.offsetParent != undefined && e.target.offsetParent.id != 'dd') {
-                userMenuBar.className = "wrapper-dropdown-3";
-                userDropdown = "closed";
-            }
-        });
         // -----------------------User Tab Menu--------------------------
         if (tab1) {
             if (latestFilesContent != null) {
@@ -86,49 +61,38 @@ export const Admin = () => {
 
         // ----Left side bar menu open and close action in mobile and tablet size------
        
-        var leftSidebarToggle = document.getElementById("toggle_id") as HTMLElement;
-        var leftSidebar = document.getElementById("left_sidebar") as HTMLElement;
-        if (leftSidebarToggle) {
-          leftSidebarToggle.addEventListener('click', function () {
-            if (sidebarToggle == "closed") {
-              leftSidebar.style.display = "block";
-              sidebarToggle = "opened";
-            }
-            else {
-              leftSidebar.style.display = "none";
-              sidebarToggle = "closed";
-            }
-          });
+        // var leftSidebarToggle = document.getElementById("toggle_id") as HTMLElement;
+        // var leftSidebar = document.getElementById("left_sidebar") as HTMLElement;
+        // if (leftSidebarToggle) {
+        //   leftSidebarToggle.addEventListener('click', function () {
+        //     if (sidebarToggle == "closed") {
+        //       leftSidebar.style.display = "block";
+        //       sidebarToggle = "opened";
+        //     }
+        //     else {
+        //       leftSidebar.style.display = "none";
+        //       sidebarToggle = "closed";
+        //     }
+        //   });
 
-        }
+        // }
     }
 
 
     return (
     <div>
-        <div className="p_left_side_bar" id="left_sidebar">
+        {/* <div className="p_left_side_bar" id="left_sidebar">
         <nav className="p_float-left">
           <div className="p_mr-auto">
             <div className="p_leftSideBar">
-            <IndexLinkContainer to="" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
-                <a><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Your Profile</span></a>
-              </IndexLinkContainer>
-              <IndexLinkContainer to="" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
-                <a><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Your Files</span></a>
-              </IndexLinkContainer>
-              <div className="p_leftNavItem p_profil_item">
-                <button type="submit" style={{ backgroundColor: 'transparent', border: 'none', paddingTop: '9px', cursor: 'pointer', display: 'flex' }} onClick={() => sessionStorage.setItem("routingPage", "user_admin")}>
-                  <span><img src="http://www.ilkerelektrik.com/public/img/avatar-large-1.png " alt="logo" width='45px' /></span>
-                  <span style={{ color: 'white', padding: '7px' }} className='p_user_name'>omer</span>
-                </button>
-            </div>
-              <IndexLinkContainer to="" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}>
-                <a><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Sign out</span></a>
-              </IndexLinkContainer>
+                <a href="/" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Profile</span></a>
+                <a href="/" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Files</span></a>
+                <a href="settings" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Settings</span></a>
+                <a href="/" className="p_leftNavItem" style={{ display: '-webkit-inline-box', borderBottom: '1px solid #5b5b5b' }}><span className="p_leftNavLinkIcon"> <FileCopyOutlined className="iconsSvg" /></span><span className="p_leftNavLinkMenu">Sign out</span></a>
             </div>
           </div>
         </nav>
-      </div>
+      </div> */}
         <div className="admin_page">
            <div className="container">
               <div className="wrapper">

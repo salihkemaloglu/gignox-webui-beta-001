@@ -12,7 +12,19 @@ import { i18next, lang } from '../../services/localization_service'
 import { DoLoginUserRequest, DoRegisterUserRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
-
+import {
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Image,
+  List,
+  Menu,
+  Responsive,
+  Segment,
+  Sidebar,
+  Icon,
+} from 'semantic-ui-react'
 export const Authentication = () => {
   let [loader, setLoader] = useState("active");
   var [fade, setFade] = useState("signup");
@@ -72,37 +84,37 @@ export const Authentication = () => {
     if (alreadyExistUserWarning != "exist") {
       setsignupHeaderNotify("")
       setLoader("loading");
-        let username = (document.getElementById("username_form") as HTMLInputElement).value;
-        let email = (document.getElementById("email_form") as HTMLInputElement).value;
-        let password = (document.getElementById("passwordForm") as HTMLInputElement).value;
-        if (username && password && email) {
-          user.setUsername(username);
-          user.setPassword(password);
-          user.setEmail(email);
+      let username = (document.getElementById("username_form") as HTMLInputElement).value;
+      let email = (document.getElementById("email_form") as HTMLInputElement).value;
+      let password = (document.getElementById("passwordForm") as HTMLInputElement).value;
+      if (username && password && email) {
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
 
-          DoRegisterUserRequest(user, function (userRegisterResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
-            if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
-              // sessionStorage.setItem("token", userRegisterResponse_.getToken());
-              sessionStorage.setItem("username", userRegisterResponse_.getUsername());
-              localStorage.setItem("languageCode", userRegisterResponse_.getLanguageCode())
-              sessionStorage.setItem("routingPage", "nav_menu");
-              window.location.href = '/home'
-              setLoader("active");
-            } else {
-              console.log(generalResponseModalResponse_.GrpcResponseCode)
-              console.log(generalResponseModalResponse_.GrpcResponseMessage)
-              setLoader("active");
-            }
-          });
+        DoRegisterUserRequest(user, function (userRegisterResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
+          if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+            // sessionStorage.setItem("token", userRegisterResponse_.getToken());
+            sessionStorage.setItem("username", userRegisterResponse_.getUsername());
+            localStorage.setItem("languageCode", userRegisterResponse_.getLanguageCode())
+            sessionStorage.setItem("routingPage", "nav_menu");
+            window.location.href = '/home'
+            setLoader("active");
+          } else {
+            console.log(generalResponseModalResponse_.GrpcResponseCode)
+            console.log(generalResponseModalResponse_.GrpcResponseMessage)
+            setLoader("active");
+          }
+        });
 
-        } else {
-          console.log("Fields cannot be empty")
-          setsignupMessageType("warning")
-          setsignupMessageNotify(i18next.t("authentication_page_sign_up_empty_validation"))
-          setLoader("active")
-        }
-
+      } else {
+        console.log("Fields cannot be empty")
+        setsignupMessageType("warning")
+        setsignupMessageNotify(i18next.t("authentication_page_sign_up_empty_validation"))
+        setLoader("active")
       }
+
+    }
   }
   function handleEmailChangeForLogin(e: any) {
     userLogin.setUsername(e.target.value)
@@ -197,7 +209,27 @@ export const Authentication = () => {
       setalreadyExistUserWarning("nonExist")
     }
   }
+  function getWidth() {
+    const isSSR = typeof window === 'undefined'
+
+    return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+  }
+
+
+  let [sidebarOpened, setsidebarOpened] = React.useState(false)
+  let [loginScreenOpened, setloginScreenOpened] = React.useState(false)
+  let [signupScreenOpened, setsignupScreenOpened] = React.useState(false)
+
+  function sidebarScreenBack() {
+    setloginScreenOpened(false)
+    setsignupScreenOpened(false)
+    setsidebarOpened(true)
+  }
   
+  function orSignin() {
+    setloginScreenOpened(true)
+    setsignupScreenOpened(false)
+  }
   return (
     <div className="wrap">
       <section className="navSection Logos" >
@@ -216,7 +248,7 @@ export const Authentication = () => {
         </section>
         <section className="rightSection">
           <div style={{ float: 'right', width: '100%', padding: '15px' }}>
-            <Dropdown text="Language" icon='language' floating labeled button className='icon language_dropdown'>
+            <Dropdown text="Language" icon='globe' floating labeled button className='icon language_dropdown'>
               <Dropdown.Menu className="language_box" style={{ marginTop: '0!important' }}>
                 <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='united kingdom' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "en")} text='En' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
                 <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='turkey' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "tr")} text='Tr' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
@@ -318,6 +350,334 @@ export const Authentication = () => {
 
         </section>
       </section>
+
+      <Responsive
+        as={Sidebar.Pushable}
+        getWidth={() => (getWidth ? window.innerWidth : 0)}
+        maxWidth={Responsive.onlyTablet.maxWidth}
+      >
+        <Sidebar
+          as={Menu}
+          animation='push'
+          inverted
+          onHide={() => setsidebarOpened(false)}
+          vertical
+          visible={sidebarOpened}
+        >
+
+          <a href="/" className="logo_link" style={{ display: 'inherit' }}>
+            <img src={logo} className="authentication-app-logo" alt="logo" />
+            <img src={logoGignox} className="authentication_logo_word" alt="logo" />
+          </a>
+          <Menu.Item as='a' active>Home</Menu.Item>
+          <Menu.Item as='a'>About</Menu.Item>
+          <Menu.Item as='a'>Contact</Menu.Item>
+          <Menu.Item as='a' onClick={() => setloginScreenOpened(true)}>Log in</Menu.Item>
+          <Menu.Item as='a' onClick={() => setsignupScreenOpened(true)}>Sign Up</Menu.Item>
+        </Sidebar>
+
+
+        {/******* Login screen **********/}
+        <Sidebar
+          as={Menu}
+          animation='push'
+          inverted
+          onHide={() => setloginScreenOpened(false)}
+          vertical
+          visible={loginScreenOpened}
+          style={{ backgroundColor: 'white', width: '100%' }}
+        >
+
+          <Menu.Item as='a' style={{ marginBottom: '10px', paddingBottom: '15px', backgroundColor: '#2B2F43', minHeight: '50px' }} onClick={sidebarScreenBack}><Icon name='chevron circle left' style={{ color: 'white', float: 'left', fontSize: '25px' }} /></Menu.Item>
+
+          <Menu.Item as='a'>
+            <div className="Login" style={{ lineHeight: '2', padding: '0' }}>
+
+              <form className="loginForm">
+                <Message color='red' style={{ display: loginMessageType === "error" ? 'block' : 'none' }}>
+                  <Message.Header>{loginHeaderNotify}</Message.Header>
+                  <p>{loginMessageNotify}</p>
+                </Message>
+                <Message warning style={{ display: loginMessageType === "warning" ? 'block' : 'none' }}>
+                  <Message.Header>{loginHeaderNotify}</Message.Header>
+                  <p>{loginMessageNotify}</p>
+                </Message>
+                <label style={{ color: 'black' }}>{i18next.t("authentication_page_or")} <a className="signup-title" onClick={() => setsignupScreenOpened(true)} style={{ fontSize: '15px' }}>{i18next.t("authentication_page_create_an_account")}</a></label>
+                <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
+                  <label style={{ color: 'black' }}>{i18next.t("authentication_page_username_or_email")}</label>
+                  <input className="input_control" placeholder={i18next.t("authentication_page_username_or_email")} autoFocus id="usernameLogin" onChange={handleEmailChangeForLogin} />
+                </div>
+                <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
+                  <label style={{ color: 'black' }}>{i18next.t("authentication_page_password")}</label>
+                  <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" onChange={handlePasswordChangeForLogin} />
+                </div>
+
+                <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={login} >
+                  {i18next.t("authentication_page_sign_in")}
+                </Button>
+                <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
+                  Loading
+    </Button>
+
+                <div className="login-need-help"><a href="password_reset" className="forgot-password-link">
+                  {i18next.t("authentication_page_forgot_password")}</a></div>
+              </form>
+            </div>
+          </Menu.Item>
+        </Sidebar>
+
+        {/******* Sign up screen **********/}
+        <Sidebar
+          as={Menu}
+          animation='push'
+          inverted
+          onHide={() => setsignupScreenOpened(false)}
+          vertical
+          visible={signupScreenOpened}
+          style={{ backgroundColor: 'white', width: '100%' }}
+        >
+          <Menu.Item as='a' style={{ marginBottom: '10px', paddingBottom: '15px', backgroundColor: '#2B2F43', minHeight: '50px' }} onClick={sidebarScreenBack}><Icon name='chevron circle left' style={{ color: 'white', float: 'left', fontSize: '25px' }} /></Menu.Item>
+
+          <Menu.Item as='a'>
+            <div className="Signup" style={{ lineHeight: '2' }}>
+              <form className="signupForm">
+                <Message color='red' style={{ display: signupMessageType === "error" ? 'block' : 'none' }}>
+                  <Message.Header>{signupHeaderNotify}</Message.Header>
+                  <p>{signupMessageNotify}</p>
+                </Message>
+                <Message warning style={{ display: signupMessageType === "warning" ? 'block' : 'none' }}>
+                  <Message.Header>{signupHeaderNotify}</Message.Header>
+                  <p>{signupMessageNotify}</p>
+                </Message>
+                <label style={{ color: 'black' }}>{i18next.t("authentication_page_or")} <a className="signin-title" onClick={orSignin} style={{ fontSize: '15px' }}>{i18next.t("authentication_page_goto_sign_in")}</a></label>
+
+                <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
+                  <label id="usernameLabel" style={{ width: '100%', color: 'black' }}>{i18next.t("authentication_page_username")}</label>
+
+                  <Form.Field>
+                    <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
+                    <Label id="validationUsername" basic color='red' pointing style={{ display: 'none' }} />
+                  </Form.Field>
+                </div>
+
+                <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
+                  <label id="emailLabel" style={{ width: '100%', color: 'black' }}>Email</label>
+                  <Form.Field>
+                    <input autoComplete="new-email" className="input_control" placeholder="Email" autoFocus type="email" style={{ width: '100%', float: 'left' }} onChange={handleEmailChangeForRegister} id="email_form" />
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistCross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
+                    <Label id="validationEmail" basic color='red' pointing style={{ display: 'none' }} />
+                  </Form.Field>
+                </div>
+
+                <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
+                  <label style={{ width: '100%', color: 'black' }}>{i18next.t("authentication_page_password")}</label>
+                  <input autoComplete="new-password" className="input_control" type="password" placeholder={i18next.t("authentication_page_password")} style={{ width: '100%', float: 'left' }} id="passwordForm" />
+                </div>
+                {(() => {
+                  switch (lang) {
+                    case 'en':
+                      return <label style={{ color: 'black' }}>{i18next.t('authentication_page_terms_start')} {i18next.t('authentication_page_accept_terms')} <a className='signup-title'>{i18next.t('authentication_page_terms')}</a> {i18next.t('authentication_page_and')} <a className='signup-title'>{i18next.t('authentication_page_privacy_policy')}</a></label>;
+                    case 'tr':
+                      return <label style={{ color: 'black' }}>{i18next.t('authentication_page_terms_start')} <a className='signup-title' >{i18next.t('authentication_page_terms')}</a> {i18next.t('authentication_page_and')} <a className='signup-title' >{i18next.t('authentication_page_privacy_policy')} </a> {i18next.t('authentication_page_accept_terms')}</label>;
+                    default:
+                      return "null";
+                  }
+                })()}
+                <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={signup} >
+                  {i18next.t("authentication_page_sign_up")}
+                </Button>
+                <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
+                  Loading
+                </Button>
+              </form>
+            </div>
+          </Menu.Item>
+        </Sidebar>
+
+        <Sidebar.Pusher dimmed={sidebarOpened}>
+          <Segment
+            inverted
+            textAlign='center'
+            style={{ minHeight: 350, padding: '1em 0em' }}
+            vertical
+          >
+            <Container>
+              <Menu inverted pointing secondary size='large'>
+                <Menu.Item style={{marginLeft: '0', width: '240px'}}>
+                  {/* <Button as='a' inverted onClick={() => setloginScreenOpened(true)}>
+                    Log in
+</Button>
+                  <Button as='a' inverted onClick={() => setsignupScreenOpened(true)} style={{ marginLeft: '0.5em' }}>
+                    Sign Up
+</Button> */}
+                  <a href="/" className="logo_link" style={{ display: 'inherit' }}>
+                    <img src={logo} className="authentication-app-logo" alt="logo" />
+                    <img src={logoGignox} className="authentication_logo_word" alt="logo" />
+                  </a>
+                </Menu.Item>
+                <Menu.Item onClick={() => setsidebarOpened(true)} style={{marginBottom: '10px', fontSize: '23px', marginLeft: 'auto'}}>
+                  <Icon name='sidebar' />
+                </Menu.Item>
+              </Menu>
+            </Container>
+            {/*************** HomepageHeading ******************/}
+            <Container text>
+              <Header
+                as='h1'
+                content='Imagine-a-Company'
+                inverted
+                style={{
+                  fontSize: '2em',
+                  fontWeight: 'normal',
+                  marginBottom: 0,
+                  marginTop: '1.5em',
+                }}
+              />
+              <Header
+                as='h2'
+                content='Do whatever you want when you want to.'
+                inverted
+                style={{
+                  fontSize: '1.5em',
+                  fontWeight: 'normal',
+                  marginTop: '0.5em',
+                }}
+              />
+              <Button primary size='huge'>
+                Get Started
+</Button>
+            </Container>
+            {/*************** /HomepageHeading ******************/}
+          </Segment>
+
+          {/*************** children ******************/}
+          <Segment style={{ padding: '8em 0em' }} vertical>
+            <Grid container stackable verticalAlign='middle'>
+              <Grid.Row>
+                <Grid.Column width={8}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    We Help Companies and Companions
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>
+                    We can give your company superpowers to do things that they never thought possible.
+                    Let us delight your customers and empower your needs... through pure data analytics.
+</p>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    We Make Bananas That Can Dance
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>
+                    Yes that's right, you thought it was the stuff of dreams, but even bananas can be
+                    bioengineered.
+</p>
+                </Grid.Column>
+                <Grid.Column floated='right' width={6}>
+                  <Image bordered rounded size='large' src='/images/wireframe/white-image.png' />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column textAlign='center'>
+                  <Button size='huge'>Check Them Out</Button>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
+          <Segment style={{ padding: '0em' }} vertical>
+            <Grid celled='internally' columns='equal' stackable>
+              <Grid.Row textAlign='center'>
+                <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    "What a Company"
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+                </Grid.Column>
+                <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    "I shouldn't have gone with their competitor."
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>
+                    <Image avatar src='/images/avatar/large/nan.jpg' />
+                    <b>Nan</b> Chief Fun Officer Acme Toys
+</p>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
+          <Segment style={{ padding: '8em 0em' }} vertical>
+            <Container text>
+              <Header as='h3' style={{ fontSize: '2em' }}>
+                Breaking The Grid, Grabs Your Attention
+</Header>
+              <p style={{ fontSize: '1.33em' }}>
+                Instead of focusing on content creation and hard work, we have learned how to master the
+                art of doing nothing by providing massive amounts of whitespace and generic content that
+                can seem massive, monolithic and worth your attention.
+</p>
+              <Button as='a' size='large'>
+                Read More
+</Button>
+              <Divider
+                as='h4'
+                className='header'
+                horizontal
+                style={{ margin: '3em 0em', textTransform: 'uppercase' }}
+              >
+                <a href='#'>Case Studies</a>
+              </Divider>
+              <Header as='h3' style={{ fontSize: '2em' }}>
+                Did We Tell You About Our Bananas?
+</Header>
+              <p style={{ fontSize: '1.33em' }}>
+                Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but
+                it's really true. It took years of gene splicing and combinatory DNA research, but our
+                bananas can really dance.
+</p>
+              <Button as='a' size='large'>
+                I'm Still Quite Interested
+</Button>
+            </Container>
+          </Segment>
+          <Segment inverted vertical style={{ padding: '5em 0em' }}>
+            <Container>
+              <Grid divided inverted stackable>
+                <Grid.Row>
+                  <Grid.Column width={3}>
+                    <Header inverted as='h4' content='About' />
+                    <List link inverted>
+                      <List.Item as='a'>Sitemap</List.Item>
+                      <List.Item as='a'>Contact Us</List.Item>
+                      <List.Item as='a'>Religious Ceremonies</List.Item>
+                      <List.Item as='a'>Gazebo Plans</List.Item>
+                    </List>
+                  </Grid.Column>
+                  <Grid.Column width={3}>
+                    <Header inverted as='h4' content='Services' />
+                    <List link inverted>
+                      <List.Item as='a'>Banana Pre-Order</List.Item>
+                      <List.Item as='a'>DNA FAQ</List.Item>
+                      <List.Item as='a'>How To Access</List.Item>
+                      <List.Item as='a'>Favorite X-Men</List.Item>
+                    </List>
+                  </Grid.Column>
+                  <Grid.Column width={7}>
+                    <Header as='h4' inverted>
+                      Footer Header
+</Header>
+                    <p>
+                      Extra space for a call to action inside the footer that could help re-engage users.
+</p>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Container>
+          </Segment>
+          {/*************** /children ******************/}
+
+
+        </Sidebar.Pusher>
+      </Responsive>
     </div>
   );
 };

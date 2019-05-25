@@ -70,7 +70,7 @@
 .leftNavLinkMenu {
   display: block;
   padding: 6px 6px 6px 25px;
-  color: whitesmoke;
+  color: #bab7b7;
   opacity: 0.8;
   font-size: 16px;
   font-weight: 400;
@@ -94,7 +94,7 @@ color: white;
 }
 .leftNavLinkIcon {
   font-size: 20px;
-  color: rgb(167, 201, 255);
+  color: white;
   line-height: 2; 
 }
 
@@ -174,7 +174,7 @@ cursor: pointer !important;
 .leftNavLinkMenu {
   display: block;
   padding: 6px 6px 6px 25px;
-  color: white;
+  color: #bab7b7;
   opacity: 0.8;
   font-size: 16px;
   font-weight: 400;
@@ -183,7 +183,7 @@ cursor: pointer !important;
 }
 
 .leftNavLinkMenu:hover {
-color: orange;
+color: white;
 }
 .storage {
   display: block;
@@ -198,7 +198,7 @@ color: orange;
 }
 .leftNavLinkIcon {
   font-size: 20px;
-  color: rgb(167, 201, 255);
+  color: white;
   line-height: 2; 
 }
 

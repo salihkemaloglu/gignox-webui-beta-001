@@ -42,7 +42,7 @@
   }
 
   .logo_link {
-    width: 205px !important;
+    width: 200px !important;
     padding: 5px;
   }
   .toggle_menu {
@@ -156,7 +156,7 @@ align-items: center;
     margin-bottom: 5px;
   }
   .logo_link {
-    width: 205px !important;
+    width: 230px !important;
     padding: 5px;
   }
   .toggle_menu {
@@ -220,6 +220,9 @@ align-items: center;
 
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
+  .toggleLeftSideBar {
+    display: none !important; 
+  }
   .top_menu{
     background: linear-gradient(to right, #252839 0%, #252839 100%);
     padding: 10px;
