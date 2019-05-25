@@ -33,7 +33,7 @@ export function DoRegisterUserRequest(user_: User, callback: any) {
   grpc.invoke(GigxRRService.Register, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "languagecode": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": "tr" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },

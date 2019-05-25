@@ -12,6 +12,7 @@ import { i18next, lang } from '../../services/localization_service'
 import { DoLoginUserRequest, DoRegisterUserRequest, DoCheckUserToRegisterRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
+var zxcvbn = require('zxcvbn');
 import {
   Container,
   Divider,
@@ -25,6 +26,8 @@ import {
   Sidebar,
   Icon,
 } from 'semantic-ui-react'
+import { GetMessageType } from 'src/helpers/message_type_helper';
+import { ValidateUsername, ValidateEmail } from 'src/helpers/validation_helper';
 export const Authentication = () => {
   const [loader, setLoader] = useState("active");
   const [fade, setFade] = useState("signup");
@@ -37,7 +40,23 @@ export const Authentication = () => {
   const [alreadyExistUserWarning, setalreadyExistUserWarning] = useState("nonExist");
   const [passwordStrenghtWidth, setpasswordStrenghtWidth] = useState("");
   const [passwordStrenghtColor, setpasswordStrenghtColor] = useState("off");
+  let [sidebarOpened, setsidebarOpened] = React.useState(false)
+  let [loginScreenOpened, setloginScreenOpened] = React.useState(false)
+  let [signupScreenOpened, setsignupScreenOpened] = React.useState(false)
+  function getWidth() {
+    const isSSR = typeof window === 'undefined'
 
+    return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+  }
+  function sidebarScreenBack() {
+    setloginScreenOpened(false)
+    setsignupScreenOpened(false)
+    setsidebarOpened(true)
+  }
+  function orSignin() {
+    setloginScreenOpened(true)
+    setsignupScreenOpened(false)
+  }
   var userLogin = new UserLogin();
   var user = new User();
   document.addEventListener('DOMContentLoaded', (event) => {
@@ -464,14 +483,14 @@ export const Authentication = () => {
                 <label style={{ color: 'black' }}>{i18next.t("authentication_page_or")} <a className="signup-title" onClick={() => setsignupScreenOpened(true)} style={{ fontSize: '15px' }}>{i18next.t("authentication_page_create_an_account")}</a></label>
                 <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                   <label style={{ color: 'black' }}>{i18next.t("authentication_page_username_or_email")}</label>
-                  <input className="input_control" placeholder={i18next.t("authentication_page_username_or_email")} autoFocus id="usernameLogin" onChange={handleEmailChangeForLogin} />
+                  <input className="input_control" placeholder={i18next.t("authentication_page_username_or_email")} autoFocus id="usernameLogin" />
                 </div>
                 <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                   <label style={{ color: 'black' }}>{i18next.t("authentication_page_password")}</label>
-                  <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" onChange={handlePasswordChangeForLogin} />
+                  <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" />
                 </div>
 
-                <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={login} >
+                <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={Login} >
                   {i18next.t("authentication_page_sign_in")}
                 </Button>
                 <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
@@ -514,7 +533,7 @@ export const Authentication = () => {
                   <label id="usernameLabel" style={{ width: '100%', color: 'black' }}>{i18next.t("authentication_page_username")}</label>
 
                   <Form.Field>
-                    <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
+                    <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} id="usernameRegister" onChange={handleUsernameChangeForRegister} onKeyPress={handleOnKeyPress} />
                     <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                     <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
                     <Label id="validationUsername" basic color='red' pointing style={{ display: 'none' }} />
@@ -545,7 +564,7 @@ export const Authentication = () => {
                       return "null";
                   }
                 })()}
-                <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={signup} >
+                <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={Signup} >
                   {i18next.t("authentication_page_sign_up")}
                 </Button>
                 <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
@@ -565,7 +584,7 @@ export const Authentication = () => {
           >
             <Container>
               <Menu inverted pointing secondary size='large'>
-                <Menu.Item style={{marginLeft: '0', width: '240px'}}>
+                <Menu.Item style={{ marginLeft: '0', width: '240px' }}>
                   {/* <Button as='a' inverted onClick={() => setloginScreenOpened(true)}>
                     Log in
 </Button>
@@ -577,7 +596,7 @@ export const Authentication = () => {
                     <img src={logoGignox} className="authentication_logo_word" alt="logo" />
                   </a>
                 </Menu.Item>
-                <Menu.Item onClick={() => setsidebarOpened(true)} style={{marginBottom: '10px', fontSize: '23px', marginLeft: 'auto'}}>
+                <Menu.Item onClick={() => setsidebarOpened(true)} style={{ marginBottom: '10px', fontSize: '23px', marginLeft: 'auto' }}>
                   <Icon name='sidebar' />
                 </Menu.Item>
               </Menu>

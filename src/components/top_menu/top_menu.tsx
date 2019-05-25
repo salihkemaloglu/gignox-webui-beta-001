@@ -5,7 +5,7 @@ import Menu from '@material-ui/icons/Menu';
 import PermIdentity from '@material-ui/icons/PermIdentity';
 import Settings from '@material-ui/icons/SettingsOutlined';
 import './top_menu.css';
-import LeftSideBar from '../left_side_bar';
+import LeftSideBar from '../../helpers/left_side_bar';
 
 var logo = require('../../app_root/images/logo.png');
 var logotransparent = require('../../app_root/images/logo_gignox.png');
