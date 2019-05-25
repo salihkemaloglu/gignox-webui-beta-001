@@ -12,7 +12,7 @@ RUN npm install react-scripts@1.1.1 -g
 RUN npm audit fix
 
 COPY . /usr/src/app
-RUN npm run build
+#RUN npm run build
 EXPOSE 3000
 
 CMD ["npm", "start"]
