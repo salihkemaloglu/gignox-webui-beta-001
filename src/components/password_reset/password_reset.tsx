@@ -14,14 +14,13 @@ import { GetMessageType } from '../../helpers/message_type_helper';
 var zxcvbn = require('zxcvbn');
 export const PasswordReset = () => {
 
-  let [loader, setLoader] = useState("active");
-  let [messageType, setmessageType] = useState("loading");
-  let [input, setInput] = useState("off");
-  let [headerNotify, setheaderNotify] = useState("");
-  let [messageNotify, setmessageNotify] = useState("");
-  let [userEmail, setuserEmail] = useState("");
-  let [passwordStrenghtWidth, setpasswordStrenghtWidth] = useState("");
-  let [passwordStrenghtColor, setpasswordStrenghtColor] = useState("off");
+  const [loader, setLoader] = useState("active");
+  const [messageType, setmessageType] = useState("loading");
+  const [input, setInput] = useState("off");
+  const [messageNotify, setmessageNotify] = useState("");
+  const [userEmail, setuserEmail] = useState("");
+  const [passwordStrenghtWidth, setpasswordStrenghtWidth] = useState("");
+  const [passwordStrenghtColor, setpasswordStrenghtColor] = useState("off");
   let generalRequest = new GeneralRequest();
   const match = matchPath(location.pathname, {
     path: "/password_reset/:id",
@@ -59,7 +58,7 @@ export const PasswordReset = () => {
       setmessageType("warning");
       setLoader("active");
     } else if (result.score < 2) {
-      setmessageNotify(i18next.t("password_resent_page_password_strenght_validation_info"));
+      setmessageNotify(i18next.t("password_resent_page_password_strenght_validation_information"));
       setmessageType("warning");
       setLoader("active");
     } else {
@@ -72,13 +71,7 @@ export const PasswordReset = () => {
         var response = GetMessageType(generalResponseModalResponse_);
         setmessageType(response.MessageType);
         setmessageNotify(response.Message);
-        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.NotFound) {
-          setheaderNotify(i18next.t("password_resent_page_account_not_found"));
-          setLoader("active");
-        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
-          setheaderNotify(i18next.t("password_resent_page_password_empty_validation"));
-          setLoader("active");
-        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           setmessageType("success");
           setInput("off");
           setLoader("success");
@@ -121,28 +114,33 @@ export const PasswordReset = () => {
           break;
       }
     }
-
   }
 
   function GoBackAuthentication() {
     window.location.href = "/";
+  }
+  function handleOnKeyPress(e: any) {
+    if (e.key === 'Enter') {
+      ResetPassword();
+    }
   }
   return (
     <div className="wrap">
       <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450, marginTop: '5%' }}>
           <Header as='h2' color='teal' textAlign='center'>
-            <a href="/home" className="active"><img src={logo} className="App-logo" alt="logo"/><img src={logoGignox} alt="logo"/></a>
+            <a href="/" className="logo_link">
+              <img src={logo} className="password-reset-app-logo" alt="logo" />
+              <img src={logoGignox} className="password-reset-logo-word" alt="logo" />
+            </a>
           </Header>
           <Message success style={{ display: messageType === "success" ? 'block' : 'none' }}>
             <Message.Header>New password set successfully.</Message.Header>
           </Message>
           <Message warning style={{ display: messageType === "warning" ? 'block' : 'none' }}>
-            <Message.Header>{headerNotify}</Message.Header>
             <p>{messageNotify}</p>
           </Message>
           <Message color='red' style={{ display: messageType === "error" ? 'block' : 'none' }}>
-            <Message.Header>{headerNotify}</Message.Header>
             <p>{messageNotify}</p>
           </Message>
           <Message attached style={{ display: messageType === "info" ? 'block' : 'none' }}>
@@ -157,8 +155,8 @@ export const PasswordReset = () => {
 
           <Form size='large' style={{ display: input === "on" ? 'block' : 'none' }}>
             <Segment stacked>
-              <Form.Input fluid icon='lock' iconPosition='left' type="password" placeholder='Password' id="password" onChange={handlePasswordChange} />
-              <Form.Input fluid icon='lock' iconPosition='left' type="password" placeholder='Password confirm' id="passwordConfirm"  />
+              <Form.Input fluid icon='lock' iconPosition='left' type="password" placeholder='Password' id="password" onChange={handlePasswordChange} onKeyPress={handleOnKeyPress} />
+              <Form.Input fluid icon='lock' iconPosition='left' type="password" placeholder='Password confirm' id="passwordConfirm" onKeyPress={handleOnKeyPress} />
               <div style={{ display: passwordStrenghtColor === "red" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='red' size='tiny' /></div>
               <div style={{ display: passwordStrenghtColor === "orange" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='orange' size='tiny' /></div>
               <div style={{ display: passwordStrenghtColor === "yellow" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='yellow' size='tiny' /></div>
@@ -168,7 +166,7 @@ export const PasswordReset = () => {
               <Button color='teal' fluid size='large' style={{ display: loader === "active" ? 'block' : 'none' }} onClick={ResetPassword} >
                 {i18next.t("password_reset_page_reset_Password")}
               </Button>
-              <Button loading fluid disabled style={{ display: loader === "  " ? 'block' : 'none' }} color='teal'>
+              <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none' }} color='teal'>
                 Loading
               </Button>
             </Segment>

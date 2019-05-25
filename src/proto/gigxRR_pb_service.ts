@@ -46,6 +46,14 @@ export namespace GigxRRService {
     static readonly requestType = proto_gigxRR_pb.ResetUserPasswordRequest;
     static readonly responseType = proto_gigxRR_pb.ResetUserPasswordResponse;
   }
+  export class GetUser {
+    static readonly methodName = "GetUser";
+    static readonly service = GigxRRService;
+    static readonly requestStream = false;
+    static readonly responseStream = false;
+    static readonly requestType = proto_gigxRR_pb.GetUserRequest;
+    static readonly responseType = proto_gigxRR_pb.GetUserResponse;
+  }
   export class UpdateUser {
     static readonly methodName = "UpdateUser";
     static readonly service = GigxRRService;
@@ -78,13 +86,13 @@ export namespace GigxRRService {
     static readonly requestType = proto_gigxRR_pb.GetIpInformationRequest;
     static readonly responseType = proto_gigxRR_pb.GetIpInformationResponse;
   }
-  export class CheckVerificationToken {
-    static readonly methodName = "CheckVerificationToken";
+  export class CheckVerificationLink {
+    static readonly methodName = "CheckVerificationLink";
     static readonly service = GigxRRService;
     static readonly requestStream = false;
     static readonly responseStream = false;
-    static readonly requestType = proto_gigxRR_pb.CheckVerificationTokenRequest;
-    static readonly responseType = proto_gigxRR_pb.CheckVerificationTokenResponse;
+    static readonly requestType = proto_gigxRR_pb.CheckVerificationLinkRequest;
+    static readonly responseType = proto_gigxRR_pb.CheckVerificationLinkResponse;
   }
   export class GetFile {
     static readonly methodName = "GetFile";

@@ -1,35 +1,49 @@
 import * as React from 'react';
 import Done from '@material-ui/icons/Done';
 import Cross from '@material-ui/icons/WarningOutlined';
-import { Dropdown, Flag, Label, Form, Message, Button } from 'semantic-ui-react'
+import { Dropdown, Flag, Label, Form, Message, Button, Progress } from 'semantic-ui-react'
 var logo = require('../../app_root/images/logo.png');
 var logoGignox = require('../../app_root/images/logo_gignox.png');
 var logos = require('../../app_root/images/authentication_page_background_image.png');
 import './authentication.css';
 import { useState } from 'react';
-import { UserLogin, User } from '../../proto/gigxRR_pb';
+import { UserLogin, User, GeneralResponse } from '../../proto/gigxRR_pb';
 import { i18next, lang } from '../../services/localization_service'
-import { DoLoginUserRequest, DoRegisterUserRequest } from '../../controllers/authentication_controller';
+import { DoLoginUserRequest, DoRegisterUserRequest, DoCheckUserToRegisterRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
+import { GetMessageType } from '../../helpers/message_type_helper';
+import { ValidateEmail, ValidateUsername } from '../../helpers/validation_helper';
+var zxcvbn = require('zxcvbn');
 
 export const Authentication = () => {
-  let [loader, setLoader] = useState("active");
-  var [fade, setFade] = useState("signup");
-  let [loginMessageType, setloginMessageType] = useState("info");
-  let [loginHeaderNotify, setloginHeaderNotify] = useState("");
-  let [loginMessageNotify, setloginMessageNotify] = useState("");
-
-  let [signupMessageType, setsignupMessageType] = useState("info");
-  let [signupHeaderNotify, setsignupHeaderNotify] = useState("");
-  let [signupMessageNotify, setsignupMessageNotify] = useState("");
-
-  let [alreadyExistUserWarning, setalreadyExistUserWarning] = useState("nonExist");
+  const [loader, setLoader] = useState("active");
+  const [fade, setFade] = useState("signup");
+  const [loginMessageType, setloginMessageType] = useState("info");
+  const [loginHeaderNotify, setloginHeaderNotify] = useState("");
+  const [loginMessageNotify, setloginMessageNotify] = useState("");
+  const [signupMessageType, setsignupMessageType] = useState("info");
+  const [signupHeaderNotify, setsignupHeaderNotify] = useState("");
+  const [signupMessageNotify, setsignupMessageNotify] = useState("");
+  const [alreadyExistUserWarning, setalreadyExistUserWarning] = useState("nonExist");
+  const [passwordStrenghtWidth, setpasswordStrenghtWidth] = useState("");
+  const [passwordStrenghtColor, setpasswordStrenghtColor] = useState("off");
 
   var userLogin = new UserLogin();
   var user = new User();
+  document.addEventListener('DOMContentLoaded', (event) => {
+    let authenticationType = sessionStorage.getItem("authenticationType") == null ? JSON.parse(JSON.stringify("null")) : sessionStorage.getItem("authenticationType");
+    if (authenticationType != "null") {
+      if (authenticationType == "signin") {
+        setFade("signin");
+      } else if (authenticationType == "signup") {
+        setFade("signup");
+      }
+      sessionStorage.removeItem("authenticationType");
+    }
+  })
 
-  function login() {
+  function Login() {
     setloginHeaderNotify("")
     setLoader("loading");
     let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
@@ -46,21 +60,18 @@ export const Authentication = () => {
       userLogin.setUsername(username);
       userLogin.setPassword(password);
       DoLoginUserRequest(userLogin, function (userLoginResponse_: UserLogin, generalResponseModalResponse_: GeneralResponseModal) {
+        var response = GetMessageType(generalResponseModalResponse_);
+        setloginMessageType(response.MessageType);
+        setloginMessageNotify(response.Message);
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           sessionStorage.setItem("token", userLoginResponse_.getToken());
           sessionStorage.setItem("username", userLoginResponse_.getUsername());
-          localStorage.setItem("languageCode", userLoginResponse_.getLanguageCode())
-          sessionStorage.setItem("routingPage", "nav_menu");
+          localStorage.setItem("languagecode", userLoginResponse_.getLanguageCode())
           window.location.href = '/home'
-          setLoader("active");
-        } else if (generalResponseModalResponse_.GrpcResponseCode == 16) {
-
-          setloginMessageType("error");
+        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.Unauthenticated) {
           setloginMessageNotify(i18next.t("authentication_page_invalid_username_or_password"))
           setLoader("active");
-
         } else {
-          setloginMessageType("error")
           setloginMessageNotify(i18next.t("authentication_page_unexpected_error"))
           setLoader("active")
         }
@@ -68,49 +79,51 @@ export const Authentication = () => {
     }
   }
 
-  function signup() {
-    if (alreadyExistUserWarning != "exist") {
-      setsignupHeaderNotify("")
-      setLoader("loading");
-        let username = (document.getElementById("username_form") as HTMLInputElement).value;
-        let email = (document.getElementById("email_form") as HTMLInputElement).value;
-        let password = (document.getElementById("passwordForm") as HTMLInputElement).value;
-        if (username && password && email) {
-          user.setUsername(username);
-          user.setPassword(password);
-          user.setEmail(email);
-
-          DoRegisterUserRequest(user, function (userRegisterResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
-            if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
-              // sessionStorage.setItem("token", userRegisterResponse_.getToken());
-              sessionStorage.setItem("username", userRegisterResponse_.getUsername());
-              localStorage.setItem("languageCode", userRegisterResponse_.getLanguageCode())
-              sessionStorage.setItem("routingPage", "nav_menu");
+  function Signup() {
+    setLoader("loading");
+    setsignupHeaderNotify("");
+    let username = (document.getElementById("usernameRegister") as HTMLInputElement).value;
+    let email = (document.getElementById("emailRegister") as HTMLInputElement).value;
+    let password = (document.getElementById("passwordRegister") as HTMLInputElement).value;
+    var result = zxcvbn(password);
+    if (alreadyExistUserWarning == "exist") {
+      setsignupMessageType("warning")
+      setsignupMessageNotify(i18next.t("authentication_page_sign_up_empty_validation"))
+      setLoader("active")
+    } else if (!username || !email || !password) {
+      setsignupMessageType("warning")
+      setsignupMessageNotify(i18next.t("authentication_page_sign_up_empty_validation"))
+      setLoader("active");
+    } else if (result.score < 2) {
+      setsignupMessageType("warning")
+      setsignupMessageNotify(i18next.t("authentication_page_sign_up_register_password_strenght_validation_information"));
+      setLoader("active");
+    } else {
+      user.setUsername(username);
+      user.setEmail(email);
+      user.setPassword(password);
+      DoRegisterUserRequest(user, function (userRegisterResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+        var response = GetMessageType(generalResponseModalResponse_);
+        setsignupMessageType(response.MessageType);
+        setsignupMessageNotify(response.Message);
+        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+          if (userRegisterResponse_.getIsOperationSuccess) {
+            if (userRegisterResponse_.getIsTokenSuccess) {
+              sessionStorage.setItem("token", userRegisterResponse_.getToken());
+              sessionStorage.setItem("username", username);
               window.location.href = '/home'
-              setLoader("active");
             } else {
-              console.log(generalResponseModalResponse_.GrpcResponseCode)
-              console.log(generalResponseModalResponse_.GrpcResponseMessage)
-              setLoader("active");
+              window.location.href = '/'
             }
-          });
-
+          } else {
+            setLoader("active");
+          }
         } else {
-          console.log("Fields cannot be empty")
-          setsignupMessageType("warning")
-          setsignupMessageNotify(i18next.t("authentication_page_sign_up_empty_validation"))
-          setLoader("active")
+          setLoader("active");
         }
-
-      }
+      });
+    }
   }
-  function handleEmailChangeForLogin(e: any) {
-    userLogin.setUsername(e.target.value)
-  }
-  function handlePasswordChangeForLogin(e: any) {
-    userLogin.setPassword(e.target.value)
-  }
-
   function handleUsernameChangeForRegister(e: any) {
     if (e.target.value.length > 0) {
       var validationUsername = document.getElementById('validationUsername') as HTMLElement;
@@ -120,25 +133,37 @@ export const Authentication = () => {
 
       user.setUsername(e.target.value)
       user.setEmail("")
-      DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
-        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
-          console.log(generalResponseModalResponse_.GrpcResponseMessage)
+      if (!ValidateUsername(e.target.value)) {
+        validationUsername.innerText = i18next.t("authentication_page_invalid_username")
+        validationUsername.style.color = "red"
+        validationUsername.style.display = "inline-flex"
+        usernameLabel.style.color = 'red'
+        exist.style.display = 'none';
+        non_exist.style.display = 'block';
+        setalreadyExistUserWarning("exist")
+      } else {
+        DoCheckUserToRegisterRequest(user, function (userResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+          var response = GetMessageType(generalResponseModalResponse_);
+          if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
+            validationUsername.innerText = i18next.t("authentication_page_username_or_email_already_exist")
+            validationUsername.style.display = "inline-flex"
+            usernameLabel.style.color = 'red'
+            exist.style.display = 'none';
+            non_exist.style.display = 'block';
+            setalreadyExistUserWarning("exist")
 
-          validationUsername.innerText = i18next.t("authentication_page_username_or_email_already_exist")
-          validationUsername.style.display = "inline-flex"
-          usernameLabel.style.color = 'red'
-          exist.style.display = 'none';
-          non_exist.style.display = 'block';
-          setalreadyExistUserWarning("exist")
-
-        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
-          validationUsername.style.display = "none"
-          usernameLabel.style.color = 'green';
-          exist.style.display = 'block';
-          non_exist.style.display = 'none';
-          setalreadyExistUserWarning("nonExist")
-        }
-      });
+          } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+            validationUsername.style.display = "none"
+            usernameLabel.style.color = 'green';
+            exist.style.display = 'block';
+            non_exist.style.display = 'none';
+            setalreadyExistUserWarning("nonExist")
+          } else {
+            setsignupMessageType(response.MessageType);
+            setsignupMessageNotify(response.Message);
+          }
+        });
+      }
     }
     else {
       var validationUsername2 = document.getElementById('validationUsername') as HTMLElement;
@@ -156,7 +181,6 @@ export const Authentication = () => {
 
   function handleEmailChangeForRegister(e: any) {
     if (e.target.value.length > 0) {
-
       var validationEmail = document.getElementById('validationEmail') as HTMLElement;
       var emailLabel = document.getElementById('emailLabel') as HTMLElement;
       var exist = document.getElementById('emailExistDone') as HTMLElement;
@@ -164,28 +188,38 @@ export const Authentication = () => {
 
       user.setEmail(e.target.value)
       user.setUsername("")
-
-      DoRegisterUserRequest(user, function (userResponse_: User, generalResponseModalResponse_: GeneralResponseModal) {
-        if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
-          console.log(generalResponseModalResponse_.GrpcResponseMessage)
-
-          validationEmail.innerText = i18next.t("authentication_page_invalid_email_or_received")
-          validationEmail.style.color = "red"
-          validationEmail.style.display = "inline-flex"
-          emailLabel.style.color = 'red'
-          exist.style.display = 'none';
-          nonExist.style.display = 'block';
-          setalreadyExistUserWarning("exist")
-        } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.FailedPrecondition) {
-          validationEmail.style.display = "none"
-          emailLabel.style.color = 'green'
-          exist.style.display = 'block';
-          nonExist.style.display = 'none';
-          setalreadyExistUserWarning("noneExist")
-        }
-      });
-    }
-    else {
+      if (!ValidateEmail(e.target.value)) {
+        validationEmail.innerText = i18next.t("authentication_page_invalid_email_or_received")
+        validationEmail.style.color = "red"
+        validationEmail.style.display = "inline-flex"
+        emailLabel.style.color = 'red'
+        exist.style.display = 'none';
+        nonExist.style.display = 'block';
+        setalreadyExistUserWarning("exist")
+      } else {
+        DoCheckUserToRegisterRequest(user, function (userResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
+          var response = GetMessageType(generalResponseModalResponse_);
+          if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.AlreadyExists) {
+            validationEmail.innerText = i18next.t("authentication_page_invalid_email_or_received")
+            validationEmail.style.color = "red"
+            validationEmail.style.display = "inline-flex"
+            emailLabel.style.color = 'red'
+            exist.style.display = 'none';
+            nonExist.style.display = 'block';
+            setalreadyExistUserWarning("exist")
+          } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
+            validationEmail.style.display = "none"
+            emailLabel.style.color = 'green'
+            exist.style.display = 'block';
+            nonExist.style.display = 'none';
+            setalreadyExistUserWarning("noneExist")
+          } else {
+            setsignupMessageType(response.MessageType);
+            setsignupMessageNotify(response.Message);
+          }
+        });
+      }
+    } else {
       var validationEmail2 = document.getElementById('validationEmail') as HTMLElement;
       var emailLabel2 = document.getElementById('emailLabel') as HTMLElement;
       var existDone = document.getElementById('emailExistDone') as HTMLElement;
@@ -197,7 +231,48 @@ export const Authentication = () => {
       setalreadyExistUserWarning("nonExist")
     }
   }
-  
+  function handlePasswordChange(e: any) {
+    if (!e.target.value) {
+      setpasswordStrenghtColor("");
+    } else {
+      var result = zxcvbn(e.target.value);
+      switch (result.score) {
+        case 0:
+          setpasswordStrenghtWidth("20%");
+          setpasswordStrenghtColor("red");
+          break;
+        case 1:
+          setpasswordStrenghtWidth("40%");
+          setpasswordStrenghtColor("orange");
+          break;
+        case 2:
+          setpasswordStrenghtWidth("60%");
+          setpasswordStrenghtColor("yellow");
+          break;
+        case 3:
+          setpasswordStrenghtWidth("80%");
+          setpasswordStrenghtColor("olive");
+          break;
+        case 4:
+          setpasswordStrenghtWidth("100%");
+          setpasswordStrenghtColor("green");
+          break;
+        default:
+          setpasswordStrenghtWidth("0%");
+          setpasswordStrenghtColor("none");
+          break;
+      }
+    }
+  }
+  function handleOnKeyPress(e: any) {
+    if (e.key === 'Enter') {
+      if (fade == "signin") {
+        Login();
+      } else if (fade == "signup") {
+        Signup();
+      }
+    }
+  }
   return (
     <div className="wrap">
       <section className="navSection Logos" >
@@ -218,8 +293,8 @@ export const Authentication = () => {
           <div style={{ float: 'right', width: '100%', padding: '15px' }}>
             <Dropdown text="Language" icon='language' floating labeled button className='icon language_dropdown'>
               <Dropdown.Menu className="language_box" style={{ marginTop: '0!important' }}>
-                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='united kingdom' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "en")} text='En' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
-                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='turkey' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("language", "tr")} text='Tr' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
+                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='united kingdom' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("languagecode", "en")} text='En' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
+                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='turkey' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("languagecode", "tr")} text='Tr' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -243,7 +318,7 @@ export const Authentication = () => {
                 <label id="usernameLabel" style={{ width: '100%' }}>{i18next.t("authentication_page_username")}</label>
 
                 <Form.Field>
-                  <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} onChange={handleUsernameChangeForRegister} id="username_form" />
+                  <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} id="usernameRegister" onChange={handleUsernameChangeForRegister} onKeyPress={handleOnKeyPress} />
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
                   <Label id="validationUsername" basic color='red' pointing style={{ display: 'none' }} />
@@ -253,7 +328,7 @@ export const Authentication = () => {
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                 <label id="emailLabel" style={{ width: '100%' }}>Email</label>
                 <Form.Field>
-                  <input autoComplete="new-email" className="input_control" placeholder="Email" autoFocus type="email" style={{ width: '100%', float: 'left' }} onChange={handleEmailChangeForRegister} id="email_form" />
+                  <input autoComplete="new-email" className="input_control" placeholder="Email" autoFocus type="email" style={{ width: '100%', float: 'left' }} id="emailRegister" onChange={handleEmailChangeForRegister} onKeyPress={handleOnKeyPress} />
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistCross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
                   <Label id="validationEmail" basic color='red' pointing style={{ display: 'none' }} />
@@ -262,7 +337,14 @@ export const Authentication = () => {
 
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                 <label style={{ width: '100%' }}>{i18next.t("authentication_page_password")}</label>
-                <input autoComplete="new-password" className="input_control" type="password" placeholder={i18next.t("authentication_page_password")} style={{ width: '100%', float: 'left' }} id="passwordForm" />
+                <input autoComplete="new-password" className="input_control" type="password" placeholder={i18next.t("authentication_page_password")} style={{ width: '100%', float: 'left' }} id="passwordRegister" onChange={handlePasswordChange} onKeyPress={handleOnKeyPress} />
+              </div>
+              <div>
+                <div style={{ display: passwordStrenghtColor === "red" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='red' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "orange" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='orange' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "yellow" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='yellow' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "olive" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='olive' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "green" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='green' size='tiny' /></div>
               </div>
               {(() => {
                 switch (lang) {
@@ -274,7 +356,7 @@ export const Authentication = () => {
                     return "null";
                 }
               })()}
-              <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={signup} >
+              <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={Signup} >
                 {i18next.t("authentication_page_sign_up")}
               </Button>
               <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
@@ -297,14 +379,14 @@ export const Authentication = () => {
               <label>{i18next.t("authentication_page_or")} <a className="signup-title" onClick={() => setFade("signup")} style={{ fontSize: fade === "signup" ? '25px' : '15px' }}>{i18next.t("authentication_page_create_an_account")}</a></label>
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                 <label>{i18next.t("authentication_page_username_or_email")}</label>
-                <input className="input_control" placeholder={i18next.t("authentication_page_username_or_email")} autoFocus id="usernameLogin" onChange={handleEmailChangeForLogin} />
+                <input className="input_control" type="text" placeholder={i18next.t("authentication_page_username_or_email")} autoFocus id="usernameLogin" onKeyPress={handleOnKeyPress} />
               </div>
               <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                 <label>{i18next.t("authentication_page_password")}</label>
-                <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" onChange={handlePasswordChangeForLogin} />
+                <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" onKeyPress={handleOnKeyPress} />
               </div>
 
-              <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={login} >
+              <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={Login} >
                 {i18next.t("authentication_page_sign_in")}
               </Button>
               <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>

@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import HomepageLayout from '../deneme';
+// import HomepageLayout from '../deneme';
 
 
 export const About = () => {
@@ -23,6 +23,7 @@ export const About = () => {
     });
   }
   return (
-    <HomepageLayout/>
+    // <HomepageLayout/>
+    <div>about</div>
   );
 }

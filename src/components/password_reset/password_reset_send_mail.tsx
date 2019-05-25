@@ -6,18 +6,18 @@ import { GeneralRequest, GeneralResponse } from '../../proto/gigxRR_pb';
 import { i18next } from '../../services/localization_service';
 import { DoSendEmailRequest } from '../../controllers/password_reset_controller';
 import { GeneralResponseModal } from '../../modals/general_response_modal';
-import { ValidateEmail } from '../../helpers/email_validation_helper';
+import { ValidateEmail } from '../../helpers/validation_helper';
 import './password_reset.css';
 import { GetMessageType } from 'src/helpers/message_type_helper';
 var logo = require('../../app_root/images/logo.png');
 var logoGignox = require('../../app_root/images/logo_gignox.png');
 export const PasswordResetSendMail = () => {
 
-  let [loader, setLoader] = useState("active");
-  let [messageType, setmessageType] = useState("info");
-  let [input, setInput] = useState("on");
-  let [headerNotify, setheaderNotify] = useState("");
-  let [messageNotify, setmessageNotify] = useState("");
+  const [loader, setLoader] = useState("active");
+  const [messageType, setmessageType] = useState("info");
+  const [input, setInput] = useState("on");
+  const [headerNotify, setheaderNotify] = useState("");
+  const [messageNotify, setmessageNotify] = useState("");
   let generalRequest = new GeneralRequest();
 
   document.addEventListener('DOMContentLoaded', (event) => {
@@ -33,7 +33,6 @@ export const PasswordResetSendMail = () => {
     setLoader("loading");
     let emailValue = (document.getElementById("emailReserPassword") as HTMLInputElement).value;
     if (!emailValue) {
-      
       setmessageNotify(i18next.t("password_resent_page_email_empty_validation"));
       setmessageType("warning");
       setLoader("active");
@@ -69,12 +68,20 @@ export const PasswordResetSendMail = () => {
   function GoBackAuthentication() {
     window.location.href = "/";
   }
+  function handleOnKeyPress(e: any) {
+    if (e.key === 'Enter') {
+      SendPasswordResetEmail();
+    }
+  }
   return (
     <div className="wrap">
       <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450, marginTop: '5%' }}>
           <Header as='h2' color='teal' textAlign='center'>
-            <a href="/home" className="active"><img src={logo} className="App-logo" alt="logo" /><img src={logoGignox} alt="logo" style={{ marginBottom: '8px' }} /></a>
+            <a href="/" className="logo_link">
+              <img src={logo} className="password-reset-app-logo" alt="logo" />
+              <img src={logoGignox} className="password-reset-logo-word" alt="logo" />
+            </a>
           </Header>
           <Message success style={{ display: messageType === "success" ? 'block' : 'none' }}>
             <Message.Header>Password reset email successfuly sended</Message.Header>
@@ -94,7 +101,7 @@ export const PasswordResetSendMail = () => {
           </Message><br />
           <Form size='large' style={{ display: input === "on" ? 'block' : 'none' }}>
             <Segment stacked>
-              <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' id="emailReserPassword" />
+              <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' id="emailReserPassword" onKeyPress={handleOnKeyPress} />
               <Button color='teal' fluid size='large' style={{ display: loader === "active" ? 'block' : 'none' }} onClick={SendPasswordResetEmail} >
                 {i18next.t("password_reset_page_send_password_reset_email")}
               </Button>
