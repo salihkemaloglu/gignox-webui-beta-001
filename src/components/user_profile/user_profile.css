@@ -58,7 +58,7 @@
       flex-direction: column;
     
     }
-    
+  
     .p_leftNavLinkMenu {
       display: block;
       padding: 6px 6px 6px 25px;
@@ -502,3 +502,9 @@
   }
   }  
   
+  .profileTab {
+    width: 69%;
+    float: right;
+    margin-top: -20% !important;
+    margin-right: 4% !important;
+  }

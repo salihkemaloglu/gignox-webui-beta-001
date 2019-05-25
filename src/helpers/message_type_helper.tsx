@@ -70,11 +70,11 @@ export function GetMessageType(generalResponseModalResponse_: GeneralResponseMod
             return modal
         case 16: // Unauthenticated
             modal.Message = generalResponseModalResponse_.GrpcResponseMessage == null ? JSON.parse("null") : generalResponseModalResponse_.GrpcResponseMessage;
-            modal.MessageType = "warning";
+            modal.MessageType = "error";
             return modal
         default:
-            modal.Message = "Unknown error";
-            modal.MessageType = "Service is not avaible now,please tyr later.";
+            modal.Message = "Service is not avaible now,please tyr later.";
+            modal.MessageType = "error";
             return modal
 
     }

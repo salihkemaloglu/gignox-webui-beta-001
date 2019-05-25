@@ -1,4 +1,4 @@
-import {  CheckVerificationTokenRequest, CheckVerificationTokenResponse, GeneralRequest, SendEmailRequest, SendEmailResponse, GeneralResponse, ResetUserPasswordRequest, ResetUserPasswordResponse } from "../proto/gigxRR_pb";
+import {  CheckVerificationLinkRequest, CheckVerificationLinkResponse, GeneralRequest, SendEmailRequest, SendEmailResponse, GeneralResponse, ResetUserPasswordRequest, ResetUserPasswordResponse } from "../proto/gigxRR_pb";
 import { GigxRRService } from '../proto/gigxRR_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
 import { ApiUrl } from '../global/urls_global'
@@ -13,7 +13,7 @@ export function DoSendEmailRequest(generalRequest_: GeneralRequest, callback: an
   grpc.invoke(GigxRRService.SendEmail, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "language": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
@@ -28,17 +28,17 @@ export function DoSendEmailRequest(generalRequest_: GeneralRequest, callback: an
   });
 }
 export function DoCheckVerificationTokenRequest(generalRequest_: GeneralRequest, callback: any) {
-  const req = new CheckVerificationTokenRequest();
+  const req = new CheckVerificationLinkRequest();
   var response = new GeneralResponse();
   req.setGeneralrequest(generalRequest_);
-  grpc.invoke(GigxRRService.CheckVerificationToken, {
+  grpc.invoke(GigxRRService.CheckVerificationLink, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "language": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
-    onMessage: (responseData: CheckVerificationTokenResponse) => {
+    onMessage: (responseData: CheckVerificationLinkResponse) => {
       response = responseData.getGeneralResponse() === null ? JSON.parse("null") : responseData.getGeneralResponse();
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
@@ -55,7 +55,7 @@ export function DoResetUserPasswordRequest(generalRequest_: GeneralRequest, call
   grpc.invoke(GigxRRService.ResetUserPassword, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "language": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },

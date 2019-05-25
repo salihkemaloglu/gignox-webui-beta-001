@@ -39,14 +39,16 @@
     "password_resent_page_email_check_info": "Lütfen e-postanızı kontrol edip ve tekrar deneyin",
     "password_resent_page_account_not_found": "Hesabınızı bulamıyoruz",
     "password_resent_page_password_empty_validation": "Şifre alanları boş bırakılamaz",
-    "password_resent_page_password_match_validation": "Şifre onayı şifre ile eşleşmiyor",
-    "password_resent_page_password_strenght_validation_info": "Sağladığınız yeni şifre zayıf ve kolayca tahmin edilebilir. Şifreniz kaydedilmedi. Lütfen daha güçlü bir şifre seçin",
-    "authentication_page_invalid_username_or_password":"Geçersiz kullanıcı adı veya şifre",
-    "authentication_page_enter_username_or_email":"Lütfet kullanıcı veya email giriniz",
+    "password_resent_page_password_match_validation": "Şifre Onayı Şifre ile eşleşmiyor",
+    "password_resent_page_password_strenght_validation_information": "Sağladığınız yeni şifre zayıf ve kolayca tahmin edilebilir. Şifreniz kaydedilmedi. Lütfen daha güçlü bir şifre seçin",
+    "authentication_page_invalid_username_or_password":"Geçersiz kullanıcı bilgisi, Kullanıcı Adı veya Şifre yanlış.",
+    "authentication_page_enter_username_or_email":"Lütfet Kullanıcı Adı veya Email giriniz",
     "authentication_page_enter_password":"Lütfen şifre giriniz",
     "authentication_page_username_or_email_already_exist":"Kullanıcı adı veya email zaten mevcut",
     "authentication_page_invalid_email_or_received":"Bu email geçersiz veya zaten alınmış",
+    "authentication_page_invalid_username": "Kullanıcı adı yalnızca alfanümerik karakterler içerebilir ve kısa çizgi ile başlayamaz veya bitemez",
     "authentication_page_unexpected_error":"Beklenmedik bir hata oluştu lütfen daha sonra tekrar deneyiniz",
-    "authentication_page_sign_up_empty_validation":"Aşağıdaki alanlar boş olamaz",
-    "authentication_page_sign_up_resolve_following_errors":"Lütfen aşağıdaki hataları giderin"
+    "authentication_page_sign_up_empty_validation":"Hesabınızı oluştururken sorunlar oluştu.",
+    "authentication_page_sign_up_resolve_following_errors":"Lütfen aşağıdaki hataları giderin",
+    "authentication_page_sign_up_register_password_strenght_validation_information": "Sağladığınız şifre zayıf ve kolayca tahmin edilebilir.Hesabınız oluşturulmadı. Lütfen daha güçlü bir şifre seçin"
 }

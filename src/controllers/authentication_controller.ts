@@ -11,7 +11,7 @@ export function DoLoginUserRequest(userLogin_: UserLogin, callback: any) {
   grpc.invoke(GigxRRService.Login, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "language": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
@@ -33,13 +33,12 @@ export function DoRegisterUserRequest(user_: User, callback: any) {
   grpc.invoke(GigxRRService.Register, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "language": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
     onMessage: (responseData_: RegisterUserResponse) => {
       response = responseData_.getGeneralResponse() === null ? JSON.parse("null") : responseData_.getGeneralResponse();
-      // sessionStorage.setItem("routingPage", "nav_menu");
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;
@@ -55,13 +54,12 @@ export function DoCheckUserToRegisterRequest(user_: User, callback: any) {
   grpc.invoke(GigxRRService.CheckUserToRegister, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "language": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": "en" }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
     onMessage: (responseData_: CheckUserToRegisterResponse) => {
       response = responseData_.getGeneralResponse() === null ? JSON.parse("null") : responseData_.getGeneralResponse();
-      // sessionStorage.setItem("routingPage", "nav_menu");
     },
     onEnd: (code_: grpc.Code, msg_: string | undefined, trailers: grpc.Metadata) => {
       modal.GrpcResponseCode = code_;

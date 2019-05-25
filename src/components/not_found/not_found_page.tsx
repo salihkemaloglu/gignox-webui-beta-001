@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import './not_found.css';
-export const NotFound = () => {
+export const NotFoundPage = () => {
   return (
     <div >
       <div id="notfound">
@@ -11,7 +11,7 @@ export const NotFound = () => {
           </div>
           <h2>404 - Page not found</h2>
           <p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
-          {/* <a href="#"></a> */}
+          <a href="/">Go To Homepage</a>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ message User {
     string created_date=10;
     string updated_date=11;
     string language_code=12;
-    bool   is_confirm_account=13;
+    bool   is_account_confirm=13;
 }
 
 message Follow {
@@ -84,8 +84,10 @@ message GeneralRequest {
 
 message GeneralResponse {
     string message=1;
+    string token=2;
     bool is_email_success=3;
-    bool is_operation_success=4;
+    bool is_token_success=4;
+    bool is_operation_success=5;
 }
 
 message IpInformation {
@@ -171,10 +173,10 @@ message SendEmailRequest {
 message SendEmailResponse {
     GeneralResponse general_response =1;
 }
-message CheckVerificationTokenRequest {
+message CheckVerificationLinkRequest {
     GeneralRequest generalRequest=1;
 }
-message CheckVerificationTokenResponse {
+message CheckVerificationLinkResponse {
     GeneralResponse general_response=1;
 }
 message GetIpInformationRequest {
@@ -189,6 +191,13 @@ message ResetUserPasswordRequest {
 message ResetUserPasswordResponse {
     GeneralResponse general_response=1;
 }
+message GetUserRequest {
+    string username=1;
+}
+message GetUserResponse {
+    User user=1;
+    File file=2;
+}
 service GigxRRService{
     //Say Hello 
     rpc SayHello (HelloRequest) returns (HelloResponse);
@@ -197,12 +206,13 @@ service GigxRRService{
     rpc Register                    (RegisterUserRequest) returns (RegisterUserResponse);
     rpc CheckUserToRegister         (CheckUserToRegisterRequest) returns (CheckUserToRegisterResponse);
     rpc ResetUserPassword           (ResetUserPasswordRequest) returns (ResetUserPasswordResponse);
+    rpc GetUser                     (GetUserRequest) returns  (GetUserResponse);
     rpc UpdateUser                  (UpdateUserRequest) returns (UpdateUserResponse);
     rpc DeleteUser                  (DeleteUserRequest) returns (DeleteUserResponse);
     //Services
     rpc SendEmail                   (SendEmailRequest) returns (SendEmailResponse);
     rpc GetIpInformation            (GetIpInformationRequest) returns (GetIpInformationResponse);
-    rpc CheckVerificationToken      (CheckVerificationTokenRequest) returns (CheckVerificationTokenResponse);
+    rpc CheckVerificationLink      (CheckVerificationLinkRequest) returns (CheckVerificationLinkResponse);
     //File methods
     rpc GetFile                     (GetFileRequest) returns (GetFileResponse);
     rpc GetAllFiles                 (GetAllFilesRequest) returns (stream GetAllFilesResponse);

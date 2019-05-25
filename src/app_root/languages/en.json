@@ -39,16 +39,18 @@
     "password_resent_page_account_not_found":"We can't find your account",
     "password_resent_page_password_empty_validation":"Password fields can not be empty",
     "password_resent_page_password_match_validation":"Password confirmation doesn't match the password",
-    "password_resent_page_password_strenght_validation_info":"The new password you provided is weak and can be easily guessed. Your password was not saved. Please choose a stronger password",
+    "password_resent_page_password_strenght_validation_information":"The new password you provided is weak and can be easily guessed. Your password was not saved. Please choose a stronger password",
     "password_reset_page_reset_Password":"Reset Password",
-    "authentication_page_invalid_username_or_password":"Invalid username or password",
-    "authentication_page_enter_username_or_email":"Please enter a username or email",
+    "authentication_page_invalid_username_or_password":"Invalid user information,Username or Password is wrong.",
+    "authentication_page_enter_username_or_email":"Please enter a Username or Email",
     "authentication_page_enter_password":"Please enter a password",
     "authentication_page_username_or_email_already_exist":"Username or email already exist",
     "authentication_page_invalid_email_or_received":"This email is invalid or already received",
+    "authentication_page_invalid_username":"Username may only contain alphanumeric characters and cannot begin or end with a hyphen",
     "authentication_page_unexpected_error":"An unexpected error has occurred, Please try later",
-    "authentication_page_sign_up_empty_validation":"Following fields cannot be empty",
-    "authentication_page_sign_up_resolve_following_errors":"Please resolve the following errors"
-    
+    "authentication_page_sign_up_empty_validation":"There were problems creating your account.",
+    "authentication_page_sign_up_resolve_following_errors":"Please resolve the following errors",
+    "authentication_page_sign_up_register_password_strenght_validation_information":"The password you provided is weak and can be easily guessed. Your account was not created. Please choose a stronger password"
+
 }
 

@@ -1,1 +1,2 @@
-export * from './top_menu'
+export * from './top_menu_private'
+export * from './top_menu_general'

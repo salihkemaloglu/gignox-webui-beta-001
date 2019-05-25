@@ -43,8 +43,43 @@ export const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
     />
   )
 }
-
-export const AuthenticaitonRoute = ({ component: Component, ...rest }) => {
+export const AppPublic = ({ component: Component, layout: Layout, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <Layout>
+          <Component {...props} />
+        </Layout>
+      )}
+    />
+  )
+}
+export const AppAuthenticatedTopMenu = ({ component: Component, layoutPublic: PublicLayout, layoutPrivate: PrivateLayout, ...rest }) => {
+  let isSignedIn = false;
+  let username = sessionStorage.getItem("username") === null ? "null" : sessionStorage.getItem("username")
+  let token = sessionStorage.getItem("token") === null ? "null" : sessionStorage.getItem("token")
+  if (username != "null" && token != "null") {
+    isSignedIn = true
+  }
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        isSignedIn ? (
+          <PrivateLayout>
+            <Component {...props} />
+          </PrivateLayout>
+        ) : (
+            <PublicLayout>
+              <Component {...props} />
+            </PublicLayout>
+          )
+      )}
+    />
+  )
+}
+export const AppAuthenticatedRoute = ({ component: Component, ...rest }) => {
   let username = sessionStorage.getItem("username") === null ? "null" : sessionStorage.getItem("username")
   let token = sessionStorage.getItem("token") === null ? "null" : sessionStorage.getItem("token")
   if (username != "null" && token != "null" && location.pathname == "/") {
