@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IndexLinkContainer } from 'react-router-bootstrap';
-import './nav_menu/nav_menu.css';
+import '../components/nav_menu/nav_menu.css';
 import ScreenShare from '@material-ui/icons/ScreenShareOutlined';
 import AccessTime from '@material-ui/icons/AccessTime';
 import StarOutlined from '@material-ui/icons/StarBorderOutlined';
