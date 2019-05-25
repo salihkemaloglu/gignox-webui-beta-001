@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Done from '@material-ui/icons/Done';
 import Cross from '@material-ui/icons/WarningOutlined';
-import { Dropdown, Flag, Label, Form, Message, Button, Progress } from 'semantic-ui-react'
+import { Dropdown, Flag, Label, Form, Message, Button, Progress } from 'semantic-ui-react';
 var logo = require('../../app_root/images/logo.png');
 var logoGignox = require('../../app_root/images/logo_gignox.png');
 var logos = require('../../app_root/images/authentication_page_background_image.png');
@@ -74,8 +74,18 @@ export const Authentication = () => {
   function Login() {
     setloginHeaderNotify("")
     setLoader("loading");
-    let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
-    let password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
+    let temp = (document.getElementById("usernameLogin") as HTMLInputElement).value
+    let username = ""
+    let password = ""
+     if (temp != null) {
+       username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
+       password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
+     }
+     else {
+       username = (document.getElementById("usernameLoginMob") as HTMLInputElement).value;
+       password = (document.getElementById("passwordLoginMob") as HTMLInputElement).value;
+     }
+   
     if (!username) {
       setloginMessageType("warning");
       setloginMessageNotify(i18next.t("authentication_page_enter_username_or_email"))
@@ -109,7 +119,7 @@ export const Authentication = () => {
 
   function Signup() {
     setLoader("loading");
-    setsignupHeaderNotify("");
+    setsignupHeaderNotify("");  
     let username = (document.getElementById("usernameRegister") as HTMLInputElement).value;
     let email = (document.getElementById("emailRegister") as HTMLInputElement).value;
     let password = (document.getElementById("passwordRegister") as HTMLInputElement).value;
@@ -483,11 +493,11 @@ export const Authentication = () => {
                 <label style={{ color: 'black' }}>{i18next.t("authentication_page_or")} <a className="signup-title" onClick={() => setsignupScreenOpened(true)} style={{ fontSize: '15px' }}>{i18next.t("authentication_page_create_an_account")}</a></label>
                 <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                   <label style={{ color: 'black' }}>{i18next.t("authentication_page_username_or_email")}</label>
-                  <input className="input_control" placeholder={i18next.t("authentication_page_username_or_email")} autoFocus id="usernameLogin" />
+                  <input className="input_control" placeholder={i18next.t("authentication_page_username_or_email")} autoFocus id="usernameLoginMob" />
                 </div>
                 <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                   <label style={{ color: 'black' }}>{i18next.t("authentication_page_password")}</label>
-                  <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" />
+                  <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLoginMob" />
                 </div>
 
                 <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={Login} >
