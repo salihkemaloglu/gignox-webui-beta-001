@@ -56,16 +56,31 @@ export const Authentication = () => {
   var userLogin = new UserLogin();
   var user = new User();
   document.addEventListener('DOMContentLoaded', (event) => {
+    const windowsWidth = Responsive.onlyTablet.minWidth
     let authenticationType = sessionStorage.getItem("authenticationType") == null ? JSON.parse(JSON.stringify("null")) : sessionStorage.getItem("authenticationType");
     if (authenticationType != "null") {
-      if (authenticationType == "signin") {
-        setFade("signin");
-      } else if (authenticationType == "signup") {
-        setFade("signup");
+      if (windowsWidth != undefined && windowsWidth < 991) {
+        if (authenticationType == "signin") {
+          setsidebarOpened(true)  
+          setloginScreenOpened(true)
+        } else if (authenticationType == "signup") {
+          setsidebarOpened(true)  
+          setsignupScreenOpened(true)
+        }
+        sessionStorage.removeItem("authenticationType");
       }
-      sessionStorage.removeItem("authenticationType");
+      else {
+        if (authenticationType == "signin") {
+          setFade("signin");
+        } else if (authenticationType == "signup") {
+          setFade("signup");
+        }
+        sessionStorage.removeItem("authenticationType");
+      }
+
     }
   })
+  
   function getWidth() {
     const isSSR = typeof window === 'undefined'
 
@@ -73,21 +88,21 @@ export const Authentication = () => {
   }
   function Login() {
     const isSSR = typeof window === 'undefined'
-    const windowsWidth =  isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+    const windowsWidth = isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
     let username = ""
     let password = ""
     if (windowsWidth != undefined && windowsWidth < 991) {
-       username = (document.getElementById("usernameLoginMob") as HTMLInputElement).value;
-       password = (document.getElementById("passwordLoginMob") as HTMLInputElement).value; 
+      username = (document.getElementById("usernameLoginMob") as HTMLInputElement).value;
+      password = (document.getElementById("passwordLoginMob") as HTMLInputElement).value;
     }
     else {
-       username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
-       password = (document.getElementById("passwordLogin") as HTMLInputElement).value; 
+      username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
+      password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
     }
     setloginHeaderNotify("")
     setLoader("loading");
-    
-   
+
+
     if (!username || !getWidth) {
       setloginMessageType("warning");
       setloginMessageNotify(i18next.t("authentication_page_enter_username_or_email"))
@@ -121,7 +136,7 @@ export const Authentication = () => {
 
   function Signup() {
     setLoader("loading");
-    setsignupHeaderNotify("");  
+    setsignupHeaderNotify("");
     let username = (document.getElementById("usernameRegister") as HTMLInputElement).value;
     let email = (document.getElementById("emailRegister") as HTMLInputElement).value;
     let password = (document.getElementById("passwordRegister") as HTMLInputElement).value;
@@ -462,7 +477,7 @@ export const Authentication = () => {
           <Menu.Item as='a' active>Home</Menu.Item>
           <Menu.Item as='a'>About</Menu.Item>
           <Menu.Item as='a'>Contact</Menu.Item>
-          <Menu.Item as='a' onClick={() => setloginScreenOpened(true)}>Log in</Menu.Item>
+          <Menu.Item as='a' onClick={() => setloginScreenOpened(true)}>Sign in</Menu.Item>
           <Menu.Item as='a' onClick={() => setsignupScreenOpened(true)}>Sign Up</Menu.Item>
         </Sidebar>
 
@@ -596,12 +611,6 @@ export const Authentication = () => {
             <Container>
               <Menu inverted pointing secondary size='large'>
                 <Menu.Item style={{ marginLeft: '0', width: '240px' }}>
-                  {/* <Button as='a' inverted onClick={() => setloginScreenOpened(true)}>
-                    Log in
-</Button>
-                  <Button as='a' inverted onClick={() => setsignupScreenOpened(true)} style={{ marginLeft: '0.5em' }}>
-                    Sign Up
-</Button> */}
                   <a href="/" className="logo_link" style={{ display: 'inherit' }}>
                     <img src={logo} className="authentication-app-logo" alt="logo" />
                     <img src={logoGignox} className="authentication_logo_word" alt="logo" />
