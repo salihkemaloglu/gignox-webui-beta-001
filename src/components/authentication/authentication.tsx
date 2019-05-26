@@ -137,9 +137,23 @@ export const Authentication = () => {
   function Signup() {
     setLoader("loading");
     setsignupHeaderNotify("");
-    let username = (document.getElementById("usernameRegister") as HTMLInputElement).value;
-    let email = (document.getElementById("emailRegister") as HTMLInputElement).value;
-    let password = (document.getElementById("passwordRegister") as HTMLInputElement).value;
+
+    const isSSR = typeof window === 'undefined'
+    const windowsWidth = isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+    let username = ""
+    let email = ""
+    let password = ""
+    if (windowsWidth != undefined && windowsWidth < 991) {
+       username = (document.getElementById("usernameRegisterMob") as HTMLInputElement).value;
+       email = (document.getElementById("emailRegisterMob") as HTMLInputElement).value;
+       password = (document.getElementById("passwordRegisterMob") as HTMLInputElement).value;
+    }
+    else {
+       username = (document.getElementById("usernameRegister") as HTMLInputElement).value;
+       email = (document.getElementById("emailRegister") as HTMLInputElement).value;
+       password = (document.getElementById("passwordRegister") as HTMLInputElement).value;
+    }
+
     var result = zxcvbn(password);
     if (alreadyExistUserWarning == "exist") {
       setsignupMessageType("warning")
@@ -180,12 +194,26 @@ export const Authentication = () => {
     }
   }
   function handleUsernameChangeForRegister(e: any) {
-    if (e.target.value.length > 0) {
-      var validationUsername = document.getElementById('validationUsername') as HTMLElement;
-      var usernameLabel = document.getElementById('usernameLabel') as HTMLElement;
-      var exist = document.getElementById('userExistDone') as HTMLElement;
-      var non_exist = document.getElementById('userExistross') as HTMLElement;
 
+    const isSSR = typeof window === 'undefined'
+    const windowsWidth = isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+    var validationUsername
+    var usernameLabel
+    var exist
+    var nonExist
+    if (windowsWidth != undefined && windowsWidth < 991) {
+       validationUsername = document.getElementById('validationUsernameMob') as HTMLElement;
+       usernameLabel = document.getElementById('usernameLabelMob') as HTMLElement;
+       exist = document.getElementById('userExistDoneMob') as HTMLElement;
+       nonExist = document.getElementById('userExistCrossMob') as HTMLElement;
+    }
+    else {
+       validationUsername = document.getElementById('validationUsername') as HTMLElement;
+       usernameLabel = document.getElementById('usernameLabel') as HTMLElement;
+       exist = document.getElementById('userExistDone') as HTMLElement;
+       nonExist = document.getElementById('userExistCross') as HTMLElement;
+    }
+    if (e.target.value.length > 0) {
       user.setUsername(e.target.value)
       user.setEmail("")
       if (!ValidateUsername(e.target.value)) {
@@ -194,7 +222,7 @@ export const Authentication = () => {
         validationUsername.style.display = "inline-flex"
         usernameLabel.style.color = 'red'
         exist.style.display = 'none';
-        non_exist.style.display = 'block';
+        nonExist.style.display = 'block';
         setalreadyExistUserWarning("exist")
       } else {
         DoCheckUserToRegisterRequest(user, function (userResponse_: GeneralResponse, generalResponseModalResponse_: GeneralResponseModal) {
@@ -204,14 +232,14 @@ export const Authentication = () => {
             validationUsername.style.display = "inline-flex"
             usernameLabel.style.color = 'red'
             exist.style.display = 'none';
-            non_exist.style.display = 'block';
+            nonExist.style.display = 'block';
             setalreadyExistUserWarning("exist")
 
           } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
             validationUsername.style.display = "none"
             usernameLabel.style.color = 'green';
             exist.style.display = 'block';
-            non_exist.style.display = 'none';
+            nonExist.style.display = 'none';
             setalreadyExistUserWarning("nonExist")
           } else {
             setsignupMessageType(response.MessageType);
@@ -221,26 +249,40 @@ export const Authentication = () => {
       }
     }
     else {
-      var validationUsername2 = document.getElementById('validationUsername') as HTMLElement;
-      var usernameLabel2 = document.getElementById('usernameLabel') as HTMLElement;
-      var existDone = document.getElementById('userExistDone') as HTMLElement;
-      var nonExistCross = document.getElementById('userExistross') as HTMLElement;
 
-      validationUsername2.style.display = "none"
-      usernameLabel2.style.color = 'black';
-      existDone.style.display = 'none';
-      nonExistCross.style.display = 'none';
+      validationUsername.style.display = "none"
+      usernameLabel.style.color = 'black';
+      exist.style.display = 'none';
+      nonExist.style.display = 'none';
       setalreadyExistUserWarning("nonExist")
     }
   }
 
   function handleEmailChangeForRegister(e: any) {
-    if (e.target.value.length > 0) {
-      var validationEmail = document.getElementById('validationEmail') as HTMLElement;
-      var emailLabel = document.getElementById('emailLabel') as HTMLElement;
-      var exist = document.getElementById('emailExistDone') as HTMLElement;
-      var nonExist = document.getElementById('emailExistCross') as HTMLElement;
+    const isSSR = typeof window === 'undefined'
+    const windowsWidth = isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+    var validationEmail
+    var emailLabel
+    var exist
+    var nonExist
+    if (windowsWidth != undefined && windowsWidth < 991) {
+      validationEmail = document.getElementById('validationEmailMob') as HTMLElement;
+      emailLabel = document.getElementById('emailLabelMob') as HTMLElement;
+      exist = document.getElementById('emailExistDoneMob') as HTMLElement;
+      nonExist = document.getElementById('emailExistCrossMob') as HTMLElement;
 
+    }
+    else {
+      validationEmail = document.getElementById('validationEmail') as HTMLElement;
+      emailLabel = document.getElementById('emailLabel') as HTMLElement;
+      exist = document.getElementById('emailExistDone') as HTMLElement;
+      nonExist = document.getElementById('emailExistCross') as HTMLElement;
+
+    }
+
+
+    if (e.target.value.length > 0) {
+      
       user.setEmail(e.target.value)
       user.setUsername("")
       if (!ValidateEmail(e.target.value)) {
@@ -275,14 +317,11 @@ export const Authentication = () => {
         });
       }
     } else {
-      var validationEmail2 = document.getElementById('validationEmail') as HTMLElement;
-      var emailLabel2 = document.getElementById('emailLabel') as HTMLElement;
-      var existDone = document.getElementById('emailExistDone') as HTMLElement;
-      var emailExistCross = document.getElementById('emailExistCross') as HTMLElement;
-      validationEmail2.style.display = "none"
-      emailLabel2.style.color = 'black';
-      existDone.style.display = 'none';
-      emailExistCross.style.display = 'none';
+     
+      validationEmail.style.display = "none"
+      emailLabel.style.color = 'black';
+      exist.style.display = 'none';
+      nonExist.style.display = 'none';
       setalreadyExistUserWarning("nonExist")
     }
   }
@@ -375,7 +414,7 @@ export const Authentication = () => {
                 <Form.Field>
                   <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} id="usernameRegister" onChange={handleUsernameChangeForRegister} onKeyPress={handleOnKeyPress} />
                   <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
-                  <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
+                  <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistCross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
                   <Label id="validationUsername" basic color='red' pointing style={{ display: 'none' }} />
                 </Form.Field>
               </div>
@@ -556,30 +595,37 @@ export const Authentication = () => {
                 <label style={{ color: 'black' }}>{i18next.t("authentication_page_or")} <a className="signin-title" onClick={orSignin} style={{ fontSize: '15px' }}>{i18next.t("authentication_page_goto_sign_in")}</a></label>
 
                 <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
-                  <label id="usernameLabel" style={{ width: '100%', color: 'black' }}>{i18next.t("authentication_page_username")}</label>
+                  <label id="usernameLabelMob" style={{ width: '100%', color: 'black' }}>{i18next.t("authentication_page_username")}</label>
 
                   <Form.Field>
-                    <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} id="usernameRegister" onChange={handleUsernameChangeForRegister} onKeyPress={handleOnKeyPress} />
-                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
-                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
-                    <Label id="validationUsername" basic color='red' pointing style={{ display: 'none' }} />
+                    <input autoComplete="new-username" className="input_control" placeholder={i18next.t("authentication_page_username")} autoFocus type="text" style={{ width: '100%', float: 'left' }} id="usernameRegisterMob" onChange={handleUsernameChangeForRegister} onKeyPress={handleOnKeyPress} />
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistDoneMob"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="userExistCrossMob"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
+                    <Label id="validationUsernameMob" basic color='red' pointing style={{ display: 'none' }} />
                   </Form.Field>
                 </div>
 
                 <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
-                  <label id="emailLabel" style={{ width: '100%', color: 'black' }}>Email</label>
+                  <label id="emailLabelMob" style={{ width: '100%', color: 'black' }}>Email</label>
                   <Form.Field>
-                    <input autoComplete="new-email" className="input_control" placeholder="Email" autoFocus type="email" style={{ width: '100%', float: 'left' }} onChange={handleEmailChangeForRegister} id="email_form" />
-                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistDone"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
-                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistCross"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
-                    <Label id="validationEmail" basic color='red' pointing style={{ display: 'none' }} />
+                    <input autoComplete="new-email" className="input_control" placeholder="Email" autoFocus type="email" style={{ width: '100%', float: 'left' }} onChange={handleEmailChangeForRegister} id="emailRegisterMob" />
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistDoneMob"><Done style={{ color: 'green', fontSize: '20px' }} /></span>
+                    <span style={{ padding: '5px', display: 'none', width: '32px', position: 'absolute', right: '45px' }} id="emailExistCrossMob"><Cross style={{ color: 'red', fontSize: '20px' }} /></span>
+                    <Label id="validationEmailMob" basic color='red' pointing style={{ display: 'none' }} />
                   </Form.Field>
                 </div>
 
                 <div style={{ display: 'flow-root', marginBottom: '1rem' }}>
                   <label style={{ width: '100%', color: 'black' }}>{i18next.t("authentication_page_password")}</label>
-                  <input autoComplete="new-password" className="input_control" type="password" placeholder={i18next.t("authentication_page_password")} style={{ width: '100%', float: 'left' }} id="passwordForm" />
+                  <input autoComplete="new-password" className="input_control" type="password" onChange={handlePasswordChange} placeholder={i18next.t("authentication_page_password")} style={{ width: '100%', float: 'left' }} id="passwordRegisterMob" />
                 </div>
+                <div>
+                <div style={{ display: passwordStrenghtColor === "red" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='red' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "orange" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='orange' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "yellow" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='yellow' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "olive" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='olive' size='tiny' /></div>
+                <div style={{ display: passwordStrenghtColor === "green" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='green' size='tiny' /></div>
+              </div>
                 {(() => {
                   switch (lang) {
                     case 'en':
