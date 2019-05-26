@@ -43,11 +43,7 @@ export const Authentication = () => {
   let [sidebarOpened, setsidebarOpened] = React.useState(false)
   let [loginScreenOpened, setloginScreenOpened] = React.useState(false)
   let [signupScreenOpened, setsignupScreenOpened] = React.useState(false)
-  function getWidth() {
-    const isSSR = typeof window === 'undefined'
 
-    return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
-  }
   function sidebarScreenBack() {
     setloginScreenOpened(false)
     setsignupScreenOpened(false)
@@ -70,14 +66,29 @@ export const Authentication = () => {
       sessionStorage.removeItem("authenticationType");
     }
   })
+  function getWidth() {
+    const isSSR = typeof window === 'undefined'
 
+    return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+  }
   function Login() {
+    const isSSR = typeof window === 'undefined'
+    const windowsWidth =  isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+    let username = ""
+    let password = ""
+    if (windowsWidth != undefined && windowsWidth < 991) {
+       username = (document.getElementById("usernameLoginMob") as HTMLInputElement).value;
+       password = (document.getElementById("passwordLoginMob") as HTMLInputElement).value; 
+    }
+    else {
+       username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
+       password = (document.getElementById("passwordLogin") as HTMLInputElement).value; 
+    }
     setloginHeaderNotify("")
     setLoader("loading");
-      let username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
-      let password = (document.getElementById("passwordLogin") as HTMLInputElement).value; 
+    
    
-    if (!username) {
+    if (!username || !getWidth) {
       setloginMessageType("warning");
       setloginMessageNotify(i18next.t("authentication_page_enter_username_or_email"))
       setLoader("active");
@@ -490,13 +501,12 @@ export const Authentication = () => {
                   <label style={{ color: 'black' }}>{i18next.t("authentication_page_password")}</label>
                   <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLoginMob" />
                 </div>
-
                 <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={Login} >
                   {i18next.t("authentication_page_sign_in")}
                 </Button>
                 <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
                   Loading
-    </Button>
+                </Button>
 
                 <div className="login-need-help"><a href="password_reset" className="forgot-password-link">
                   {i18next.t("authentication_page_forgot_password")}</a></div>
