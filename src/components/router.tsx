@@ -5,6 +5,7 @@ import { Home, Help, PasswordReset, Profile, Authentication, NotFoundPage } from
 import { About } from './about/about';
 import { AppRoute, AppAuthenticatedRoute, AppPublic, AppAuthenticatedTopMenu } from '../helpers/route_helper';
 import { PasswordResetSendMail } from './password_reset';
+import { Settings } from './settings';
 
 export const AppRouter = () => {
   function WaitingComponent(Component: any) {
@@ -22,6 +23,7 @@ export const AppRouter = () => {
           <AppRoute exact path="/home" layout={AppNavMenuLayout} component={WaitingComponent(Home)} />
           <AppRoute exact  path="/help" layout={AppNavMenuLayout} component={WaitingComponent(Help)} />
           <AppRoute exact  path="/about" layout={AppNavMenuLayout} component={WaitingComponent(About)} />
+          <AppRoute exact  path="/settings" layout={AppPrivateLayout} component={WaitingComponent(Settings)} />
           <Route exact path="/password_reset" component={WaitingComponent(PasswordResetSendMail)} />
           <Route path="/password_reset/:id" component={WaitingComponent(PasswordReset)} />
           <AppAuthenticatedTopMenu   path="/:id" layoutPublic={AppGeneralLayout} layoutPrivate={AppPrivateLayout} component={WaitingComponent(Profile)} />

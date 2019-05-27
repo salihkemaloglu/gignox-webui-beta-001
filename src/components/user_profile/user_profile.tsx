@@ -66,7 +66,7 @@ export const Profile = () => {
                         onClick={() => setActiveItem("messages")}
                     />
                     <Menu.Item
-                        name='friends'
+                        name='friends'  
                         active={activeItem === 'friends'}
                         onClick={() => setActiveItem("friends")}
                     />

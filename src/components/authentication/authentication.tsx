@@ -659,7 +659,7 @@ export const Authentication = () => {
                 <Menu.Item style={{ marginLeft: '0', width: '240px' }}>
                   <a href="/" className="logo_link" style={{ display: 'inherit' }}>
                     <img src={logo} className="authentication-app-logo" alt="logo" />
-                    <img src={logoGignox} className="authentication_logo_word" alt="logo" />
+                    <img src={logoGignox} className="authentication_logo_word" alt="logo" style={{height: '30px', marginTop: '5px'}}/>
                   </a>
                 </Menu.Item>
                 <Menu.Item onClick={() => setsidebarOpened(true)} style={{ marginBottom: '10px', fontSize: '23px', marginLeft: 'auto' }}>
