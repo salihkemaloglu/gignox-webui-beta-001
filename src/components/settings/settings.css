@@ -13,13 +13,16 @@
 }
 /* Tablet Styles */
 @media only screen and (min-width: 661px) and (max-width: 960px) {
+    .sideBarColumn{
+        display: contents !important;
+    }
+    .sideBarColumn .horizontal{
+        overflow-x: scroll !important;
+    }
     .rightSideForm {
         padding-top: 20px;
-        width: 50% !important;
+        width: 100% !important;
     }
-    .sideBarColumn {
-        width: 34% !important;
-     }
 }
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
