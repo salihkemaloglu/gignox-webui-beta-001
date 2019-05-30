@@ -1,10 +1,15 @@
 version: '3'
-services: 
-  api:
-    image: gignox_ui:latest
-    container_name: gignox_ui
+services:
+  prod:
+    image: gignoxui_prod:latest
+    container_name: gignoxui_prod
     ports:
-      - 8080:80
+      - 3000:3000
     restart: always
-    environment:
-    - "VIRTUAL_HOST=dev.gignox.com"      
+  dev:
+    image: gignoxui_dev:latest
+    container_name: gignoxui_dev
+    ports:
+      - 3001:3001
+    restart: always
+

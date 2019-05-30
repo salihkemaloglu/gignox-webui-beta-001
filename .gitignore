@@ -25,3 +25,4 @@ generate.sh
 
 src/components/deneme.tsx
 src/components/about/about.tsx
+Makefile
