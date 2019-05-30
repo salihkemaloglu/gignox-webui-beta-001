@@ -50,7 +50,11 @@
     "authentication_page_unexpected_error":"An unexpected error has occurred, Please try later",
     "authentication_page_sign_up_empty_validation":"There were problems creating your account.",
     "authentication_page_sign_up_resolve_following_errors":"Please resolve the following errors",
-    "authentication_page_sign_up_register_password_strenght_validation_information":"The password you provided is weak and can be easily guessed. Your account was not created. Please choose a stronger password"
-
+    "authentication_page_sign_up_register_password_strenght_validation_information":"The password you provided is weak and can be easily guessed. Your account was not created. Please choose a stronger password",
+    "password_resent_page_information_title":"Change your password",
+    "password_resent_page_information":"Enter your email address and we will send you a link to reset your password.",
+    "password_resent_page_success_email_sended_information_title":"Password reset email successfuly sended",
+    "password_resent_page_success_email_sended_information":"Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.",
+    "password_resent_page_change_password_title":"Change password for"
 }
 

@@ -33,6 +33,7 @@ export const PasswordResetSendMail = () => {
     setLoader("loading");
     let emailValue = (document.getElementById("emailReserPassword") as HTMLInputElement).value;
     if (!emailValue) {
+      setheaderNotify("");
       setmessageNotify(i18next.t("password_resent_page_email_empty_validation"));
       setmessageType("warning");
       setLoader("active");
@@ -84,8 +85,7 @@ export const PasswordResetSendMail = () => {
             </a>
           </Header>
           <Message success style={{ display: messageType === "success" ? 'block' : 'none' }}>
-            <Message.Header>Password reset email successfuly sended</Message.Header>
-            <p>Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.</p>
+            <Message.Header>{i18next.t("password_resent_page_success_email_sended_information_title")}</Message.Header>
           </Message>
           <Message warning style={{ display: messageType === "warning" ? 'block' : 'none' }}>
             <Message.Header>{headerNotify}</Message.Header>
@@ -96,8 +96,8 @@ export const PasswordResetSendMail = () => {
             <p>{messageNotify}</p>
           </Message>
           <Message attached style={{ display: messageType === "info" ? 'block' : 'none' }}>
-            <Message.Header>Change your password</Message.Header>
-            <p>Enter your email address and we will send you a link to reset your password.</p>
+            <Message.Header>{i18next.t("password_resent_page_information_title")}</Message.Header>
+            <p>{i18next.t("password_resent_page_information")}</p>
           </Message><br />
           <Form size='large' style={{ display: input === "on" ? 'block' : 'none' }}>
             <Segment stacked>

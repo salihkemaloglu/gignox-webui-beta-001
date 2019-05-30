@@ -10,7 +10,7 @@ function DoGetIpAddressRequest() {
     request: req,
     host: ApiUrl,
     onHeaders: (headers: grpc.Metadata) => {
-      console.log("onHeaders", headers);
+      // console.log("onHeaders", headers);
     },
     onMessage: (responseData: GetIpInformationResponse) => {
       info = responseData.getIpInformation() === null ? JSON.parse("null") : responseData.getIpInformation();

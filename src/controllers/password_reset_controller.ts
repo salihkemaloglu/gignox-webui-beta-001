@@ -3,6 +3,7 @@ import { GigxRRService } from '../proto/gigxRR_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
 import { ApiUrl } from '../global/urls_global'
 import { GeneralResponseModal } from '../modals/general_response_modal'
+import { lang } from 'src/services/localization_service';
 var modal = new GeneralResponseModal()
 
 
@@ -13,7 +14,7 @@ export function DoSendEmailRequest(generalRequest_: GeneralRequest, callback: an
   grpc.invoke(GigxRRService.SendEmail, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "languagecode": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": lang }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
@@ -34,7 +35,7 @@ export function DoCheckVerificationTokenRequest(generalRequest_: GeneralRequest,
   grpc.invoke(GigxRRService.CheckVerificationLink, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "languagecode": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": lang }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },
@@ -55,7 +56,7 @@ export function DoResetUserPasswordRequest(generalRequest_: GeneralRequest, call
   grpc.invoke(GigxRRService.ResetUserPassword, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "languagecode": "en" }),
+    metadata: new grpc.Metadata({ "languagecode": lang }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },

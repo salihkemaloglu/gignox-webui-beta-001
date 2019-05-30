@@ -144,7 +144,7 @@ export const PasswordReset = () => {
             <p>{messageNotify}</p>
           </Message>
           <Message attached style={{ display: messageType === "info" ? 'block' : 'none' }}>
-            <Message.Header>Change password for</Message.Header>
+            <Message.Header>{i18next.t("password_resent_page_change_password_title")}</Message.Header>
             <p>{userEmail}</p>
           </Message><br />
           <div style={{ display: messageType === "loading" ? 'block' : 'none', marginTop: "15%" }}>

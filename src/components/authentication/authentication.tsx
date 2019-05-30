@@ -100,7 +100,7 @@ export const Authentication = () => {
           setloginMessageNotify(i18next.t("authentication_page_invalid_username_or_password"))
           setLoader("active");
         } else {
-          setloginMessageNotify(i18next.t("authentication_page_unexpected_error"))
+          // setloginMessageNotify(i18next.t("authentication_page_unexpected_error"))
           setLoader("active")
         }
       });
