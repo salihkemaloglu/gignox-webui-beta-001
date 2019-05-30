@@ -191,13 +191,13 @@
   text-align: center;
 }
 .authentication_logo_word {
-  width: 170px !important;
-  margin-bottom: 8px !important;
+  width: 150px !important;
+  margin-bottom: 4px !important;
 }
 .authentication-app-logo {
   animation: App-logo-spin infinite 40s linear;
-  height: 55px;
-  width: 55px;
+  height: 45px;
+  width: 45px;
 }
 .App-image {
   animation: App-logo-spin infinite 1000s linear;
@@ -255,7 +255,7 @@
 }
 .leftSection {
   width: 65%;
-  background-color: black;
+  background-color: #1b1c1d;
 }
 .leftSection img {
   width: 100%;
@@ -364,6 +364,9 @@ button:focus {
     background-color: rgb(204, 247, 114) !important;
     color: black !important;
     display: inline-table !important;
+  }
+  .activeMenu{
+    border-bottom: 1px solid white;
   }
 
 }

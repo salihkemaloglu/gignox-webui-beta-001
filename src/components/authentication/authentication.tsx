@@ -4,7 +4,7 @@ import Cross from '@material-ui/icons/WarningOutlined';
 import { Dropdown, Flag, Label, Form, Message, Button, Progress } from 'semantic-ui-react';
 var logo = require('../../app_root/images/logo.png');
 var logoGignox = require('../../app_root/images/logo_gignox.png');
-var logos = require('../../app_root/images/authentication_page_background_image.png');
+// var logos = require('../../app_root/images/authentication_page_background_image.png');
 import './authentication.css';
 import { useState } from 'react';
 import { UserLogin, User, GeneralResponse } from '../../proto/gigxRR_pb';
@@ -43,6 +43,7 @@ export const Authentication = () => {
   let [sidebarOpened, setsidebarOpened] = React.useState(false)
   let [loginScreenOpened, setloginScreenOpened] = React.useState(false)
   let [signupScreenOpened, setsignupScreenOpened] = React.useState(false)
+  let [activeMenu, setActiveMenu] = React.useState("home")
 
   function sidebarScreenBack() {
     setloginScreenOpened(false)
@@ -61,10 +62,10 @@ export const Authentication = () => {
     if (authenticationType != "null") {
       if (windowsWidth != undefined && windowsWidth < 991) {
         if (authenticationType == "signin") {
-          setsidebarOpened(true)  
+          setsidebarOpened(true)
           setloginScreenOpened(true)
         } else if (authenticationType == "signup") {
-          setsidebarOpened(true)  
+          setsidebarOpened(true)
           setsignupScreenOpened(true)
         }
         sessionStorage.removeItem("authenticationType");
@@ -80,7 +81,7 @@ export const Authentication = () => {
 
     }
   })
-  
+
   function getWidth() {
     const isSSR = typeof window === 'undefined'
 
@@ -144,14 +145,14 @@ export const Authentication = () => {
     let email = ""
     let password = ""
     if (windowsWidth != undefined && windowsWidth < 991) {
-       username = (document.getElementById("usernameRegisterMob") as HTMLInputElement).value;
-       email = (document.getElementById("emailRegisterMob") as HTMLInputElement).value;
-       password = (document.getElementById("passwordRegisterMob") as HTMLInputElement).value;
+      username = (document.getElementById("usernameRegisterMob") as HTMLInputElement).value;
+      email = (document.getElementById("emailRegisterMob") as HTMLInputElement).value;
+      password = (document.getElementById("passwordRegisterMob") as HTMLInputElement).value;
     }
     else {
-       username = (document.getElementById("usernameRegister") as HTMLInputElement).value;
-       email = (document.getElementById("emailRegister") as HTMLInputElement).value;
-       password = (document.getElementById("passwordRegister") as HTMLInputElement).value;
+      username = (document.getElementById("usernameRegister") as HTMLInputElement).value;
+      email = (document.getElementById("emailRegister") as HTMLInputElement).value;
+      password = (document.getElementById("passwordRegister") as HTMLInputElement).value;
     }
 
     var result = zxcvbn(password);
@@ -202,16 +203,16 @@ export const Authentication = () => {
     var exist
     var nonExist
     if (windowsWidth != undefined && windowsWidth < 991) {
-       validationUsername = document.getElementById('validationUsernameMob') as HTMLElement;
-       usernameLabel = document.getElementById('usernameLabelMob') as HTMLElement;
-       exist = document.getElementById('userExistDoneMob') as HTMLElement;
-       nonExist = document.getElementById('userExistCrossMob') as HTMLElement;
+      validationUsername = document.getElementById('validationUsernameMob') as HTMLElement;
+      usernameLabel = document.getElementById('usernameLabelMob') as HTMLElement;
+      exist = document.getElementById('userExistDoneMob') as HTMLElement;
+      nonExist = document.getElementById('userExistCrossMob') as HTMLElement;
     }
     else {
-       validationUsername = document.getElementById('validationUsername') as HTMLElement;
-       usernameLabel = document.getElementById('usernameLabel') as HTMLElement;
-       exist = document.getElementById('userExistDone') as HTMLElement;
-       nonExist = document.getElementById('userExistCross') as HTMLElement;
+      validationUsername = document.getElementById('validationUsername') as HTMLElement;
+      usernameLabel = document.getElementById('usernameLabel') as HTMLElement;
+      exist = document.getElementById('userExistDone') as HTMLElement;
+      nonExist = document.getElementById('userExistCross') as HTMLElement;
     }
     if (e.target.value.length > 0) {
       user.setUsername(e.target.value)
@@ -282,7 +283,7 @@ export const Authentication = () => {
 
 
     if (e.target.value.length > 0) {
-      
+
       user.setEmail(e.target.value)
       user.setUsername("")
       if (!ValidateEmail(e.target.value)) {
@@ -317,7 +318,7 @@ export const Authentication = () => {
         });
       }
     } else {
-     
+
       validationEmail.style.display = "none"
       emailLabel.style.color = 'black';
       exist.style.display = 'none';
@@ -367,21 +368,71 @@ export const Authentication = () => {
       }
     }
   }
+  
   return (
     <div className="wrap">
-      <section className="navSection Logos" >
-        <div className="nav-wrapper">
-          <div className="mr-auto">
+      <section className="navSection Logos" style={{ width: '65%' }}>
+        {/* <div className="mr-auto">
             <a href="/" className="logo_link">
               <img src={logo} className="authentication-app-logo" alt="logo" />
               <img src={logoGignox} className="authentication_logo_word" alt="logo" />
             </a>
-          </div>
-        </div>
+          </div> */}
+        <Segment
+          textAlign='center'
+          vertical
+          style={{ padding: '0' }}
+        >
+          <Menu size='small' inverted borderless>
+            <Menu.Item as='div'>
+              <a href="/" className="logo_link">
+                <img src={logo} className="authentication-app-logo" alt="logo" />
+                <img src={logoGignox} className="authentication_logo_word" alt="logo" />
+              </a>
+            </Menu.Item>
+            <Menu.Item as='div' borderless style={{ left: '50px' }}>
+              <Menu.Item as='a' className={activeMenu == "home" ? "activeMenu" : ""} onClick={() => setActiveMenu("home")} style={{ color: 'white' }}>Home</Menu.Item>
+              <Menu.Item as='a' className={activeMenu == "about" ? "activeMenu" : ""} onClick={() => setActiveMenu("about")} style={{ color: 'white' }}>About</Menu.Item>
+              <Menu.Item as='a' className={activeMenu == "contact" ? "activeMenu" : ""} onClick={() => setActiveMenu("contact")} style={{ color: 'white' }}>Contact</Menu.Item>
+              <Menu.Item as='a' className={activeMenu == "donation" ? "activeMenu" : ""} onClick={() => setActiveMenu("donation")} style={{ color: 'white' }}>Donation</Menu.Item>
+            </Menu.Item>
+          </Menu>
+        </Segment>
+
       </section>
       <section className="mainSection">
         <section className="leftSection">
-          <img src={logos} style={{ width: "100%" }} />
+          {/* <img src={logos} style={{ width: "100%" }} /> */}
+          <div style={{ marginTop: '27%', textAlign: 'center' }}>
+            <div>
+              <Container text>
+                <Header
+                  as='h1'
+                  content='Imagine-a-Company'
+                  inverted
+                  style={{
+                    fontSize: '2em',
+                    fontWeight: 'normal',
+                    marginBottom: 0,
+                    marginTop: '1.5em',
+                  }}
+                />
+                <Header
+                  as='h2'
+                  content='Do whatever you want when you want to.'
+                  inverted
+                  style={{
+                    fontSize: '1.5em',
+                    fontWeight: 'normal',
+                    marginTop: '0.5em',
+                  }}
+                />
+                <Button primary size='huge'>
+                  Get Started
+</Button>
+              </Container>
+            </div>
+          </div>
         </section>
         <section className="rightSection">
           <div style={{ float: 'right', width: '100%', padding: '15px' }}>
@@ -494,7 +545,21 @@ export const Authentication = () => {
 
         </section>
       </section>
-
+      <section className="about" style={{height: '-webkit-fill-available', backgroundColor: 'red'}}>
+        <div>
+          <span>About</span>
+        </div>
+      </section>
+      <section className="contact" style={{height: '-webkit-fill-available', backgroundColor: 'blue'}}>
+        <div>
+          <span>Contact</span>
+        </div>
+      </section>
+      <section className="donation" style={{height: '-webkit-fill-available', backgroundColor: 'yellow'}}>
+        <div>
+          <span>Donation</span>
+        </div>
+      </section>
       <Responsive
         as={Sidebar.Pushable}
         getWidth={() => (getWidth ? window.innerWidth : 0)}
@@ -620,12 +685,12 @@ export const Authentication = () => {
                   <input autoComplete="new-password" className="input_control" type="password" onChange={handlePasswordChange} placeholder={i18next.t("authentication_page_password")} style={{ width: '100%', float: 'left' }} id="passwordRegisterMob" />
                 </div>
                 <div>
-                <div style={{ display: passwordStrenghtColor === "red" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='red' size='tiny' /></div>
-                <div style={{ display: passwordStrenghtColor === "orange" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='orange' size='tiny' /></div>
-                <div style={{ display: passwordStrenghtColor === "yellow" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='yellow' size='tiny' /></div>
-                <div style={{ display: passwordStrenghtColor === "olive" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='olive' size='tiny' /></div>
-                <div style={{ display: passwordStrenghtColor === "green" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='green' size='tiny' /></div>
-              </div>
+                  <div style={{ display: passwordStrenghtColor === "red" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='red' size='tiny' /></div>
+                  <div style={{ display: passwordStrenghtColor === "orange" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='orange' size='tiny' /></div>
+                  <div style={{ display: passwordStrenghtColor === "yellow" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='yellow' size='tiny' /></div>
+                  <div style={{ display: passwordStrenghtColor === "olive" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='olive' size='tiny' /></div>
+                  <div style={{ display: passwordStrenghtColor === "green" ? 'block' : 'none', width: passwordStrenghtWidth }}><Progress percent={100} color='green' size='tiny' /></div>
+                </div>
                 {(() => {
                   switch (lang) {
                     case 'en':
@@ -659,7 +724,7 @@ export const Authentication = () => {
                 <Menu.Item style={{ marginLeft: '0', width: '240px' }}>
                   <a href="/" className="logo_link" style={{ display: 'inherit' }}>
                     <img src={logo} className="authentication-app-logo" alt="logo" />
-                    <img src={logoGignox} className="authentication_logo_word" alt="logo" style={{height: '30px', marginTop: '5px'}}/>
+                    <img src={logoGignox} className="authentication_logo_word" alt="logo" style={{ height: '30px', marginTop: '5px' }} />
                   </a>
                 </Menu.Item>
                 <Menu.Item onClick={() => setsidebarOpened(true)} style={{ marginBottom: '10px', fontSize: '23px', marginLeft: 'auto' }}>
