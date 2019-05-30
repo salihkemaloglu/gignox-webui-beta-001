@@ -1,18 +1,13 @@
-FROM node:10.15.1
+FROM mhart/alpine-node:11 AS builder
+WORKDIR /app
+COPY . .
+RUN yarn run build
+RUN yarn run prodbuild
 
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+FROM mhart/alpine-node
+RUN yarn global add serve
+WORKDIR /app
+COPY --from=builder /app/build .
+CMD ["serve", "-p", "80", "-s", "."]
 
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-COPY package.json /usr/src/app/package.json
-
-RUN npm install 
-RUN npm install react-scripts@1.1.1 -g 
-RUN npm audit fix
-
-COPY . /usr/src/app
-#RUN npm run build
-EXPOSE 3000
-
-CMD ["npm", "start"]
