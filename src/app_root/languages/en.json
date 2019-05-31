@@ -55,6 +55,8 @@
     "password_resent_page_information":"Enter your email address and we will send you a link to reset your password.",
     "password_resent_page_success_email_sended_information_title":"Password reset email successfuly sended",
     "password_resent_page_success_email_sended_information":"Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.",
-    "password_resent_page_change_password_title":"Change password for"
+    "password_resent_page_change_password_title":"Change password for",
+    "authentication_page_user_login_attemps": "You've often tried a password experiment.Please try again later."
+
 }
 

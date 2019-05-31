@@ -21,8 +21,8 @@ export default class LeftSideBar extends React.Component<any, any> {
     }
 
     SignOut = () => {
-        sessionStorage.removeItem("username");
-        sessionStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("token");
     }
     public render() {
         return (

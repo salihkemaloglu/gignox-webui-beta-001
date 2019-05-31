@@ -3,8 +3,8 @@ import { Redirect, Route } from 'react-router-dom';
 
 export const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
   let isSignedIn = false;
-  let username = sessionStorage.getItem("username") === null ? "null" : sessionStorage.getItem("username")
-  let token = sessionStorage.getItem("token") === null ? "null" : sessionStorage.getItem("token")
+  let username = localStorage.getItem("username") === null ? "null" : localStorage.getItem("username")
+  let token = localStorage.getItem("token") === null ? "null" : localStorage.getItem("token")
   if (username != "null" && token != "null") {
     isSignedIn = true
     if (location.pathname == "/") {
@@ -57,8 +57,8 @@ export const AppPublic = ({ component: Component, layout: Layout, ...rest }) => 
 }
 export const AppAuthenticatedTopMenu = ({ component: Component, layoutPublic: PublicLayout, layoutPrivate: PrivateLayout, ...rest }) => {
   let isSignedIn = false;
-  let username = sessionStorage.getItem("username") === null ? "null" : sessionStorage.getItem("username")
-  let token = sessionStorage.getItem("token") === null ? "null" : sessionStorage.getItem("token")
+  let username = localStorage.getItem("username") === null ? "null" : localStorage.getItem("username")
+  let token = localStorage.getItem("token") === null ? "null" : localStorage.getItem("token")
   if (username != "null" && token != "null") {
     isSignedIn = true
   }
@@ -80,8 +80,8 @@ export const AppAuthenticatedTopMenu = ({ component: Component, layoutPublic: Pu
   )
 }
 export const AppAuthenticatedRoute = ({ component: Component, ...rest }) => {
-  let username = sessionStorage.getItem("username") === null ? "null" : sessionStorage.getItem("username")
-  let token = sessionStorage.getItem("token") === null ? "null" : sessionStorage.getItem("token")
+  let username = localStorage.getItem("username") === null ? "null" : localStorage.getItem("username")
+  let token = localStorage.getItem("token") === null ? "null" : localStorage.getItem("token")
   if (username != "null" && token != "null" && location.pathname == "/") {
     return (
       <Route

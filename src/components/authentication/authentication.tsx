@@ -12,22 +12,11 @@ import { i18next, lang } from '../../services/localization_service'
 import { DoLoginUserRequest, DoRegisterUserRequest, DoCheckUserToRegisterRequest } from '../../controllers/authentication_controller';
 import { GeneralResponseModal } from 'src/modals/general_response_modal';
 import { grpc } from '@improbable-eng/grpc-web';
-var zxcvbn = require('zxcvbn');
-import {
-  Container,
-  Divider,
-  Grid,
-  Header,
-  Image,
-  List,
-  Menu,
-  Responsive,
-  Segment,
-  Sidebar,
-  Icon,
-} from 'semantic-ui-react'
+import { Container, Divider, Grid, Header, Image, List, Menu, Responsive, Segment, Sidebar, Icon } from 'semantic-ui-react'
 import { GetMessageType } from 'src/helpers/message_type_helper';
 import { ValidateUsername, ValidateEmail } from 'src/helpers/validation_helper';
+var zxcvbn = require('zxcvbn');
+
 export const Authentication = () => {
   const [loader, setLoader] = useState("active");
   const [fade, setFade] = useState("signup");
@@ -40,11 +29,12 @@ export const Authentication = () => {
   const [alreadyExistUserWarning, setalreadyExistUserWarning] = useState("nonExist");
   const [passwordStrenghtWidth, setpasswordStrenghtWidth] = useState("");
   const [passwordStrenghtColor, setpasswordStrenghtColor] = useState("off");
-  let [sidebarOpened, setsidebarOpened] = React.useState(false)
-  let [loginScreenOpened, setloginScreenOpened] = React.useState(false)
-  let [signupScreenOpened, setsignupScreenOpened] = React.useState(false)
-  let [activeMenu, setActiveMenu] = React.useState("home")
-
+  const [sidebarOpened, setsidebarOpened] = React.useState(false)
+  const [loginScreenOpened, setloginScreenOpened] = React.useState(false)
+  const [signupScreenOpened, setsignupScreenOpened] = React.useState(false)
+  const [activeMenu, setActiveMenu] = React.useState("home")
+  let [loginForm, setLoginForm] = React.useState("active")
+  let loginAttempCount = 0;
   function sidebarScreenBack() {
     setloginScreenOpened(false)
     setsignupScreenOpened(false)
@@ -59,6 +49,14 @@ export const Authentication = () => {
   document.addEventListener('DOMContentLoaded', (event) => {
     const windowsWidth = Responsive.onlyTablet.minWidth
     let authenticationType = sessionStorage.getItem("authenticationType") == null ? JSON.parse(JSON.stringify("null")) : sessionStorage.getItem("authenticationType");
+    var count = localStorage.getItem("loginAttemptCount") == null ? JSON.parse(JSON.stringify("0")) : localStorage.getItem("loginAttemptCount");
+    loginAttempCount = parseInt(count, 10);
+    if (loginAttempCount > 20) {
+      setloginMessageType("warning");
+      setLoginForm("active");
+      setloginMessageNotify(i18next.t("authentication_page_user_login_attemps"))
+    }
+
     if (authenticationType != "null") {
       if (windowsWidth != undefined && windowsWidth < 991) {
         if (authenticationType == "signin") {
@@ -92,6 +90,10 @@ export const Authentication = () => {
     const windowsWidth = isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
     let username = ""
     let password = ""
+    setloginHeaderNotify("")
+    setLoader("loading");
+    var count = localStorage.getItem("loginAttemptCount") == null ? JSON.parse(JSON.stringify("0")) : localStorage.getItem("loginAttemptCount");
+    let loginAttempCount = parseInt(count, 10);
     if (windowsWidth != undefined && windowsWidth < 991) {
       username = (document.getElementById("usernameLoginMob") as HTMLInputElement).value;
       password = (document.getElementById("passwordLoginMob") as HTMLInputElement).value;
@@ -100,11 +102,18 @@ export const Authentication = () => {
       username = (document.getElementById("usernameLogin") as HTMLInputElement).value;
       password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
     }
-    setloginHeaderNotify("")
-    setLoader("loading");
 
-
-    if (!username || !getWidth) {
+    if (loginAttempCount >= 20) {
+      if (loginForm == "active") {
+        setLoginForm("passive");
+        setTimeout(function () {
+          localStorage.removeItem("loginAttemptCount"), setLoginForm("active"), setloginMessageNotify(""), setloginMessageType("")
+        }, 600000);
+      }
+      setloginMessageNotify(i18next.t("authentication_page_user_login_attemps"))
+      setloginMessageType("warning");
+      setLoader("active");
+    } else if (!username || !getWidth) {
       setloginMessageType("warning");
       setloginMessageNotify(i18next.t("authentication_page_enter_username_or_email"))
       setLoader("active");
@@ -120,15 +129,19 @@ export const Authentication = () => {
         setloginMessageType(response.MessageType);
         setloginMessageNotify(response.Message);
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
-          sessionStorage.setItem("token", userLoginResponse_.getToken());
-          sessionStorage.setItem("username", userLoginResponse_.getUsername());
+          localStorage.setItem("token", userLoginResponse_.getToken());
+          localStorage.setItem("username", userLoginResponse_.getUsername());
           localStorage.setItem("languagecode", userLoginResponse_.getLanguageCode())
+          localStorage.removeItem("loginAttemptCount")
           window.location.href = '/home'
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.Unauthenticated) {
+          if (loginAttempCount < 20) {
+            loginAttempCount = loginAttempCount + 1;
+            localStorage.setItem("loginAttemptCount", loginAttempCount.toString());
+          }
           setloginMessageNotify(i18next.t("authentication_page_invalid_username_or_password"))
           setLoader("active");
         } else {
-          // setloginMessageNotify(i18next.t("authentication_page_unexpected_error"))
           setLoader("active")
         }
       });
@@ -179,8 +192,8 @@ export const Authentication = () => {
         if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.OK) {
           if (userRegisterResponse_.getIsOperationSuccess) {
             if (userRegisterResponse_.getIsTokenSuccess) {
-              sessionStorage.setItem("token", userRegisterResponse_.getToken());
-              sessionStorage.setItem("username", username);
+              localStorage.setItem("token", userRegisterResponse_.getToken());
+              localStorage.setItem("username", username);
               window.location.href = '/home'
             } else {
               window.location.href = '/'
@@ -368,7 +381,7 @@ export const Authentication = () => {
       }
     }
   }
-  
+
   return (
     <div className="wrap">
       <section className="navSection Logos" style={{ width: '65%' }}>
@@ -438,8 +451,8 @@ export const Authentication = () => {
           <div style={{ float: 'right', width: '100%', padding: '15px' }}>
             <Dropdown text="Language" icon='globe' floating labeled button className='icon language_dropdown'>
               <Dropdown.Menu className="language_box" style={{ marginTop: '0!important' }}>
-                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='united kingdom' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("languagecode", "en")} text='En' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
-                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='turkey' /><Dropdown.Item href="." onClick={() => sessionStorage.setItem("languagecode", "tr")} text='Tr' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
+                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='united kingdom' /><Dropdown.Item href="." onClick={() => localStorage.setItem("languagecode", "en")} text='En' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
+                <div style={{ padding: '8px', cursor: 'pointer' }}><Flag name='turkey' /><Dropdown.Item href="." onClick={() => localStorage.setItem("languagecode", "tr")} text='Tr' style={{ display: 'block', width: '74%', float: 'right' }} /></div>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -511,8 +524,13 @@ export const Authentication = () => {
           </div>
 
           <div className="Login" style={{ display: fade === "signin" ? 'block' : 'none', lineHeight: '2', padding: '35px 16px 16px' }}>
-
-            <form className="loginForm">
+            <div style={{ display: loginForm === "passive" ? 'block' : 'none' }}>
+              <Message warning style={{ display: loginMessageType === "warning" ? 'block' : 'none' }}>
+                <Message.Header>{loginHeaderNotify}</Message.Header>
+                <p>{loginMessageNotify}</p>
+              </Message>
+            </div>
+            <form className="loginForm" style={{ display: loginForm === "active" ? 'block' : 'none' }}>
               <Message color='red' style={{ display: loginMessageType === "error" ? 'block' : 'none' }}>
                 <Message.Header>{loginHeaderNotify}</Message.Header>
                 <p>{loginMessageNotify}</p>
@@ -530,32 +548,31 @@ export const Authentication = () => {
                 <label>{i18next.t("authentication_page_password")}</label>
                 <input className="input_control" placeholder={i18next.t("authentication_page_password")} type="password" id="passwordLogin" onKeyPress={handleOnKeyPress} />
               </div>
-
               <Button type="button" fluid size='large' style={{ display: loader === "active" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} onClick={Login} >
                 {i18next.t("authentication_page_sign_in")}
               </Button>
               <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
                 Loading
                 </Button>
-
               <div className="login-need-help"><a href="password_reset" className="forgot-password-link">
                 {i18next.t("authentication_page_forgot_password")}</a></div>
             </form>
+            <div style={{ display: loginForm === "passive" ? 'block' : 'none' }} className="login-need-help"><a href="password_reset" className="forgot-password-link">{i18next.t("authentication_page_forgot_password")}</a></div>
           </div>
 
         </section>
       </section>
-      <section className="about" style={{height: '-webkit-fill-available', backgroundColor: 'red'}}>
+      <section className="about" style={{ height: '-webkit-fill-available', backgroundColor: 'red' }}>
         <div>
           <span>About</span>
         </div>
       </section>
-      <section className="contact" style={{height: '-webkit-fill-available', backgroundColor: 'blue'}}>
+      <section className="contact" style={{ height: '-webkit-fill-available', backgroundColor: 'blue' }}>
         <div>
           <span>Contact</span>
         </div>
       </section>
-      <section className="donation" style={{height: '-webkit-fill-available', backgroundColor: 'yellow'}}>
+      <section className="donation" style={{ height: '-webkit-fill-available', backgroundColor: 'yellow' }}>
         <div>
           <span>Donation</span>
         </div>
@@ -598,11 +615,15 @@ export const Authentication = () => {
         >
 
           <Menu.Item as='a' style={{ marginBottom: '10px', paddingBottom: '15px', backgroundColor: '#2B2F43', minHeight: '50px' }} onClick={sidebarScreenBack}><Icon name='chevron circle left' style={{ color: 'white', float: 'left', fontSize: '25px' }} /></Menu.Item>
-
           <Menu.Item as='a'>
             <div className="Login" style={{ lineHeight: '2', padding: '0' }}>
-
-              <form className="loginForm">
+              <div style={{ display: loginForm === "passive" ? 'block' : 'none' }}>
+                <Message warning style={{ display: loginMessageType === "warning" ? 'block' : 'none' }}>
+                  <Message.Header>{loginHeaderNotify}</Message.Header>
+                  <p>{loginMessageNotify}</p>
+                </Message>
+              </div>
+              <form className="loginForm" style={{ display: loginForm === "active" ? 'block' : 'none' }}>
                 <Message color='red' style={{ display: loginMessageType === "error" ? 'block' : 'none' }}>
                   <Message.Header>{loginHeaderNotify}</Message.Header>
                   <p>{loginMessageNotify}</p>
@@ -626,10 +647,11 @@ export const Authentication = () => {
                 <Button loading fluid disabled style={{ display: loader === "loading" ? 'block' : 'none', backgroundColor: 'rgb(23, 162, 184)', color: 'white' }} color='teal'>
                   Loading
                 </Button>
-
                 <div className="login-need-help"><a href="password_reset" className="forgot-password-link">
                   {i18next.t("authentication_page_forgot_password")}</a></div>
               </form>
+              <div style={{ display: loginForm === "passive" ? 'block' : 'none' }} className="login-need-help"><a href="password_reset" className="forgot-password-link">{i18next.t("authentication_page_forgot_password")}</a></div>
+
             </div>
           </Menu.Item>
         </Sidebar>

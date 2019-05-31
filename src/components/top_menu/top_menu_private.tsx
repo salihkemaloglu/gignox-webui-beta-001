@@ -41,8 +41,8 @@ export const TopMenuPrivate = () => {
     });
 
     function SignOut() {
-        sessionStorage.removeItem("username");
-        sessionStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("token");
     }
 
     return (

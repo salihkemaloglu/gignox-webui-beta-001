@@ -33,8 +33,8 @@ export const TopMenuGeneral = () => {
                         <div className="profil_bar" id="profile_bar_id">
 
                             <div className="profil_content" style={{ paddingTop: '14px', width: '100%', paddingLeft: '17%' }}>
-                                <a href="/" className="ui grey basic button" onClick={() => sessionStorage.setItem("authenticationType", "signin")}>Sing in</a>
-                                <a href="/" className="ui grey basic button" onClick={() => sessionStorage.setItem("authenticationType", "signup")}>Sign up</a>
+                                <a href="/" className="ui basic inverted button" onClick={() => sessionStorage.setItem("authenticationType", "signin")}>Sing in</a>
+                                <a href="/" className="ui basic inverted button" onClick={() => sessionStorage.setItem("authenticationType", "signup")}>Sign up</a>
                             </div>
                         </div>
                     </div>
@@ -50,8 +50,8 @@ export const TopMenuGeneral = () => {
                     <div className="mr-auto">
                         <div className="leftSideBar">
                             <Button.Group style={{display: 'flex'}}>
-                            <a href="/" style={{margin: '2px'}} className="ui grey basic button" onClick={() => sessionStorage.setItem("authenticationType", "signin")}>Sing in</a>
-                            <a href="/" style={{margin: '2px'}} className="ui grey basic button" onClick={() => sessionStorage.setItem("authenticationType", "signup")}>Sign up</a>
+                            <a href="/" style={{margin: '2px'}} className="ui basic inverted button" onClick={() => sessionStorage.setItem("authenticationType", "signin")}>Sing in</a>
+                            <a href="/" style={{margin: '2px'}} className="ui basic inverted button" onClick={() => sessionStorage.setItem("authenticationType", "signup")}>Sign up</a>
                             </Button.Group>
                         </div>
                     </div>

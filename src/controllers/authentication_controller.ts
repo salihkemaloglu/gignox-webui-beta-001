@@ -12,7 +12,7 @@ export function DoLoginUserRequest(userLogin_: UserLogin, callback: any) {
   grpc.invoke(GigxRRService.Login, {
     request: req,
     host: ApiUrl,
-    metadata: new grpc.Metadata({ "languageCode": lang }),
+    metadata: new grpc.Metadata({ "languagecode": lang }),
     onHeaders: (headers: grpc.Metadata) => {
       // console.log("onHeaders", headers);
     },

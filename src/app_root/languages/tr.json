@@ -55,6 +55,7 @@
     "password_resent_page_information": "E-posta adresinizi girin, şifrenizi sıfırlamanız için size bir link göndereceğiz.",
     "password_resent_page_success_email_sended_information_title": "Şifre sıfırlama e-postası başarıyla gönderildi",
     "password_resent_page_success_email_sended_information": "Parolanızı sıfırlamak için bir e-posta adresinizi kontrol edin. Birkaç dakika içinde görünmezse, spam klasörünüzü kontrol edin.",
-    "password_resent_page_change_password_title":"Aşağıdaki email için şifre değiştirin"
+    "password_resent_page_change_password_title":"Aşağıdaki email için şifre değiştirin",
+    "authentication_page_user_login_attemps": "Çok sık şifre denemesi yaptınız.Lütfen daha sonra tekrar deneyiniz."
 
 }

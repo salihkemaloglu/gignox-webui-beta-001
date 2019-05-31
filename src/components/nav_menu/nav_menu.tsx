@@ -18,8 +18,8 @@ export const NavMenu = () => {
   let [addToggle, setaddToggle] = React.useState(false);
 
   function SignOut() {
-    sessionStorage.removeItem("username");
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("token");
   }
   return (
     <nav className="float-left" id="floatLeft">
