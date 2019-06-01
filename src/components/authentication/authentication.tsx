@@ -34,7 +34,7 @@ export const Authentication = () => {
   const [signupScreenOpened, setsignupScreenOpened] = React.useState(false)
   const [activeMenu, setActiveMenu] = React.useState("home")
   let [loginForm, setLoginForm] = React.useState("active")
-  let loginAttempCount = 0;
+  let loginAttemptCount = 0;
   function sidebarScreenBack() {
     setloginScreenOpened(false)
     setsignupScreenOpened(false)
@@ -50,8 +50,8 @@ export const Authentication = () => {
     const windowsWidth = Responsive.onlyTablet.minWidth
     let authenticationType = sessionStorage.getItem("authenticationType") == null ? JSON.parse(JSON.stringify("null")) : sessionStorage.getItem("authenticationType");
     var count = localStorage.getItem("loginAttemptCount") == null ? JSON.parse(JSON.stringify("0")) : localStorage.getItem("loginAttemptCount");
-    loginAttempCount = parseInt(count, 10);
-    if (loginAttempCount > 20) {
+    loginAttemptCount = parseInt(count, 10);
+    if (loginAttemptCount > 20) {
       setloginMessageType("warning");
       setLoginForm("active");
       setloginMessageNotify(i18next.t("authentication_page_user_login_attemps"))
@@ -93,7 +93,7 @@ export const Authentication = () => {
     setloginHeaderNotify("")
     setLoader("loading");
     var count = localStorage.getItem("loginAttemptCount") == null ? JSON.parse(JSON.stringify("0")) : localStorage.getItem("loginAttemptCount");
-    let loginAttempCount = parseInt(count, 10);
+    let loginAttemptCount = parseInt(count, 10);
     if (windowsWidth != undefined && windowsWidth < 991) {
       username = (document.getElementById("usernameLoginMob") as HTMLInputElement).value;
       password = (document.getElementById("passwordLoginMob") as HTMLInputElement).value;
@@ -103,7 +103,7 @@ export const Authentication = () => {
       password = (document.getElementById("passwordLogin") as HTMLInputElement).value;
     }
 
-    if (loginAttempCount >= 20) {
+    if (loginAttemptCount >= 20) {
       if (loginForm == "active") {
         setLoginForm("passive");
         setTimeout(function () {
@@ -135,9 +135,9 @@ export const Authentication = () => {
           localStorage.removeItem("loginAttemptCount")
           window.location.href = '/home'
         } else if (generalResponseModalResponse_.GrpcResponseCode == grpc.Code.Unauthenticated) {
-          if (loginAttempCount < 20) {
-            loginAttempCount = loginAttempCount + 1;
-            localStorage.setItem("loginAttemptCount", loginAttempCount.toString());
+          if (loginAttemptCount < 20) {
+            loginAttemptCount = loginAttemptCount + 1;
+            localStorage.setItem("loginAttemptCount", loginAttemptCount.toString());
           }
           setloginMessageNotify(i18next.t("authentication_page_invalid_username_or_password"))
           setLoader("active");

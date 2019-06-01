@@ -75,6 +75,7 @@ export const PasswordReset = () => {
           setmessageType("success");
           setInput("off");
           setLoader("success");
+          localStorage.removeItem("loginAttemptCount")
         } else {
           setLoader("active");
         }
