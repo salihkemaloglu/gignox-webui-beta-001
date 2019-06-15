@@ -10,15 +10,16 @@ import FolderOpenOutlined from '@material-ui/icons/FolderOpenOutlined';
 import SignOutIcun from '@material-ui/icons/ExitToApp';
 
 import { Progress, Icon } from 'semantic-ui-react';
-// var messageColor;
+
 export default class LeftSideBar extends React.Component<any, any> {
 
 
     constructor(props: any) {
         super(props);
-
-        this.state = { ProgressNow: this.props.ProgressNow, display: this.props.display };
+ 
+        this.state = { ProgressNow: this.props.ProgressNow };
     }
+       
 
     SignOut = () => {
         sessionStorage.removeItem("username");

@@ -368,10 +368,67 @@ export const Authentication = () => {
       }
     }
   }
-  
+
+  var temp = true
+  function scrollToElement(e: any) {
+    var text = e.currentTarget.childNodes[0].data
+    var topBar = document.getElementById("topBar") as HTMLElement
+    if (text == "Home") {
+      window.scrollTo(0, 0)
+      setActiveMenu("home")
+      topBar.style.width = '65%'
+      temp = false
+    }
+    else if (text == "About") {
+      window.scrollTo(0, window.innerHeight)
+      setActiveMenu("about")
+      topBar.style.width = '100%'
+      temp = false
+    }
+    else if (text == "Contact") {
+      window.scrollTo(0, 2 * window.innerHeight)
+      setActiveMenu("contact")
+      topBar.style.width = '100%'
+      temp = false
+    }
+    else if (text == "Donation") {
+      window.scrollTo(0, 3 * window.innerHeight)
+      setActiveMenu("donation")
+      topBar.style.width = '100%'
+      temp = false
+    }
+  }
+
+  window.addEventListener('scroll', (e: any) => {
+    if (temp == true) {
+      var topBar = document.getElementById("topBar") as HTMLElement
+      if (e.currentTarget.scrollX == 0 && e.currentTarget.scrollY <= window.innerHeight - 70) {
+        setActiveMenu("home")
+        topBar.style.width = '65%'
+      }
+      else if (e.currentTarget.scrollY > window.innerHeight - 70 && e.currentTarget.scrollY <=  2 * window.innerHeight - 70) {
+        setActiveMenu("about")
+        topBar.style.width = '100%'
+      }
+      else if (e.currentTarget.scrollY > 2 * window.innerHeight - 70 && e.currentTarget.scrollY <= 3 * window.innerHeight - 70) {
+        setActiveMenu("contact")
+        topBar.style.width = '100%'
+      }
+      else if (e.currentTarget.scrollY > 3 * window.innerHeight - 70 && e.currentTarget.scrollY <= 4 * window.innerHeight - 70) {
+        setActiveMenu("donation")
+        topBar.style.width = '100%'
+      }
+    }
+    else {
+      temp = false
+    }
+  })
+
+
+
   return (
     <div className="wrap">
-      <section className="navSection Logos" style={{ width: '65%' }}>
+      <section className="navSection Logos" id="topBar" style={{ width: '65%', position: 'fixed', zIndex: 1000 }}>
         {/* <div className="mr-auto">
             <a href="/" className="logo_link">
               <img src={logo} className="authentication-app-logo" alt="logo" />
@@ -391,10 +448,10 @@ export const Authentication = () => {
               </a>
             </Menu.Item>
             <Menu.Item as='div' borderless style={{ left: '50px' }}>
-              <Menu.Item as='a' className={activeMenu == "home" ? "activeMenu" : ""} onClick={() => setActiveMenu("home")} style={{ color: 'white' }}>Home</Menu.Item>
-              <Menu.Item as='a' className={activeMenu == "about" ? "activeMenu" : ""} onClick={() => setActiveMenu("about")} style={{ color: 'white' }}>About</Menu.Item>
-              <Menu.Item as='a' className={activeMenu == "contact" ? "activeMenu" : ""} onClick={() => setActiveMenu("contact")} style={{ color: 'white' }}>Contact</Menu.Item>
-              <Menu.Item as='a' className={activeMenu == "donation" ? "activeMenu" : ""} onClick={() => setActiveMenu("donation")} style={{ color: 'white' }}>Donation</Menu.Item>
+              <Menu.Item as='a' className={activeMenu == "home" ? "activeMenu" : ""} onClick={(e) => scrollToElement(e)} style={{ color: 'white' }}>Home</Menu.Item>
+              <Menu.Item as='a' className={activeMenu == "about" ? "activeMenu" : ""} onClick={(e) => scrollToElement(e)} style={{ color: 'white' }}>About</Menu.Item>
+              <Menu.Item as='a' className={activeMenu == "contact" ? "activeMenu" : ""} onClick={(e) => scrollToElement(e)} style={{ color: 'white' }}>Contact</Menu.Item>
+              <Menu.Item as='a' className={activeMenu == "donation" ? "activeMenu" : ""} onClick={(e) => scrollToElement(e)} style={{ color: 'white' }}>Donation</Menu.Item>
             </Menu.Item>
           </Menu>
         </Segment>
@@ -545,21 +602,99 @@ export const Authentication = () => {
 
         </section>
       </section>
-      <section className="about" style={{height: '-webkit-fill-available', backgroundColor: 'red'}}>
-        <div>
-          <span>About</span>
-        </div>
+      <section className="about" style={{ height: '-webkit-fill-available' }}>
+      <Segment style={{ padding: '8em 0em' }} vertical>
+            <Grid container stackable verticalAlign='middle'>
+              <Grid.Row>
+                <Grid.Column width={8}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    We Help Companies and Companions
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>
+                    We can give your company superpowers to do things that they never thought possible.
+                    Let us delight your customers and empower your needs... through pure data analytics.
+</p>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    We Make Bananas That Can Dance
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>
+                    Yes that's right, you thought it was the stuff of dreams, but even bananas can be
+                    bioengineered.
+</p>
+                </Grid.Column>
+                <Grid.Column floated='right' width={6}>
+                  <Image bordered rounded size='large' src='/images/wireframe/white-image.png' />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column textAlign='center'>
+                  <Button size='huge'>Check Them Out</Button>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
       </section>
-      <section className="contact" style={{height: '-webkit-fill-available', backgroundColor: 'blue'}}>
-        <div>
-          <span>Contact</span>
-        </div>
+      <section className="contact" style={{ height: '-webkit-fill-available'}}>
+      <Segment style={{ padding: '0em' }} vertical>
+            <Grid celled='internally' columns='equal' stackable>
+              <Grid.Row textAlign='center'>
+                <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    "What a Company"
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+                </Grid.Column>
+                <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                  <Header as='h3' style={{ fontSize: '2em' }}>
+                    "I shouldn't have gone with their competitor."
+</Header>
+                  <p style={{ fontSize: '1.33em' }}>
+                    <Image avatar src='/images/avatar/large/nan.jpg' />
+                    <b>Nan</b> Chief Fun Officer Acme Toys
+</p>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
       </section>
-      <section className="donation" style={{height: '-webkit-fill-available', backgroundColor: 'yellow'}}>
-        <div>
-          <span>Donation</span>
-        </div>
+      <section className="donation" style={{ height: '-webkit-fill-available' }}>
+      <Segment style={{ padding: '8em 0em' }} vertical>
+            <Container text>
+              <Header as='h3' style={{ fontSize: '2em' }}>
+                Breaking The Grid, Grabs Your Attention
+</Header>
+              <p style={{ fontSize: '1.33em' }}>
+                Instead of focusing on content creation and hard work, we have learned how to master the
+                art of doing nothing by providing massive amounts of whitespace and generic content that
+                can seem massive, monolithic and worth your attention.
+</p>
+              <Button as='a' size='large'>
+                Read More
+</Button>
+              <Divider
+                as='h4'
+                className='header'
+                horizontal
+                style={{ margin: '3em 0em', textTransform: 'uppercase' }}
+              >
+                <a href='#'>Case Studies</a>
+              </Divider>
+              <Header as='h3' style={{ fontSize: '2em' }}>
+                Did We Tell You About Our Bananas?
+</Header>
+              <p style={{ fontSize: '1.33em' }}>
+                Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but
+                it's really true. It took years of gene splicing and combinatory DNA research, but our
+                bananas can really dance.
+</p>
+              <Button as='a' size='large'>
+                I'm Still Quite Interested
+</Button>
+            </Container>
+          </Segment>
       </section>
+
+      
       <Responsive
         as={Sidebar.Pushable}
         getWidth={() => (getWidth ? window.innerWidth : 0)}
