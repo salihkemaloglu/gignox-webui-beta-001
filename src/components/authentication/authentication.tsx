@@ -651,11 +651,7 @@ export const Authentication = () => {
             </Grid>
           </Segment>
       </section>
-      <section className="contact" style={{height: '-webkit-fill-available', backgroundColor: 'blue'}}>
-        <div>
-          <span>Contact</span>
-        </div>
-      </section>
+  
       <section className="donation" style={{ height: '-webkit-fill-available' }}>
       <Segment style={{ padding: '8em 0em' }} vertical>
             <Container text>

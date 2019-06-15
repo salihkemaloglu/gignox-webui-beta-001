@@ -79,11 +79,22 @@
 .mr-auto{
   background-color: #2B2F43;
 }
+.about {
+  display: none;
+}
+.donation {
+  display: none;
+}
 }
 
 /* Tablet Styles */
 @media only screen and (min-width: 401px) and (max-width: 960px) {
-  
+  .about {
+    display: none;
+  }
+  .donation {
+    display: none;
+  }
   .authentication-app-logo {
     animation: App-logo-spin infinite 40s linear;
     height: 40px;
