@@ -1,11 +1,11 @@
 import * as React from 'react';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import Menu from '@material-ui/icons/Menu';
+import Menus from '@material-ui/icons/Menu';
 import PermIdentity from '@material-ui/icons/PermIdentity';
 import Settings from '@material-ui/icons/SettingsOutlined';
 import './top_menu.css';
-import LeftSideBar from '../../helpers/left_side_bar';
+import { Responsive, Sidebar, Menu } from 'semantic-ui-react';
 
 var logo = require('../../app_root/images/logo.png');
 var logotransparent = require('../../app_root/images/logo_gignox.png');
@@ -86,12 +86,29 @@ export const TopMenuPrivate = () => {
                     </div>
                 </div>
                 <div className="toggle_menu" id="toggle_id" onClick={toggleLeftSideBar ? () => settoggleLeftSideBar(false) : () => settoggleLeftSideBar(true)}>
-                    <Menu />
+                    <Menus />
                 </div>
             </nav>
 
             <div className="toggleLeftSideBar" style={{ display: toggleLeftSideBar ? 'block' : 'none' }}>
-                <LeftSideBar ProgressNow={20}/>
+                <Responsive as={Sidebar.Pushable} maxWidth={Responsive.onlyTablet.maxWidth} >
+                    <Sidebar
+                        as={Menu}
+                        animation='push'
+                        inverted
+                        vertical
+                        visible={true}
+                    >
+
+
+                        <Menu.Item as='a' active>Home</Menu.Item>
+                        <Menu.Item as='a'>About</Menu.Item>
+                        <Menu.Item as='a'>Contact</Menu.Item>
+                        <Menu.Item as='a'>Sign in</Menu.Item>
+                        <Menu.Item as='a'>Sign Up</Menu.Item>
+                    </Sidebar>
+
+                </Responsive>
             </div>
         </div>
     );

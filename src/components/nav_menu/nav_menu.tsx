@@ -41,7 +41,7 @@ export const NavMenu = () => {
           <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
             <a ><span className="leftNavLinkIcon"><AccessTime className="iconsSvg" /></span><span className="leftNavLinkMenu">Latest</span></a>
           </IndexLinkContainer>
-          <IndexLinkContainer to="about" className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
+          <IndexLinkContainer to="about"  className="leftNavItem" style={{ display: '-webkit-inline-box' }}>
             <a ><span className="leftNavLinkIcon"><StarOutlined className="iconsSvg" /></span><span className="leftNavLinkMenu">Starred</span></a>
           </IndexLinkContainer>
           <div className="leftNavItem profil_item">
