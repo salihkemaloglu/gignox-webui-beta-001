@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { AppNavMenuLayout, AppGeneralLayout, AppPrivateLayout } from '../App';
-import { Home, Help, PasswordReset, Profile, Authentication, NotFoundPage } from '../components';
-import { About } from './about/about';
+import { Home, Help, PasswordReset, PasswordResetSendMail, Profile, Authentication, NotFoundPage, About, Settings } from '../components';
 import { AppRoute, AppAuthenticatedRoute, AppPublic, AppAuthenticatedTopMenu } from '../helpers/route_helper';
-import { PasswordResetSendMail } from './password_reset';
-import { Settings } from './settings';
 
 export const AppRouter = () => {
   function WaitingComponent(Component: any) {
