@@ -9,8 +9,8 @@ RUN npm audit fix
 
 COPY . /app
 RUN yarn run build
-#RUN yarn run prodbuild
-
+#RUN yarn run prodbuild 
+#eğer dev olacaksa üstü yorum yap
 FROM mhart/alpine-node
 RUN yarn global add serve
 WORKDIR /app
